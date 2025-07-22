@@ -90,8 +90,8 @@ class CourseAccess(Base):
     id = Column(Integer, primary_key=True, index=True)
     student_id = Column(Integer, ForeignKey("students.id"))
     course_id = Column(Integer, ForeignKey("courses.id"))
-    access_type = Column(String(50))  # "email", "link", "code"
-    access_token = Column(String(255))  # Token unique pour l'accès
+    access_type = Column(String(50))  
+    access_token = Column(String(255))  
     expires_at = Column(DateTime(timezone=True))  # Date d'expiration
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

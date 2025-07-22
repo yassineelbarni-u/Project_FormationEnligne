@@ -26,6 +26,24 @@ class Token(BaseModel):
     token_type: str
     user: dict
 
+# ==================== SCHÉMAS ÉTUDIANTS ====================
+
+class StudentLogin(BaseModel):
+    email: EmailStr
+    access_code: str  # Code d'accès ou mot de passe
+
+class StudentResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    phone: Optional[str]
+    level: Optional[str]
+    is_active: bool
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
 # Schémas pour les cours
 class CourseBase(BaseModel):
     title: str
@@ -98,15 +116,6 @@ class StudentUpdate(StudentBase):
     email: Optional[EmailStr] = None
     phone: Optional[str] = None
     level: Optional[str] = None
-
-class StudentResponse(StudentBase):
-    id: int
-    is_active: bool
-    created_at: datetime
-    course_count: Optional[int] = 0
-    
-    class Config:
-        from_attributes = True
 
 # Schémas pour l'accès aux cours
 class CourseAccessCreate(BaseModel):
