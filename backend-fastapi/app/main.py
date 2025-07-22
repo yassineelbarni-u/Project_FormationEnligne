@@ -9,7 +9,7 @@ import uvicorn
 # Imports locaux
 from app.database import engine
 from app.models import Base
-from app.routes import auth, admin, courses, videos, students
+from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses
 
 # Créer les tables
 Base.metadata.create_all(bind=engine)
@@ -34,7 +34,9 @@ app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(courses.router, prefix="/api/admin/courses", tags=["courses"])
 app.include_router(videos.router, prefix="/api/admin/videos", tags=["videos"])
-app.include_router(students.router, prefix="/api/student", tags=["students"])  # ✅ NOUVEAU
+app.include_router(students.router, prefix="/api/student", tags=["students"])
+app.include_router(admin_students.router, prefix="/api/admin/students", tags=["admin_students"])
+app.include_router(admin_accesses.router, prefix="/api/admin/accesses", tags=["admin_accesses"])
 
 @app.get("/")
 async def root():

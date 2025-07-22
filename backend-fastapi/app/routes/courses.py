@@ -3,6 +3,7 @@ Routes pour la gestion des cours
 """
 
 from typing import List
+import re
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -20,6 +21,22 @@ from app.schemas import (
 from app.security import get_current_admin
 
 router = APIRouter()
+
+def extract_youtube_id(url):
+    """Extraire l'ID YouTube d'une URL"""
+    # Gérer différents formats d'URL YouTube
+    patterns = [
+        r'(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)',
+        r'(?:https?:\/\/)?(?:www\.)?youtu\.be\/([^?]+)',
+        r'(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([^?]+)'
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+    
+    return None
 
 def generate_access_code():
     """Générer un code d'accès unique"""
@@ -205,22 +222,6 @@ async def add_video_to_course(
     db.refresh(db_video)
     
     return db_video
-
-def extract_youtube_id(url: str) -> str:
-    """Extraire l'ID YouTube d'une URL"""
-    import re
-    
-    patterns = [
-        r'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)',
-        r'youtube\.com\/v\/([^&\n?#]+)',
-    ]
-    
-    for pattern in patterns:
-        match = re.search(pattern, url)
-        if match:
-            return match.group(1)
-    
-    return None
 
 # ==================== GESTION DES ACCÈS ====================
 

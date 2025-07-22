@@ -76,7 +76,6 @@ class CourseResponse(CourseBase):
 class VideoBase(BaseModel):
     title: str
     description: Optional[str] = None
-    youtube_video_id: str
     youtube_url: str
     duration: Optional[str] = None
     order_in_course: int = 0
@@ -109,7 +108,7 @@ class StudentBase(BaseModel):
     level: Optional[str] = None
 
 class StudentCreate(StudentBase):
-    pass
+    course_id: Optional[int] = None
 
 class StudentUpdate(StudentBase):
     name: Optional[str] = None
@@ -119,10 +118,10 @@ class StudentUpdate(StudentBase):
 
 # Schémas pour l'accès aux cours
 class CourseAccessCreate(BaseModel):
-    student_email: EmailStr
+    student_id: int
     course_id: int
-    access_type: str  # "email", "link", "code"
-    expires_days: Optional[int] = 30
+    access_type: str = "standard"  # "standard", "email", "link", "code"
+    duration_days: Optional[int] = 30
 
 class CourseAccessResponse(BaseModel):
     id: int
@@ -134,10 +133,10 @@ class CourseAccessResponse(BaseModel):
     is_active: bool
     created_at: datetime
     
-    # Infos supplémentaires
-    student_name: Optional[str]
-    student_email: Optional[str]
-    course_title: Optional[str]
+    # Infos supplémentaires - ces champs doivent être remplis
+    student_name: str
+    student_email: str
+    course_title: str
     
     class Config:
         from_attributes = True
