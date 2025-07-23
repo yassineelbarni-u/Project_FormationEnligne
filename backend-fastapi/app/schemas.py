@@ -50,7 +50,7 @@ class CourseBase(BaseModel):
     description: Optional[str] = None
     subject: str
     level: str
-    youtube_playlist_id: Optional[str] = None
+    drive_folder_id: Optional[str] = None
 
 class CourseCreate(CourseBase):
     pass
@@ -76,7 +76,7 @@ class CourseResponse(CourseBase):
 class VideoBase(BaseModel):
     title: str
     description: Optional[str] = None
-    youtube_url: str
+    drive_url: str
     duration: Optional[str] = None
     order_in_course: int = 0
     is_free: bool = False
@@ -86,8 +86,8 @@ class VideoCreate(VideoBase):
 
 class VideoUpdate(VideoBase):
     title: Optional[str] = None
-    youtube_video_id: Optional[str] = None
-    youtube_url: Optional[str] = None
+    drive_file_id: Optional[str] = None
+    drive_url: Optional[str] = None
     course_id: Optional[int] = None
 
 class VideoResponse(VideoBase):

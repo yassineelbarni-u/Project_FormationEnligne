@@ -22,13 +22,14 @@ from app.security import get_current_admin
 
 router = APIRouter()
 
-def extract_youtube_id(url):
-    """Extraire l'ID YouTube d'une URL"""
-    # Gérer différents formats d'URL YouTube
+def extract_drive_file_id(url):
+    """Extraire l'ID de fichier Google Drive d'une URL"""
+    # Gérer différents formats d'URL Google Drive
     patterns = [
-        r'(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)',
-        r'(?:https?:\/\/)?(?:www\.)?youtu\.be\/([^?]+)',
-        r'(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([^?]+)'
+        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^\/\?]+)',  # Format /file/d/{id}
+        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)',     # Format ?id={id}
+        r'(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^\/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)', # Format ?id={id} pour uc
+        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^\/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)'  # Format étendu avec u/x/
     ]
     
     for pattern in patterns:
@@ -196,19 +197,20 @@ async def add_video_to_course(
     if not course:
         raise HTTPException(status_code=404, detail="Cours non trouvé")
     
-    # Extraire l'ID YouTube de l'URL si nécessaire
-    youtube_id = extract_youtube_id(video.youtube_url)
-    if not youtube_id:
-        raise HTTPException(status_code=400, detail="URL YouTube invalide")
+    # Extraire l'ID Google Drive de l'URL
+    drive_file_id = extract_drive_file_id(video.drive_url)
+    if not drive_file_id:
+        raise HTTPException(status_code=400, detail="URL Google Drive invalide")
     
-    # Générer l'URL de la miniature
-    thumbnail_url = f"https://img.youtube.com/vi/{youtube_id}/maxresdefault.jpg"
+    # Générer une URL de miniature par défaut (en pratique, il faudrait implémenter une solution pour extraire une vignette)
+    # Pour l'instant, on utilise une image par défaut
+    thumbnail_url = f"https://drive.google.com/thumbnail?id={drive_file_id}"
     
     db_video = Video(
         title=video.title,
         description=video.description,
-        youtube_url=video.youtube_url,
-        youtube_video_id=youtube_id,
+        drive_url=video.drive_url,
+        drive_file_id=drive_file_id,
         thumbnail_url=thumbnail_url,
         duration=video.duration,
         order_in_course=video.order_in_course,

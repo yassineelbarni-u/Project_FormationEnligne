@@ -1,5 +1,5 @@
 """
-Modèles pour le système de gestion des vidéos YouTube
+Modèles pour le système de gestion des vidéos Google Drive
 """
 
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Table
@@ -37,7 +37,7 @@ class Course(Base):
     description = Column(Text)
     subject = Column(String(100))  # Maths, Physique, Chimie...
     level = Column(String(50))     # Débutant, Intermédiaire, Avancé
-    youtube_playlist_id = Column(String(255))  # ID de la playlist YouTube
+    drive_folder_id = Column(String(255))  # ID du dossier Google Drive
     access_code = Column(String(50), unique=True)  # Code d'accès unique
     is_active = Column(Boolean, default=True)
     admin_id = Column(Integer, ForeignKey("admins.id"))
@@ -55,8 +55,8 @@ class Video(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), index=True)
     description = Column(Text)
-    youtube_video_id = Column(String(255))  # ID de la vidéo YouTube
-    youtube_url = Column(String(500))       # URL complète YouTube
+    drive_file_id = Column(String(255))     # ID du fichier Google Drive
+    drive_url = Column(String(500))         # URL complète Google Drive
     thumbnail_url = Column(String(500))
     duration = Column(String(50))
     order_in_course = Column(Integer, default=0)  # Ordre dans le cours
