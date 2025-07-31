@@ -16,7 +16,7 @@ import Students from "./pages/admin/Students"
 import StudentsInvite from "./pages/admin/StudentsInvite"
 import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
-import AdminManagement from "./pages/admin/AdminManagement" // 🆕 Nouveau composant
+import AdminManagement from "./pages/admin/AdminManagement"
 
 // Import pages étudiantes
 import StudentLogin from "./pages/student/StudentLogin"
@@ -156,6 +156,14 @@ function App() {
           {/* 🆕 Gestion des admins - Réservé aux super admins */}
           <Route
             path="/admin/manage-admins"
+            element={
+              <SuperAdminRoute>
+                <AdminManagement />
+              </SuperAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/manage-admins/:id/edit"
             element={
               <SuperAdminRoute>
                 <AdminManagement />

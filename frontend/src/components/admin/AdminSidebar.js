@@ -40,7 +40,7 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       access: "all",
     },
     {
-      path: "/admin/management",
+      path: "/admin/manage-admins",
       icon: "admin_panel_settings",
       label: "Gestion Admins",
       access: "superadmin", // Réservé aux super admins

@@ -142,35 +142,35 @@ class ApiService {
 
   // 🆕 Admin Management (Super Admin only)
   async getAdmins() {
-    return this.request("/api/admin/manage-admins/")
+    return this.request("/api/admin/management/")
   }
 
   async createAdmin(adminData) {
-    return this.request("/api/admin/manage-admins/", {
+    return this.request("/api/admin/management/", {
       method: "POST",
       body: JSON.stringify(adminData),
     })
   }
 
   async getAdmin(adminId) {
-    return this.request(`/api/admin/manage-admins/${adminId}`)
+    return this.request(`/api/admin/management/${adminId}`)
   }
 
   async updateAdmin(adminId, adminData) {
-    return this.request(`/api/admin/manage-admins/${adminId}`, {
+    return this.request(`/api/admin/management/${adminId}`, {
       method: "PUT",
       body: JSON.stringify(adminData),
     })
   }
 
   async deleteAdmin(adminId) {
-    return this.request(`/api/admin/manage-admins/${adminId}`, {
+    return this.request(`/api/admin/management/${adminId}`, {
       method: "DELETE",
     })
   }
 
   async toggleAdminStatus(adminId) {
-    return this.request(`/api/admin/manage-admins/${adminId}/toggle-status`, {
+    return this.request(`/api/admin/management/${adminId}/toggle-status`, {
       method: "PUT",
     })
   }
