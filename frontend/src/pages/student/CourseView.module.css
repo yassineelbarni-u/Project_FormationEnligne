@@ -1,0 +1,460 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+.courseView {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+  background: #f8fafc;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Header du cours */
+.courseHeader {
+  background: white;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.courseInfo {
+  flex: 1;
+}
+
+.courseInfo h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.courseMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.subject {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: #f0f4ff;
+  color: #667eea;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.level {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.videoCount {
+  color: #6b7280;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Layout principal */
+.courseContent {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar des vidéos */
+.videoSidebar {
+  width: 320px;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebarHeader h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.sidebarHeader p {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.videoList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.videoItem {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.videoItem:hover {
+  background: #f9fafb;
+}
+
+.videoItem.active {
+  background: #f0f4ff;
+  border-left: 3px solid #667eea;
+}
+
+.videoThumbnail {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 100px;
+}
+
+.videoThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoDuration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+.playOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.playOverlay svg {
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.videoItem:hover .playOverlay {
+  opacity: 1;
+}
+
+.videoInfo {
+  padding: 0 0.25rem;
+}
+
+.videoNumber {
+  font-size: 0.75rem;
+  color: #667eea;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.videoTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.4;
+}
+
+.videoDescription {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.freeBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #10b981;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  z-index: 5;
+}
+
+/* Section principale avec le lecteur vidéo */
+.videoPlayerSection {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: #f8fafc;
+}
+
+.videoPlayer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.videoHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.videoHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.videoMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.freeTag {
+  display: inline-block;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.drivePlayer {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  overflow: hidden;
+}
+
+.drivePlayer iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.videoDescriptionFull {
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.videoDescriptionFull h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1rem 0;
+}
+
+.videoDescriptionFull p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* États vides et chargement */
+.noVideoSelected,
+.courseLoading,
+.courseError {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.noVideoIcon,
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.noVideoSelected h3,
+.courseError h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.noVideoSelected p,
+.courseError p {
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.btnBack {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnBack:hover {
+  background: #5a67d8;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .courseContent {
+    flex-direction: column;
+  }
+
+  .videoSidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    overflow-x: auto;
+  }
+
+  .videoList {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .videoItem {
+    flex: 0 0 280px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+  }
+
+  .videoPlayerSection {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .courseHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .videoHeader {
+    padding: 1rem;
+  }
+
+  .videoHeader h2 {
+    font-size: 1.25rem;
+  }
+
+  .videoDescriptionFull {
+    padding: 1rem;
+  }
+
+  .courseInfo h1 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .videoList {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .videoItem {
+    width: 100%;
+    flex: none;
+  }
+
+  .drivePlayer {
+    padding-top: 75%; /* 4:3 Aspect Ratio for better viewing on mobile */
+  }
+}
