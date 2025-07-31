@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+
 // Importer d'abord les styles globaux pour que les styles spécifiques aux composants puissent les surcharger
 import "./styles/globals.css"
 import "./App.css"
@@ -15,6 +16,7 @@ import Students from "./pages/admin/Students"
 import StudentsInvite from "./pages/admin/StudentsInvite"
 import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
+import AdminManagement from "./pages/admin/AdminManagement" // 🆕 Nouveau composant
 
 // Import pages étudiantes
 import StudentLogin from "./pages/student/StudentLogin"
@@ -25,6 +27,25 @@ import CourseView from "./pages/student/CourseView"
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token")
   return token ? children : <Navigate to="/login" />
+}
+
+// 🆕 Composant de protection pour les super admins uniquement
+const SuperAdminRoute = ({ children }) => {
+  const token = localStorage.getItem("token")
+  const userData = localStorage.getItem("user")
+
+  if (!token) {
+    return <Navigate to="/login" />
+  }
+
+  if (userData) {
+    const user = JSON.parse(userData)
+    if (!user.is_super_admin) {
+      return <Navigate to="/admin/dashboard" />
+    }
+  }
+
+  return children
 }
 
 // Composant de protection des routes étudiantes (séparé de l'admin)
@@ -95,7 +116,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
           {/* Gestion des étudiants */}
           <Route
             path="/admin/students"
@@ -113,7 +134,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
           {/* Gestion des accès */}
           <Route
             path="/admin/accesses"
@@ -129,6 +150,16 @@ function App() {
               <ProtectedRoute>
                 <AccessNew />
               </ProtectedRoute>
+            }
+          />
+
+          {/* 🆕 Gestion des admins - Réservé aux super admins */}
+          <Route
+            path="/admin/manage-admins"
+            element={
+              <SuperAdminRoute>
+                <AdminManagement />
+              </SuperAdminRoute>
             }
           />
 

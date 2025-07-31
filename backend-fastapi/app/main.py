@@ -9,7 +9,7 @@ import uvicorn
 # Imports locaux
 from app.database import engine
 from app.models import Base
-from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses
+from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses , admin_management
 
 # Créer les tables
 Base.metadata.create_all(bind=engine)
@@ -23,7 +23,7 @@ app = FastAPI(
 # Configuration CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,6 +37,7 @@ app.include_router(videos.router, prefix="/api/admin/videos", tags=["videos"])
 app.include_router(students.router, prefix="/api/student", tags=["students"])
 app.include_router(admin_students.router, prefix="/api/admin/students", tags=["admin_students"])
 app.include_router(admin_accesses.router, prefix="/api/admin/accesses", tags=["admin_accesses"])
+app.include_router(admin_management.router, prefix="/api/admin/management", tags=["admin_management"])
 
 @app.get("/")
 async def root():

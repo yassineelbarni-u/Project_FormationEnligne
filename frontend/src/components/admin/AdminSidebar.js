@@ -1,101 +1,104 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { FaHome, FaBook, FaVideo, FaUserGraduate, FaKey, FaUsers, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa"
-import { useAuth } from "../../contexts/AuthContext"
+import React from "react"
+import { Link, useNavigate } from "react-router-dom"
 import "./AdminSidebar.css"
 
-const AdminSidebar = ({ user }) => {
-  const location = useLocation()
-  const { logout, isSuperAdmin } = useAuth()
-  const [isOpen, setIsOpen] = useState(false)
-  const [adminName, setAdminName] = useState("Admin")
-  const [adminEmail, setAdminEmail] = useState("")
+const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    if (user) {
-      setAdminName(user.name || user.email)
-      setAdminEmail(user.email)
-    }
-  }, [user])
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const handleLogout = () => {
-    logout()
-  }
+  // Déterminer si l'utilisateur est un super admin
+  const isSuperAdmin = user?.is_super_admin === true
 
   const menuItems = [
     {
-      title: "Tableau de Bord",
       path: "/admin/dashboard",
-      icon: <FaHome />,
+      icon: "dashboard",
+      label: "Tableau de bord",
+      access: "all",
     },
     {
-      title: "Gestion des Cours",
       path: "/admin/courses",
-      icon: <FaBook />,
+      icon: "school",
+      label: "Cours",
+      access: "all",
     },
     {
-      title: "Gestion des Vidéos",
       path: "/admin/videos",
-      icon: <FaVideo />,
+      icon: "movie",
+      label: "Vidéos",
+      access: "all",
     },
     {
-      title: "Gestion des Étudiants",
       path: "/admin/students",
-      icon: <FaUserGraduate />,
+      icon: "people",
+      label: "Étudiants",
+      access: "all",
     },
     {
-      title: "Gestion des Accès",
       path: "/admin/accesses",
-      icon: <FaKey />,
+      icon: "lock_open",
+      label: "Accès",
+      access: "all",
+    },
+    {
+      path: "/admin/management",
+      icon: "admin_panel_settings",
+      label: "Gestion Admins",
+      access: "superadmin", // Réservé aux super admins
     },
   ]
 
-  if (isSuperAdmin) {
-    menuItems.push({
-      title: "Gestion Admins",
-      path: "/admin/management",
-      icon: <FaUsers />,
-    })
-  }
+  const filteredItems = menuItems.filter(item => {
+    if (item.access === "all") return true
+    if (item.access === "superadmin" && isSuperAdmin) return true
+    return false
+  })
 
   return (
     <>
-      <button className="sidebar-toggle-button" onClick={toggleSidebar}>
-        {isOpen ? <FaTimes /> : <FaBars />}
-      </button>
+      {/* Overlay pour fermer la sidebar sur mobile */}
+      {isOpen && <div className="sidebar-overlay" onClick={onClose}></div>}
+
       <aside className={`admin-sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <h3>Admin Panel</h3>
-          <div className="admin-profile-info">
-            <p className="admin-name">{adminName}</p>
-            <p className="admin-role">{isSuperAdmin ? "Super Admin" : "Admin"}</p>
-            <small className="admin-email">{adminEmail}</small>
+          <h3>Administration</h3>
+          <button className="close-sidebar" onClick={onClose}>
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <div className="user-info">
+          <div className="avatar">
+            {user?.name?.charAt(0) || "A"}
+          </div>
+          <div className="user-details">
+            <p className="user-name">{user?.name || "Admin"}</p>
+            <p className="user-role">
+              {isSuperAdmin ? "Super Administrateur" : "Administrateur"}
+            </p>
           </div>
         </div>
+
         <nav className="sidebar-nav">
           <ul>
-            {menuItems.map((item) => (
+            {filteredItems.map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={location.pathname === item.path ? "active" : ""}
-                  onClick={toggleSidebar}
+                  className={currentPath === item.path ? "active" : ""}
+                  onClick={onClose}
                 >
-                  {item.icon} {item.title}
+                  <span className="material-symbols-outlined">{item.icon}</span>
+                  {item.label}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
+
         <div className="sidebar-footer">
-          <button onClick={handleLogout} className="logout-button">
-            <FaSignOutAlt /> Déconnexion
+          <button className="logout-button" onClick={onLogout}>
+            <span className="material-symbols-outlined">logout</span>
+            Déconnexion
           </button>
         </div>
       </aside>

@@ -3,23 +3,66 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import AdminSidebar from "./AdminSidebar"
-import { useAuth } from "../../contexts/AuthContext" // Importer useAuth
 import "./AdminLayout.css"
+
+// Backend sur port 8001
+const BACKEND_URL = "http://localhost:8001"
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { user, isAuthenticated, loading, logout, setUser } = useAuth() // Utiliser useAuth
+  const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    // Vérifier l'authentification
+    const token = localStorage.getItem("token")
+    const userData = localStorage.getItem("user")
+
+    if (!token) {
       navigate("/login")
+      return
     }
-  }, [isAuthenticated, loading, navigate])
+
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData)
+        setUser(parsedUser)
+        console.log("User data:", parsedUser) // Pour debug
+      } catch (error) {
+        console.error("Erreur parsing user data:", error)
+        handleLogout()
+        return
+      }
+    }
+
+    // Vérifier la validité du token avec le backend FastAPI
+    verifyToken(token)
+  }, [navigate])
+
+  const verifyToken = async (token) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/verify`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (response.ok) {
+        setIsLoading(false)
+      } else {
+        handleLogout()
+      }
+    } catch (error) {
+      console.error("Erreur vérification token:", error)
+      handleLogout()
+    }
+  }
 
   const handleLogout = () => {
-    logout()
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
     navigate("/login")
   }
 
@@ -27,7 +70,7 @@ const AdminLayout = ({ children }) => {
     setSidebarOpen(!sidebarOpen)
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="admin-loading">
         <div className="loading-spinner"></div>
@@ -36,8 +79,8 @@ const AdminLayout = ({ children }) => {
     )
   }
 
-  if (!isAuthenticated) {
-    return null // Ne rien rendre si pas authentifié (la redirection est gérée par useEffect)
+  if (!user) {
+    return null
   }
 
   return (
@@ -46,12 +89,15 @@ const AdminLayout = ({ children }) => {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         currentPath={location.pathname}
-        user={user}
+        user={user} // 🎯 Passer les infos utilisateur à la sidebar
         onLogout={handleLogout}
       />
+
       <div className={`admin-main-modern ${sidebarOpen ? "sidebar-open" : ""}`}>
         <main className="admin-content-modern">{children}</main>
       </div>
+
+      {/* Overlay pour mobile */}
       {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
     </div>
   )

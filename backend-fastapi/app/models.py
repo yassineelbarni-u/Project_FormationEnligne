@@ -1,6 +1,4 @@
-"""
-Modèles pour le système de gestion des vidéos Google Drive
-"""
+""" Modèles pour le système de gestion des vidéos Google Drive """
 
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Table
 from sqlalchemy.orm import relationship
@@ -23,6 +21,7 @@ class Admin(Base):
     name = Column(String(255))
     hashed_password = Column(String(255))
     is_active = Column(Boolean, default=True)
+    is_super_admin = Column(Boolean, default=False)  # 🆕 Nouveau champ pour différencier les types d'admin
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     # Relations
@@ -90,8 +89,8 @@ class CourseAccess(Base):
     id = Column(Integer, primary_key=True, index=True)
     student_id = Column(Integer, ForeignKey("students.id"))
     course_id = Column(Integer, ForeignKey("courses.id"))
-    access_type = Column(String(50))  
-    access_token = Column(String(255))  
+    access_type = Column(String(50))
+    access_token = Column(String(255))
     expires_at = Column(DateTime(timezone=True))  # Date d'expiration
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

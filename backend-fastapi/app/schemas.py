@@ -1,6 +1,4 @@
-"""
-Schémas pour le système de gestion des vidéos
-"""
+""" Schémas pour le système de gestion des vidéos """
 
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
@@ -16,10 +14,24 @@ class AdminResponse(BaseModel):
     email: str
     name: str
     is_active: bool
+    is_super_admin: bool  # 🆕 Nouveau champ
     created_at: datetime
     
     class Config:
         from_attributes = True
+
+# 🆕 Nouveaux schémas pour la gestion des admins
+class AdminCreate(BaseModel):
+    email: EmailStr
+    name: str
+    password: str
+    is_super_admin: bool = False
+
+class AdminUpdate(BaseModel):
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = None
 
 class Token(BaseModel):
     access_token: str
