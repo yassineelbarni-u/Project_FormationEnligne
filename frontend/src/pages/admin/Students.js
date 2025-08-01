@@ -81,12 +81,7 @@ const Students = () => {
                         <td>{student.courses_count || 0}</td>
                         <td>
                           <div className="action-buttons">
-                            <button
-                              className="btn-icon"
-                              onClick={() => navigate(`/admin/students/${student.id}`)}
-                            >
-                              👁️
-                            </button>
+                          
                             <button
                               className="btn-icon"
                               onClick={() => navigate(`/admin/students/${student.id}/edit`)}

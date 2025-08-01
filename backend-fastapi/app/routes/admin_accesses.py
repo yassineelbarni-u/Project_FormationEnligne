@@ -34,9 +34,27 @@ async def get_all_accesses(
     
     # Enrichir les données pour l'affichage
     for access in accesses:
-        access.student_name = access.student.name
-        access.student_email = access.student.email
-        access.course_title = access.course.title
+        # Vérifier si l'étudiant existe encore
+        if access.student:
+            access.student_name = access.student.name
+            access.student_email = access.student.email
+            # S'assurer que student_id est défini
+            access.student_id = access.student.id
+        else:
+            access.student_name = "Étudiant supprimé"
+            access.student_email = "email inconnu"
+            # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
+            access.student_id = 0
+            
+        # Vérifier si le cours existe encore
+        if access.course:
+            access.course_title = access.course.title
+            # S'assurer que course_id est défini
+            access.course_id = access.course.id
+        else:
+            access.course_title = "Cours supprimé"
+            # Utiliser une valeur par défaut pour course_id si le cours est supprimé
+            access.course_id = 0
     
     return accesses
 
@@ -89,9 +107,25 @@ async def create_access(
     db.refresh(db_access)
     
     # Enrichir les données pour l'affichage
-    db_access.student_name = student.name
-    db_access.student_email = student.email
-    db_access.course_title = course.title
+    if student:
+        db_access.student_name = student.name
+        db_access.student_email = student.email
+        # S'assurer que student_id est défini
+        db_access.student_id = student.id
+    else:
+        db_access.student_name = "Étudiant supprimé"
+        db_access.student_email = "email inconnu"
+        # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
+        db_access.student_id = 0
+        
+    if course:
+        db_access.course_title = course.title
+        # S'assurer que course_id est défini
+        db_access.course_id = course.id
+    else:
+        db_access.course_title = "Cours supprimé"
+        # Utiliser une valeur par défaut pour course_id si le cours est supprimé
+        db_access.course_id = 0
     
     return db_access
 
@@ -118,9 +152,25 @@ async def get_access(
         raise HTTPException(status_code=404, detail="Accès non trouvé")
     
     # Enrichir les données pour l'affichage
-    access.student_name = access.student.name
-    access.student_email = access.student.email
-    access.course_title = access.course.title
+    if access.student:
+        access.student_name = access.student.name
+        access.student_email = access.student.email
+        # S'assurer que student_id est défini
+        access.student_id = access.student.id
+    else:
+        access.student_name = "Étudiant supprimé"
+        access.student_email = "email inconnu"
+        # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
+        access.student_id = 0
+        
+    if access.course:
+        access.course_title = access.course.title
+        # S'assurer que course_id est défini
+        access.course_id = access.course.id
+    else:
+        access.course_title = "Cours supprimé"
+        # Utiliser une valeur par défaut pour course_id si le cours est supprimé
+        access.course_id = 0
     
     return access
 
@@ -161,9 +211,25 @@ async def update_access(
     db.refresh(access)
     
     # Enrichir les données pour l'affichage
-    access.student_name = access.student.name
-    access.student_email = access.student.email
-    access.course_title = access.course.title
+    if access.student:
+        access.student_name = access.student.name
+        access.student_email = access.student.email
+        # S'assurer que student_id est défini
+        access.student_id = access.student.id
+    else:
+        access.student_name = "Étudiant supprimé"
+        access.student_email = "email inconnu"
+        # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
+        access.student_id = 0
+        
+    if access.course:
+        access.course_title = access.course.title
+        # S'assurer que course_id est défini
+        access.course_id = access.course.id
+    else:
+        access.course_title = "Cours supprimé"
+        # Utiliser une valeur par défaut pour course_id si le cours est supprimé
+        access.course_id = 0
     
     return access
 

@@ -21,12 +21,7 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       label: "Cours",
       access: "all",
     },
-    {
-      path: "/admin/videos",
-      icon: "movie",
-      label: "Vidéos",
-      access: "all",
-    },
+
     {
       path: "/admin/students",
       icon: "people",

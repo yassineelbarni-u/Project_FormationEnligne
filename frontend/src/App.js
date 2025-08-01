@@ -105,17 +105,7 @@ function App() {
                 <CourseVideos />
               </ProtectedRoute>
             }
-          />
-
-          {/* Gestion des vidéos (ancienne page) */}
-          <Route
-            path="/admin/videos"
-            element={
-              <ProtectedRoute>
-                <Videos />
-              </ProtectedRoute>
-            }
-          />
+          />    
 
           {/* Gestion des étudiants */}
           <Route

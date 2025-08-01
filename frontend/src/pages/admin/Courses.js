@@ -92,7 +92,6 @@ const Courses = () => {
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.subject.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesSubject = selectedSubject === "all" || course.subject === selectedSubject
-
     return matchesSearch && matchesSubject
   })
 
@@ -124,7 +123,6 @@ const Courses = () => {
             />
             <span className="search-icon">🔍</span>
           </div>
-
           <select
             value={selectedSubject}
             onChange={(e) => setSelectedSubject(e.target.value)}
@@ -162,11 +160,9 @@ const Courses = () => {
                   <div className="course-subject">{course.subject}</div>
                   <div className="course-level">{course.level}</div>
                 </div>
-
                 <div className="course-content">
                   <h3 className="course-title">{course.title}</h3>
                   <p className="course-description">{course.description}</p>
-
                   <div className="course-stats">
                     <div className="stat-item">
                       <span className="stat-icon">🎥</span>
@@ -177,13 +173,11 @@ const Courses = () => {
                       <span>{course.student_count || 0} étudiants</span>
                     </div>
                   </div>
-
                   <div className="course-access">
                     <div className="access-code">
                       <strong>Code: {course.access_code}</strong>
                     </div>
                   </div>
-
                   <div className="course-actions">
                     <button
                       className="btn-edit"
@@ -192,23 +186,8 @@ const Courses = () => {
                     >
                       🎥 Vidéos
                     </button>
-
-                    <button
-                      className="btn-access"
-                      onClick={() => generateAccessLink(course.id)}
-                      title="Générer lien d'accès"
-                    >
-                      🔗 Lien
-                    </button>
-
-                    <button
-                      className="btn-students"
-                      onClick={() => navigate(`/admin/courses/${course.id}/students`)}
-                      title="Gérer les étudiants"
-                    >
-                      👥 Accès
-                    </button>
-
+                  
+        
                     <button
                       className="btn-edit"
                       onClick={() => navigate(`/admin/courses/${course.id}/edit`)}
@@ -216,7 +195,6 @@ const Courses = () => {
                     >
                       ✏️
                     </button>
-
                     <button className="btn-delete" onClick={() => deleteCourse(course.id)} title="Supprimer">
                       🗑️
                     </button>

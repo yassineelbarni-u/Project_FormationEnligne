@@ -58,13 +58,6 @@ const Dashboard = () => {
       href: "/admin/courses",
     },
     {
-      title: "Vidéos Drive",
-      value: stats.totalVideos,
-      icon: "🎥",
-      borderColor: "border-left-red",
-      href: "/admin/videos",
-    },
-    {
       title: "Étudiants Inscrits",
       value: stats.totalStudents,
       icon: "👥",
@@ -94,31 +87,6 @@ const Dashboard = () => {
   return (
     <AdminLayout>
       <div className="dashboard-modern">
-        {/* Header avec recherche et actions */}
-        <div className="dashboard-header-modern">
-          <div className="header-left">
-            <div className="search-container">
-              <span className="search-icon">🔍</span>
-              <input type="text" placeholder="Rechercher..." className="search-input" />
-            </div>
-          </div>
-
-          <div className="header-right">
-            <button className="notification-btn">
-              <span className="notification-icon">🔔</span>
-              <span className="notification-badge">3</span>
-            </button>
-
-            <div className="user-profile">
-              <div className="user-info">
-                <span className="user-name">Ilyas Nahi</span>
-                <span className="user-role">Administrateur</span>
-              </div>
-              <div className="user-avatar">I</div>
-            </div>
-          </div>
-        </div>
-
         {/* Contenu principal */}
         <div className="dashboard-content-modern">
           {/* Titre et boutons d'action */}
@@ -131,9 +99,6 @@ const Dashboard = () => {
             <div className="action-buttons">
               <button className="btn-primary" onClick={() => navigate("/admin/courses/new")}>
                 📚 Nouveau Cours
-              </button>
-              <button className="btn-secondary" onClick={() => navigate("/admin/videos/add")}>
-                🎥 Ajouter Vidéo
               </button>
             </div>
           </div>
@@ -155,43 +120,8 @@ const Dashboard = () => {
             ))}
           </div>
 
-          {/* Activité Récente et Actions Rapides */}
+          {/* Actions Rapides uniquement */}
           <div className="bottom-section">
-            {/* Activité Récente */}
-            <div className="activity-section-modern">
-              <div className="section-header">
-                <h2>📊 Activité Récente</h2>
-              </div>
-              <div className="activity-list-modern">
-                {stats.recentActivity.map((activity) => (
-                  <div key={activity.id} className="activity-item-modern">
-                    <div className="activity-info">
-                      <div className={`activity-icon-container ${activity.type}`}>
-                        <span className="activity-icon">
-                          {activity.type === "course" ? "📚" : activity.type === "video" ? "🎥" : "📝"}
-                        </span>
-                      </div>
-                      <div className="activity-details">
-                        <p className="activity-title">{activity.title}</p>
-                        <p className="activity-date">{activity.date}</p>
-                        {activity.subject && <p className="activity-subject">{activity.subject}</p>}
-                      </div>
-                    </div>
-                    <div className="activity-views">
-                      {activity.type === "course" ? `${activity.views} étudiants` : `${activity.views} vues`}
-                    </div>
-                  </div>
-                ))}
-
-                {stats.recentActivity.length === 0 && (
-                  <div className="no-activity">
-                    <p>Aucune activité récente</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Actions Rapides */}
             <div className="actions-section-modern">
               <div className="section-header">
                 <h2>⚡ Actions Rapides</h2>
@@ -200,11 +130,6 @@ const Dashboard = () => {
                 <button className="action-btn-modern" onClick={() => navigate("/admin/courses")}>
                   <div className="action-icon course">📚</div>
                   Gérer les Cours
-                </button>
-
-                <button className="action-btn-modern" onClick={() => navigate("/admin/videos")}>
-                  <div className="action-icon video">🎥</div>
-                  Vidéos Google Drive
                 </button>
 
                 <button className="action-btn-modern" onClick={() => navigate("/admin/students")}>
