@@ -13,7 +13,41 @@ const CourseView = () => {
   const [videos, setVideos] = useState([])
   const [currentVideo, setCurrentVideo] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [expandedModules, setExpandedModules] = useState([])
   const navigate = useNavigate()
+
+  // Fonction pour organiser les vidéos par module
+  const organizeVideosIntoModules = (videos) => {
+    const modules = {};
+    
+    // Groupe les vidéos par module
+    videos.forEach(video => {
+      const moduleName = video.module_name || "Autres vidéos";
+      if (!modules[moduleName]) {
+        modules[moduleName] = [];
+      }
+      modules[moduleName].push(video);
+    });
+    
+    return modules;
+  };
+  
+  // Fonction pour basculer l'état d'expansion d'un module
+  const toggleModule = (moduleName) => {
+    if (expandedModules.includes(moduleName)) {
+      setExpandedModules(expandedModules.filter(name => name !== moduleName));
+    } else {
+      setExpandedModules([...expandedModules, moduleName]);
+    }
+  };
+
+  // Lors du premier chargement, définir tous les modules comme étant développés
+  useEffect(() => {
+    if (videos.length > 0) {
+      const modules = Object.keys(organizeVideosIntoModules(videos));
+      setExpandedModules(modules);
+    }
+  }, [videos]);
 
   useEffect(() => {
     fetchCourseData()
@@ -117,7 +151,7 @@ const CourseView = () => {
       </StudentLayout>
     )
   }
-
+  
   return (
     <StudentLayout>
       <div className={styles.courseView}>
@@ -148,7 +182,24 @@ const CourseView = () => {
             </div>
 
             <div className={styles.videoList}>
-              {videos.map((video, index) => (
+              {/* Afficher les vidéos organisées par modules */}
+              {Object.entries(organizeVideosIntoModules(videos)).map(([moduleName, moduleVideos]) => (
+                <div key={moduleName} className={styles.moduleContainer}>
+                  <div 
+                    className={styles.moduleHeader} 
+                    onClick={() => toggleModule(moduleName)}
+                  >
+                    <h3 className={styles.moduleTitle}>
+                      {moduleName} ({moduleVideos.length})
+                    </h3>
+                    <span className={styles.moduleToggle}>
+                      {expandedModules.includes(moduleName) ? '▼' : '►'}
+                    </span>
+                  </div>
+                  
+                  {expandedModules.includes(moduleName) && (
+                    <div className={styles.moduleVideos}>
+                      {moduleVideos.map((video, index) => (
                 <div
                   key={video.id}
                   className={`${styles.videoItem} ${currentVideo?.id === video.id ? styles.active : ""}`}
@@ -182,6 +233,10 @@ const CourseView = () => {
                   </div>
 
                   {video.is_free && <span className={styles.freeBadge}>Gratuit</span>}
+                </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -31,10 +31,10 @@ async def login_student(student_data: StudentLogin, db: Session = Depends(get_db
             detail="Email non trouvé"
         )
     
-    # Vérifier le code d'accès (peut être un code de cours ou un mot de passe)
+    # Vérifier le code d'accès
     access_valid = False
-    
-    # Option 1: Code d'accès de cours
+
+    # Code d'accès de cours
     course_access = db.query(CourseAccess).join(Course).filter(
         CourseAccess.student_id == student.id,
         Course.access_code == student_data.access_code,
@@ -45,9 +45,7 @@ async def login_student(student_data: StudentLogin, db: Session = Depends(get_db
     if course_access:
         access_valid = True
     
-    # Option 2: Mot de passe étudiant (si implémenté)
     # if student.password and verify_password(student_data.access_code, student.password):
-    #     access_valid = True
     
     if not access_valid:
         raise HTTPException(
@@ -194,7 +192,7 @@ async def access_course_by_token(access_token: str, db: Session = Depends(get_db
             "expires_at": access.expires_at,
             "access_type": access.access_type
         },
-        "login_required": access.student_id is not None  # Si lié à un étudiant spécifique
+        "login_required": access.student_id is not None
     }
 
 @router.post("/join-by-code")
@@ -238,7 +236,7 @@ async def join_course_by_code(course_code: str, student_email: str, db: Session 
         course_id=course.id,
         access_type="code",
         access_token=secrets.token_urlsafe(32),
-        expires_at=datetime.utcnow() + timedelta(days=365)  # 1 an
+        expires_at=datetime.utcnow() + timedelta(days=365)
     )
     
     db.add(new_access)

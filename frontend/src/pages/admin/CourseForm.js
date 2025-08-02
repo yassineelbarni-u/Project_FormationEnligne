@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
@@ -39,7 +38,6 @@ const CourseForm = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-
       if (response.ok) {
         const course = await response.json()
         setFormData({
@@ -172,7 +170,9 @@ const CourseForm = () => {
                 onChange={handleChange}
                 placeholder="1ABCxyz123..."
               />
-              <small className="form-help">L'ID du dossier Google Drive contenant vos vidéos (partie après "/folders/" dans l'URL)</small>
+              <small className="form-help">
+                L'ID du dossier Google Drive contenant vos vidéos (partie après "/folders/" dans l'URL)
+              </small>
             </div>
 
             <div className="form-actions">

@@ -54,12 +54,13 @@ class Video(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), index=True)
     description = Column(Text)
-    drive_file_id = Column(String(255))     # ID du fichier Google Drive
-    drive_url = Column(String(500))         # URL complète Google Drive
+    drive_file_id = Column(String(255))
+    drive_url = Column(String(500))
     thumbnail_url = Column(String(500))
     duration = Column(String(50))
     order_in_course = Column(Integer, default=0)  # Ordre dans le cours
     is_free = Column(Boolean, default=False)      # Vidéo gratuite ou payante
+    module_name = Column(String(255))             # Nom du module/playlist
     course_id = Column(Integer, ForeignKey("courses.id"))
     admin_id = Column(Integer, ForeignKey("admins.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -91,7 +92,7 @@ class CourseAccess(Base):
     course_id = Column(Integer, ForeignKey("courses.id"))
     access_type = Column(String(50))
     access_token = Column(String(255))
-    expires_at = Column(DateTime(timezone=True))  # Date d'expiration
+    expires_at = Column(DateTime(timezone=True))
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     

@@ -215,6 +215,7 @@ async def add_video_to_course(
         duration=video.duration,
         order_in_course=video.order_in_course,
         is_free=video.is_free,
+        module_name=video.module_name,
         course_id=course_id,
         admin_id=current_admin.id
     )

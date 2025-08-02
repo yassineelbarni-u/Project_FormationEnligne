@@ -92,6 +92,7 @@ class VideoBase(BaseModel):
     duration: Optional[str] = None
     order_in_course: int = 0
     is_free: bool = False
+    module_name: Optional[str] = None
 
 class VideoCreate(VideoBase):
     course_id: int

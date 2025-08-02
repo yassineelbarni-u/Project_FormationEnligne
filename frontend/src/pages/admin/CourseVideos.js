@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
 import "./CourseVideos.css"
+import "./module-styles.css"
 
 const BACKEND_URL = "http://localhost:8001"
 
@@ -22,12 +23,28 @@ const CourseVideos = () => {
     duration: "",
     order_in_course: 0,
     is_free: false,
+    module_name: "",
   })
+  
+  const [moduleNames, setModuleNames] = useState([])
 
   useEffect(() => {
     fetchCourse()
     fetchVideos()
   }, [courseId])
+  
+  // Extraire les noms de modules existants
+  useEffect(() => {
+    if (videos.length > 0) {
+      // Collecter tous les noms de modules uniques
+      const uniqueModules = [...new Set(videos
+        .filter(v => v.module_name)
+        .map(v => v.module_name))]
+        .sort((a, b) => a.localeCompare(b));
+      
+      setModuleNames(uniqueModules);
+    }
+  }, [videos])
 
   const fetchCourse = async () => {
     try {
@@ -112,8 +129,9 @@ const CourseVideos = () => {
           description: "",
           drive_url: "",
           duration: "",
+          module_name: "",
           order_in_course: videos.length + 1,
-          is_free: false,
+          is_free: false
         })
         setShowAddForm(false)
         alert("Vidéo ajoutée avec succès !")
@@ -225,6 +243,31 @@ const CourseVideos = () => {
               </div>
 
               <div className="form-group">
+                <label>Module/Playlist</label>
+                <div className="module-selector">
+                  <select
+                    value={newVideo.module_name}
+                    onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
+                  >
+                    <option value="">-- Sélectionnez ou créez un module --</option>
+                    {moduleNames.map((name, idx) => (
+                      <option key={idx} value={name}>{name}</option>
+                    ))}
+                  </select>
+                  {!moduleNames.includes(newVideo.module_name) && newVideo.module_name && (
+                    <div className="new-module-badge">Nouveau</div>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  value={newVideo.module_name}
+                  onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
+                  placeholder="Nom du module/playlist (ex: Les intégrales)"
+                />
+                <small className="input-help">Regroupez vos vidéos en modules ou playlists avec un nom explicite.</small>
+              </div>
+              
+              <div className="form-group">
                 <label>Description</label>
                 <textarea
                   value={newVideo.description}
@@ -281,8 +324,30 @@ const CourseVideos = () => {
               </button>
             </div>
           ) : (
-            <div className="videos-grid">
-              {videos.map((video, index) => (
+            <div className="modules-container">
+              {/* Organiser les vidéos par modules */}
+              {(() => {
+                const modules = {};
+                
+                // Regrouper les vidéos par module
+                videos.forEach(video => {
+                  const moduleName = video.module_name || "Autres vidéos";
+                  if (!modules[moduleName]) {
+                    modules[moduleName] = [];
+                  }
+                  modules[moduleName].push(video);
+                });
+                
+                // Afficher les modules et leurs vidéos
+                return Object.entries(modules).map(([moduleName, moduleVideos]) => (
+                  <div key={moduleName} className="module">
+                    <div className="module-header">
+                      <h3 className="module-title">
+                        {moduleName} ({moduleVideos.length})
+                      </h3>
+                    </div>
+                    <div className="videos-grid">
+                      {moduleVideos.map((video, index) => (
                 <div key={video.id} className="video-card">
                   <div className="video-thumbnail">
                     <img
@@ -312,6 +377,10 @@ const CourseVideos = () => {
                   </div>
                 </div>
               ))}
+                    </div>
+                  </div>
+                ));
+              })()}
             </div>
           )}
         </div>
