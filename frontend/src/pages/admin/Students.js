@@ -3,14 +3,13 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./Students.css"
-
-// Backend sur port 8001
-const BACKEND_URL = "http://localhost:8001"
 
 const Students = () => {
   const [students, setStudents] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [deleteConfirm, setDeleteConfirm] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -19,36 +18,48 @@ const Students = () => {
 
   const fetchStudents = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/students/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setStudents(data)
-      } else {
-        console.error("Erreur lors du chargement des étudiants")
-      }
+      setIsLoading(true)
+      const data = await apiService.getStudents()
+      setStudents(data)
     } catch (error) {
-      console.error("Erreur:", error)
+      console.error("Erreur lors du chargement des étudiants:", error)
+      alert("Erreur lors du chargement des étudiants")
     } finally {
       setIsLoading(false)
     }
   }
 
+  const handleDeleteStudent = async (studentId) => {
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet étudiant de tous vos cours ?")) {
+      return
+    }
+
+    try {
+      await apiService.deleteStudent(studentId)
+      alert("Étudiant supprimé avec succès")
+      fetchStudents() // Recharger la liste
+    } catch (error) {
+      console.error("Erreur lors de la suppression:", error)
+      alert("Erreur lors de la suppression de l'étudiant")
+    }
+  }
+
+  const handleEditStudent = (studentId) => {
+    navigate(`/admin/students/${studentId}/edit`)
+  }
+
   return (
     <AdminLayout>
       <div className="students-container">
+        {/* Header */}
         <div className="page-header">
           <h1>Gestion des Étudiants</h1>
           <button className="btn-primary" onClick={() => navigate("/admin/students/invite")}>
-            Inviter un Étudiant
+            👥 Inviter un Étudiant
           </button>
         </div>
 
+        {/* Contenu principal */}
         {isLoading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -56,42 +67,70 @@ const Students = () => {
           </div>
         ) : (
           <div className="students-list">
+            {/* Statistiques */}
+            <div className="stats-header">
+              <div className="student-count">{students.length}</div>
+              <div className="student-count-label">
+                étudiant{students.length > 1 ? "s" : ""} inscrit{students.length > 1 ? "s" : ""}
+              </div>
+            </div>
+
+            {/* Tableau */}
             <div className="table-container">
               <table className="students-table">
                 <thead>
                   <tr>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Téléphone</th>
-                    <th>Niveau</th>
-                    <th>Date d'inscription</th>
-                    <th>Cours</th>
-                    <th>Actions</th>
+                    <th>👤 NOM</th>
+                    <th>📧 EMAIL</th>
+                    <th>📱 TÉLÉPHONE</th>
+                    <th>📊 NIVEAU</th>
+                    <th>📅 INSCRIPTION</th>
+                    <th>📚 COURS</th>
+                    <th>⚙️ ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {students.length > 0 ? (
                     students.map((student) => (
                       <tr key={student.id}>
-                        <td>{student.name}</td>
-                        <td>{student.email}</td>
-                        <td>{student.phone || "-"}</td>
-                        <td>{student.level || "-"}</td>
-                        <td>{new Date(student.created_at).toLocaleDateString()}</td>
-                        <td>{student.courses_count || 0}</td>
+                        <td>
+                          <div className="student-info">
+                            <div className="student-avatar">{student.name?.charAt(0)?.toUpperCase() || "?"}</div>
+                            <span className="student-name">{student.name}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <span className="email-text">{student.email}</span>
+                        </td>
+                        <td>
+                          <span className="phone-text">{student.phone || "-"}</span>
+                        </td>
+                        <td>
+                          <span className={`level-badge level-${student.level?.toLowerCase() || "unknown"}`}>
+                            {student.level || "Non défini"}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="date-text">{new Date(student.created_at).toLocaleDateString("fr-FR")}</span>
+                        </td>
+                        <td>
+                          <span className="courses-count">{student.courses_count || 0}</span>
+                        </td>
                         <td>
                           <div className="action-buttons">
-                          
                             <button
-                              className="btn-icon"
-                              onClick={() => navigate(`/admin/students/${student.id}/edit`)}
+                              className="btn-icon edit"
+                              onClick={() => handleEditStudent(student.id)}
+                              title="Modifier l'étudiant"
                             >
-                              ✏️
+                              ✏️ Modifier
                             </button>
                             <button
                               className="btn-icon danger"
+                              onClick={() => handleDeleteStudent(student.id)}
+                              title="Supprimer l'étudiant"
                             >
-                              🗑️
+                              🗑️ Supprimer
                             </button>
                           </div>
                         </td>
@@ -100,7 +139,14 @@ const Students = () => {
                   ) : (
                     <tr>
                       <td colSpan="7" className="no-data">
-                        Aucun étudiant trouvé
+                        <div className="empty-state">
+                          <div className="empty-icon">👥</div>
+                          <h3>Aucun étudiant inscrit</h3>
+                          <p>Commencez par inviter votre premier étudiant</p>
+                          <button className="btn-secondary" onClick={() => navigate("/admin/students/invite")}>
+                            Inviter un étudiant
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   )}

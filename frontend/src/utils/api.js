@@ -11,14 +11,12 @@ class ApiService {
     const headers = {
       "Content-Type": "application/json",
     }
-
     if (includeAuth) {
       const token = localStorage.getItem("token")
       if (token) {
         headers.Authorization = `Bearer ${token}`
       }
     }
-
     return headers
   }
 
@@ -29,15 +27,12 @@ class ApiService {
       headers: this.getHeaders(options.auth !== false),
       ...options,
     }
-
     try {
       const response = await fetch(url, config)
-
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.detail || `HTTP error! status: ${response.status}`)
       }
-
       return await response.json()
     } catch (error) {
       console.error(`API Error (${endpoint}):`, error)
@@ -46,7 +41,6 @@ class ApiService {
   }
 
   // Méthodes spécifiques
-
   // Auth
   async login(credentials) {
     return this.request("/api/auth/login", {
@@ -116,7 +110,7 @@ class ApiService {
     })
   }
 
-  // Students
+  // Students - Méthodes complètes
   async getStudents() {
     return this.request("/api/admin/students/")
   }
@@ -125,6 +119,23 @@ class ApiService {
     return this.request("/api/admin/students/", {
       method: "POST",
       body: JSON.stringify(studentData),
+    })
+  }
+
+  async getStudent(studentId) {
+    return this.request(`/api/admin/students/${studentId}`)
+  }
+
+  async updateStudent(studentId, studentData) {
+    return this.request(`/api/admin/students/${studentId}`, {
+      method: "PUT",
+      body: JSON.stringify(studentData),
+    })
+  }
+
+  async deleteStudent(studentId) {
+    return this.request(`/api/admin/students/${studentId}`, {
+      method: "DELETE",
     })
   }
 

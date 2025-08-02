@@ -106,15 +106,14 @@ async def get_student(
     if not student:
         raise HTTPException(status_code=404, detail="Étudiant non trouvé")
     
-    # Vérifier que l'étudiant est associé à au moins un cours de l'admin
+    # On calcule toujours le nombre de cours associés à cet étudiant pour l'administrateur actuel
+    # mais on ne bloque plus l'accès si l'étudiant n'est pas associé à un cours
     courses_count = db.query(Course).filter(
         Course.students.any(Student.id == student_id),
         Course.admin_id == current_admin.id
     ).count()
     
-    if courses_count == 0:
-        raise HTTPException(status_code=404, detail="Étudiant non associé à vos cours")
-    
+    # Ajout du compteur de cours (même s'il est à 0)
     student.courses_count = courses_count
     
     return student

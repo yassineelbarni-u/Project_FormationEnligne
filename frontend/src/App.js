@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
-
 // Importer d'abord les styles globaux pour que les styles spécifiques aux composants puissent les surcharger
 import "./styles/globals.css"
 import "./App.css"
@@ -11,9 +10,9 @@ import Dashboard from "./pages/admin/Dashboard"
 import Courses from "./pages/admin/Courses"
 import CourseForm from "./pages/admin/CourseForm"
 import CourseVideos from "./pages/admin/CourseVideos"
-import Videos from "./pages/admin/Videos"
 import Students from "./pages/admin/Students"
 import StudentsInvite from "./pages/admin/StudentsInvite"
+import StudentForm from "./pages/admin/StudentForm" // 🆕 Ajouter l'import
 import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
 import AdminManagement from "./pages/admin/AdminManagement"
@@ -105,7 +104,7 @@ function App() {
                 <CourseVideos />
               </ProtectedRoute>
             }
-          />    
+          />
 
           {/* Gestion des étudiants */}
           <Route
@@ -121,6 +120,23 @@ function App() {
             element={
               <ProtectedRoute>
                 <StudentsInvite />
+              </ProtectedRoute>
+            }
+          />
+          {/* 🆕 Routes pour le formulaire d'étudiant */}
+          <Route
+            path="/admin/students/new"
+            element={
+              <ProtectedRoute>
+                <StudentForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/students/:id/edit"
+            element={
+              <ProtectedRoute>
+                <StudentForm />
               </ProtectedRoute>
             }
           />

@@ -1,98 +1,90 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
-import "./StudentsInvite.css"
+import apiService from "../../utils/api" // Garder votre import existant
+import "./StudentForm.css"
 
-// Backend sur port 8001
-const BACKEND_URL = "http://localhost:8001"
-
-const StudentsInvite = () => {
+const StudentForm = () => {
+  const { id } = useParams()
   const navigate = useNavigate()
+  const isEdit = !!id
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     level: "",
-    course_id: "",
   })
-  const [courses, setCourses] = useState([])
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
 
-  const fetchCourses = async () => {
+  const levels = ["Débutant", "Intermédiaire", "Avancé"]
+
+  useEffect(() => {
+    if (isEdit) {
+      fetchStudent()
+    }
+  }, [id, isEdit])
+
+  const fetchStudent = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      setIsLoading(true)
+      const student = await apiService.getStudent(id)
+      setFormData({
+        name: student.name || "",
+        email: student.email || "",
+        phone: student.phone || "",
+        level: student.level || "",
       })
-
-      if (response.ok) {
-        const data = await response.json()
-        setCourses(data)
-      }
     } catch (error) {
-      console.error("Erreur lors du chargement des cours:", error)
+      console.error("Erreur lors du chargement de l'étudiant:", error)
+      setError("Erreur lors du chargement de l'étudiant")
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  useEffect(() => {
-    fetchCourses()
-  }, [])
-
   const handleChange = (e) => {
-    const { name, value } = e.target
     setFormData({
       ...formData,
-      [name]: value,
+      [e.target.name]: e.target.value,
     })
+    setError("")
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
-    setSuccess("")
 
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/students/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        setSuccess("Étudiant invité avec succès!")
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          level: "",
-          course_id: "",
-        })
-
-        // Redirection après 2 secondes
-        setTimeout(() => {
-          navigate("/admin/students")
-        }, 2000)
+      if (isEdit) {
+        await apiService.updateStudent(id, formData)
+        alert("Étudiant modifié avec succès !")
       } else {
-        const errorData = await response.json()
-        setError(errorData.detail || "Erreur lors de l'invitation de l'étudiant")
+        await apiService.createStudent(formData)
+        alert("Étudiant créé avec succès !")
       }
+      navigate("/admin/students")
     } catch (error) {
-      setError("Erreur de connexion au serveur")
-      console.error(error)
+      console.error("Erreur lors de la sauvegarde:", error)
+      setError(error.message || "Erreur lors de la sauvegarde")
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (isLoading && isEdit) {
+    return (
+      <AdminLayout>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Chargement...</p>
+        </div>
+      </AdminLayout>
+    )
   }
 
   return (
@@ -102,13 +94,12 @@ const StudentsInvite = () => {
           <button className="back-btn" onClick={() => navigate("/admin/students")}>
             ← Retour aux étudiants
           </button>
-          <h1>Nouvel Étudiant</h1>
+          <h1>{isEdit ? "Modifier l'Étudiant" : "Nouvel Étudiant"}</h1>
         </div>
 
-        <div className="form-container-single">
+        <div className="form-container">
           <form onSubmit={handleSubmit} className="student-form">
             {error && <div className="error-message">{error}</div>}
-            {success && <div className="success-message">{success}</div>}
 
             <div className="form-group">
               <label htmlFor="name">Nom complet *</label>
@@ -152,27 +143,11 @@ const StudentsInvite = () => {
               <label htmlFor="level">Niveau</label>
               <select id="level" name="level" value={formData.level} onChange={handleChange}>
                 <option value="">Sélectionner un niveau</option>
-                <option value="Débutant">Débutant</option>
-                <option value="Intermédiaire">Intermédiaire</option>
-                <option value="Avancé">Avancé</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="course_id">Cours *</label>
-              <select id="course_id" name="course_id" value={formData.course_id} onChange={handleChange} required>
-                <option value="">Sélectionner un cours</option>
-                {courses && courses.length > 0 ? (
-                  courses.map((course) => (
-                    <option key={course.id} value={course.id}>
-                      {course.title}
-                    </option>
-                  ))
-                ) : (
-                  <option value="" disabled>
-                    Aucun cours disponible
+                {levels.map((level) => (
+                  <option key={level} value={level}>
+                    {level}
                   </option>
-                )}
+                ))}
               </select>
             </div>
 
@@ -181,14 +156,15 @@ const StudentsInvite = () => {
                 Annuler
               </button>
               <button type="submit" className="btn-primary" disabled={isLoading}>
-                {isLoading ? "Envoi en cours..." : "Inviter l'Étudiant"}
+                {isLoading ? "Sauvegarde..." : isEdit ? "Modifier" : "Créer l'étudiant"}
               </button>
             </div>
           </form>
+
         </div>
       </div>
     </AdminLayout>
   )
 }
 
-export default StudentsInvite
+export default StudentForm
