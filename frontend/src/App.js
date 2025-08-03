@@ -15,6 +15,7 @@ import StudentsInvite from "./pages/admin/StudentsInvite"
 import StudentForm from "./pages/admin/StudentForm" // 🆕 Ajouter l'import
 import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
+import AccessForm from "./pages/admin/AccessForm" // 🆕 Nouveau composant
 import AdminManagement from "./pages/admin/AdminManagement"
 
 // Import pages étudiantes
@@ -158,6 +159,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+            <Route
+              path="/admin/accesses/:id/edit"
+              element={
+                <ProtectedRoute>
+                  <AccessForm />
+                </ProtectedRoute>
+              }
+            />
 
           {/* 🆕 Gestion des admins - Réservé aux super admins */}
           <Route

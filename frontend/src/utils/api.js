@@ -139,7 +139,7 @@ class ApiService {
     })
   }
 
-  // Accesses
+  // Accesses - Méthodes complètes
   async getAccesses() {
     return this.request("/api/admin/accesses/")
   }
@@ -148,6 +148,23 @@ class ApiService {
     return this.request("/api/admin/accesses/", {
       method: "POST",
       body: JSON.stringify(accessData),
+    })
+  }
+
+  async getAccess(accessId) {
+    return this.request(`/api/admin/accesses/${accessId}`)
+  }
+
+  async updateAccess(accessId, accessData) {
+    return this.request(`/api/admin/accesses/${accessId}`, {
+      method: "PUT",
+      body: JSON.stringify(accessData),
+    })
+  }
+
+  async deleteAccess(accessId) {
+    return this.request(`/api/admin/accesses/${accessId}`, {
+      method: "DELETE",
     })
   }
 
