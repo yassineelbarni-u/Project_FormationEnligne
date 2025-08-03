@@ -155,37 +155,46 @@ async def update_student(
     return student
 
 @router.delete("/{student_id}")
-async def remove_student_from_courses(
+async def delete_student(
     student_id: int,
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
     """
-    Retirer un étudiant de tous les cours de l'admin
+    Supprimer un étudiant complètement du système
     """
     student = db.query(Student).filter(Student.id == student_id).first()
     
     if not student:
         raise HTTPException(status_code=404, detail="Étudiant non trouvé")
     
-    # Récupérer tous les cours de l'admin auxquels l'étudiant est inscrit
-    courses = db.query(Course).filter(
-        Course.students.any(Student.id == student_id),
-        Course.admin_id == current_admin.id
-    ).all()
-    
-    if not courses:
-        raise HTTPException(status_code=404, detail="Étudiant non associé à vos cours")
-    
-    # Retirer l'étudiant de tous les cours de l'admin
-    for course in courses:
-        course.students.remove(student)
-    
-    # Supprimer tous les accès de l'étudiant aux cours de l'admin
-    db.query(CourseAccess).filter(
-        CourseAccess.student_id == student_id,
-        CourseAccess.course_id.in_([course.id for course in courses])
-    ).delete(synchronize_session=False)
+    try:
+        # Récupérer les cours de l'admin auxquels l'étudiant peut être inscrit
+        courses = db.query(Course).filter(
+            Course.students.any(Student.id == student_id),
+            Course.admin_id == current_admin.id
+        ).all()
+        
+        # Retirer l'étudiant de tous les cours de l'admin s'il y en a
+        for course in courses:
+            course.students.remove(student)
+            
+        # Supprimer tous les accès de l'étudiant aux cours
+        db.query(CourseAccess).filter(
+            CourseAccess.student_id == student_id
+        ).delete(synchronize_session=False)
+        
+        # Supprimer l'étudiant de la base de données
+        db.delete(student)
+        db.commit()
+        
+        return {"message": "Étudiant supprimé avec succès"}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur lors de la suppression de l'étudiant: {str(e)}"
+        )
     
     db.commit()
     

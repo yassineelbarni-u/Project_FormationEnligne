@@ -30,7 +30,7 @@ const Students = () => {
   }
 
   const handleDeleteStudent = async (studentId) => {
-    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet étudiant de tous vos cours ?")) {
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet étudiant ?")) {
       return
     }
 
@@ -40,7 +40,17 @@ const Students = () => {
       fetchStudents() // Recharger la liste
     } catch (error) {
       console.error("Erreur lors de la suppression:", error)
-      alert("Erreur lors de la suppression de l'étudiant")
+
+      // Gestion d'erreur améliorée
+      if (error.message.includes("Étudiant non associé à vos cours")) {
+        alert(
+          "Impossible de supprimer cet étudiant : il n'est pas associé à vos cours ou vous n'avez pas les permissions nécessaires.",
+        )
+      } else if (error.message.includes("404")) {
+        alert("Étudiant introuvable. Il a peut-être déjà été supprimé.")
+      } else {
+        alert("Erreur lors de la suppression de l'étudiant : " + error.message)
+      }
     }
   }
 
@@ -85,7 +95,6 @@ const Students = () => {
                     <th>📱 TÉLÉPHONE</th>
                     <th>📊 NIVEAU</th>
                     <th>📅 INSCRIPTION</th>
-                    <th>📚 COURS</th>
                     <th>⚙️ ACTIONS</th>
                   </tr>
                 </thead>
@@ -114,9 +123,6 @@ const Students = () => {
                           <span className="date-text">{new Date(student.created_at).toLocaleDateString("fr-FR")}</span>
                         </td>
                         <td>
-                          <span className="courses-count">{student.courses_count || 0}</span>
-                        </td>
-                        <td>
                           <div className="action-buttons">
                             <button
                               className="btn-icon edit"
@@ -138,7 +144,7 @@ const Students = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="7" className="no-data">
+                      <td colSpan="6" className="no-data">
                         <div className="empty-state">
                           <div className="empty-icon">👥</div>
                           <h3>Aucun étudiant inscrit</h3>
