@@ -89,7 +89,6 @@ class VideoBase(BaseModel):
     title: str
     description: Optional[str] = None
     drive_url: str
-    duration: Optional[str] = None
     order_in_course: int = 0
     is_free: bool = False
     module_name: Optional[str] = None

@@ -212,7 +212,6 @@ async def add_video_to_course(
         drive_url=video.drive_url,
         drive_file_id=drive_file_id,
         thumbnail_url=thumbnail_url,
-        duration=video.duration,
         order_in_course=video.order_in_course,
         is_free=video.is_free,
         module_name=video.module_name,

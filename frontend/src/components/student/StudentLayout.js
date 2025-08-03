@@ -36,16 +36,7 @@ const StudentLayout = ({ children }) => {
       path: "/student/dashboard",
       icon: "📚",
     },
-    {
-      title: "Progression",
-      path: "/student/progress",
-      icon: "📊",
-    },
-    {
-      title: "Profil",
-      path: "/student/profile",
-      icon: "👤",
-    },
+ 
   ]
 
   if (!user) {

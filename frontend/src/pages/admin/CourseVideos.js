@@ -11,7 +11,6 @@ const BACKEND_URL = "http://localhost:8001"
 const CourseVideos = () => {
   const { courseId } = useParams()
   const navigate = useNavigate()
-
   const [course, setCourse] = useState(null)
   const [videos, setVideos] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -20,29 +19,28 @@ const CourseVideos = () => {
     title: "",
     description: "",
     drive_url: "",
-    duration: "",
+    // ❌ SUPPRIMÉ: duration: "",
     order_in_course: 0,
     is_free: false,
     module_name: "",
   })
-  
+
   const [moduleNames, setModuleNames] = useState([])
 
   useEffect(() => {
     fetchCourse()
     fetchVideos()
   }, [courseId])
-  
+
   // Extraire les noms de modules existants
   useEffect(() => {
     if (videos.length > 0) {
       // Collecter tous les noms de modules uniques
-      const uniqueModules = [...new Set(videos
-        .filter(v => v.module_name)
-        .map(v => v.module_name))]
-        .sort((a, b) => a.localeCompare(b));
-      
-      setModuleNames(uniqueModules);
+      const uniqueModules = [...new Set(videos.filter((v) => v.module_name).map((v) => v.module_name))].sort((a, b) =>
+        a.localeCompare(b),
+      )
+
+      setModuleNames(uniqueModules)
     }
   }, [videos])
 
@@ -54,7 +52,6 @@ const CourseVideos = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-
       if (response.ok) {
         const data = await response.json()
         setCourse(data)
@@ -72,7 +69,6 @@ const CourseVideos = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-
       if (response.ok) {
         const data = await response.json()
         setVideos(data)
@@ -86,12 +82,12 @@ const CourseVideos = () => {
 
   const extractDriveFileId = (url) => {
     const patterns = [
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^\/\?]+)/,  // Format /file/d/{id}
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/,     // Format ?id={id}
-      /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^\/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format ?id={id} pour uc
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^\/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/  // Format étendu avec u/x/
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/, // Format /file/d/{id}
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/, // Format ?id={id}
+      /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format ?id={id} pour uc
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format étendu avec u/x/
     ]
-    
+
     for (const pattern of patterns) {
       const match = url.match(pattern)
       if (match) return match[1]
@@ -101,7 +97,6 @@ const CourseVideos = () => {
 
   const handleAddVideo = async (e) => {
     e.preventDefault()
-
     if (!extractDriveFileId(newVideo.drive_url)) {
       alert("URL Google Drive invalide")
       return
@@ -128,10 +123,10 @@ const CourseVideos = () => {
           title: "",
           description: "",
           drive_url: "",
-          duration: "",
+          // ❌ SUPPRIMÉ: duration: "",
           module_name: "",
           order_in_course: videos.length + 1,
-          is_free: false
+          is_free: false,
         })
         setShowAddForm(false)
         alert("Vidéo ajoutée avec succès !")
@@ -206,29 +201,17 @@ const CourseVideos = () => {
                 ✕
               </button>
             </div>
-
             <form onSubmit={handleAddVideo}>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Titre de la vidéo *</label>
-                  <input
-                    type="text"
-                    value={newVideo.title}
-                    onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
-                    placeholder="Titre de la vidéo"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Durée</label>
-                  <input
-                    type="text"
-                    value={newVideo.duration}
-                    onChange={(e) => setNewVideo({ ...newVideo, duration: e.target.value })}
-                    placeholder="Ex: 15:30"
-                  />
-                </div>
+              {/* ❌ SUPPRIMÉ: Le champ durée */}
+              <div className="form-group">
+                <label>Titre de la vidéo *</label>
+                <input
+                  type="text"
+                  value={newVideo.title}
+                  onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
+                  placeholder="Titre de la vidéo"
+                  required
+                />
               </div>
 
               <div className="form-group">
@@ -251,7 +234,9 @@ const CourseVideos = () => {
                   >
                     <option value="">-- Sélectionnez ou créez un module --</option>
                     {moduleNames.map((name, idx) => (
-                      <option key={idx} value={name}>{name}</option>
+                      <option key={idx} value={name}>
+                        {name}
+                      </option>
                     ))}
                   </select>
                   {!moduleNames.includes(newVideo.module_name) && newVideo.module_name && (
@@ -264,9 +249,11 @@ const CourseVideos = () => {
                   onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
                   placeholder="Nom du module/playlist (ex: Les intégrales)"
                 />
-                <small className="input-help">Regroupez vos vidéos en modules ou playlists avec un nom explicite.</small>
+                <small className="input-help">
+                  Regroupez vos vidéos en modules ou playlists avec un nom explicite.
+                </small>
               </div>
-              
+
               <div className="form-group">
                 <label>Description</label>
                 <textarea
@@ -287,7 +274,6 @@ const CourseVideos = () => {
                     min="0"
                   />
                 </div>
-
                 <div className="form-group checkbox-group">
                   <label>
                     <input
@@ -327,17 +313,17 @@ const CourseVideos = () => {
             <div className="modules-container">
               {/* Organiser les vidéos par modules */}
               {(() => {
-                const modules = {};
-                
+                const modules = {}
+
                 // Regrouper les vidéos par module
-                videos.forEach(video => {
-                  const moduleName = video.module_name || "Autres vidéos";
+                videos.forEach((video) => {
+                  const moduleName = video.module_name || "Autres vidéos"
                   if (!modules[moduleName]) {
-                    modules[moduleName] = [];
+                    modules[moduleName] = []
                   }
-                  modules[moduleName].push(video);
-                });
-                
+                  modules[moduleName].push(video)
+                })
+
                 // Afficher les modules et leurs vidéos
                 return Object.entries(modules).map(([moduleName, moduleVideos]) => (
                   <div key={moduleName} className="module">
@@ -348,38 +334,40 @@ const CourseVideos = () => {
                     </div>
                     <div className="videos-grid">
                       {moduleVideos.map((video, index) => (
-                <div key={video.id} className="video-card">
-                  <div className="video-thumbnail">
-                    <img
-                      src={video.thumbnail_url || `/placeholder.svg?height=200&width=350&query=video thumbnail`}
-                      alt={video.title}
-                      onError={(e) => {
-                        e.target.src = `/placeholder.svg?height=200&width=350&query=video thumbnail`
-                      }}
-                    />
-                    <div className="video-order">#{video.order_in_course || index + 1}</div>
-                    {video.duration && <div className="video-duration">{video.duration}</div>}
-                    {video.is_free && <div className="video-free">GRATUIT</div>}
-                  </div>
-
-                  <div className="video-content">
-                    <h4 className="video-title">{video.title}</h4>
-                    {video.description && <p className="video-description">{video.description}</p>}
-
-                    <div className="video-actions">
-                      <a href={video.drive_url} target="_blank" rel="noopener noreferrer" className="btn-watch">
-                        ▶️ Voir sur Drive
-                      </a>
-                      <button className="btn-delete" onClick={() => deleteVideo(video.id)}>
-                        🗑️
-                      </button>
+                        <div key={video.id} className="video-card">
+                          <div className="video-thumbnail">
+                            <img
+                              src={
+                                video.thumbnail_url ||
+                                `/placeholder.svg?height=200&width=350&query=video thumbnail` ||
+                                "/placeholder.svg"
+                              }
+                              alt={video.title}
+                              onError={(e) => {
+                                e.target.src = `/placeholder.svg?height=200&width=350&query=video thumbnail`
+                              }}
+                            />
+                            <div className="video-order">#{video.order_in_course || index + 1}</div>
+                            {/* ❌ SUPPRIMÉ: L'affichage de la durée */}
+                            {video.is_free && <div className="video-free">GRATUIT</div>}
+                          </div>
+                          <div className="video-content">
+                            <h4 className="video-title">{video.title}</h4>
+                            {video.description && <p className="video-description">{video.description}</p>}
+                            <div className="video-actions">
+                              <a href={video.drive_url} target="_blank" rel="noopener noreferrer" className="btn-watch">
+                                ▶️ Voir sur Drive
+                              </a>
+                              <button className="btn-delete" onClick={() => deleteVideo(video.id)}>
+                                🗑️
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              ))}
-                    </div>
-                  </div>
-                ));
+                ))
               })()}
             </div>
           )}

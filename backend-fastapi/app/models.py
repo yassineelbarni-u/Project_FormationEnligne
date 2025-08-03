@@ -57,7 +57,6 @@ class Video(Base):
     drive_file_id = Column(String(255))
     drive_url = Column(String(500))
     thumbnail_url = Column(String(500))
-    duration = Column(String(50))
     order_in_course = Column(Integer, default=0)  # Ordre dans le cours
     is_free = Column(Boolean, default=False)      # Vidéo gratuite ou payante
     module_name = Column(String(255))             # Nom du module/playlist
