@@ -1,14 +1,18 @@
 /* Import Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
+/* ✅ Layout principal optimisé */
 .studentLayout {
   display: flex;
   min-height: 100vh;
   background: #f8fafc;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  gap: 0;
+  margin: 0;
+  padding: 0;
 }
 
-.loadingScreen {
+.loading-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +21,7 @@
   background: #f8fafc;
 }
 
-.loadingSpinner {
+.loading-spinner {
   width: 40px;
   height: 40px;
   border: 4px solid #e5e7eb;
@@ -36,7 +40,7 @@
   }
 }
 
-/* Sidebar */
+/* ✅ Sidebar optimisée */
 .studentSidebar {
   width: 280px;
   background: white;
@@ -51,6 +55,8 @@
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  /* ✅ Assurer que la sidebar prend exactement 280px */
+  flex-shrink: 0;
 }
 
 .studentSidebar.open {
@@ -64,6 +70,8 @@
   justify-content: space-between;
   align-items: center;
   background: #f9fafb;
+  /* ✅ Hauteur fixe pour éviter les variations */
+  min-height: 80px;
 }
 
 .logo {
@@ -93,6 +101,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
 }
 
 .sidebarClose:hover {
@@ -106,6 +116,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  /* ✅ Hauteur fixe pour la cohérence */
+  min-height: 100px;
 }
 
 .userAvatar {
@@ -119,29 +131,43 @@
   color: white;
   font-weight: 600;
   font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
 }
 
 .userInfo h3 {
   font-size: 1rem;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.25rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .userInfo p {
   font-size: 0.875rem;
   color: #667eea;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.25rem 0;
 }
 
 .userInfo small {
   font-size: 0.75rem;
   color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
 }
 
 .sidebarNav {
   flex: 1;
   padding: 1rem 0;
+  overflow-y: auto;
 }
 
 .navMenu {
@@ -159,6 +185,7 @@
   text-decoration: none;
   transition: all 0.2s;
   border-right: 3px solid transparent;
+  font-size: 0.95rem;
 }
 
 .navLink:hover {
@@ -170,21 +197,30 @@
   background: #f0f4ff;
   color: #667eea;
   border-right-color: #667eea;
+  font-weight: 500;
 }
 
 .navIcon {
   font-size: 1.25rem;
   width: 24px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .navText {
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sidebarFooter {
   padding: 1.5rem;
   border-top: 1px solid #e5e7eb;
+  /* ✅ Hauteur fixe pour éviter les variations */
+  min-height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .logoutBtn {
@@ -201,18 +237,23 @@
   border-radius: 8px;
   transition: all 0.2s;
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .logoutBtn:hover {
   background: #fef2f2;
 }
 
-/* Main Content */
+/* ✅ Main Content optimisé */
 .mainContent {
   flex: 1;
+  /* ✅ CORRECTION PRINCIPALE : Suppression du margin-left qui créait l'espace vide */
   margin-left: 0;
   display: flex;
   flex-direction: column;
+  /* ✅ Assurer que le contenu utilise tout l'espace disponible */
+  min-width: 0;
+  overflow: hidden;
 }
 
 .topHeader {
@@ -226,6 +267,9 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* ✅ Hauteur fixe pour la cohérence */
+  min-height: 70px;
+  flex-shrink: 0;
 }
 
 .menuToggle {
@@ -239,11 +283,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
 }
 
 .menuToggle:hover {
   background: #f3f4f6;
   color: #374151;
+}
+
+.headerTitle {
+  flex: 1;
+  text-align: center;
 }
 
 .headerTitle h2 {
@@ -271,6 +323,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
 }
 
 .notificationBtn:hover {
@@ -291,9 +346,14 @@
   border-color: #667eea;
 }
 
+/* ✅ Page Content optimisé */
 .pageContent {
   flex: 1;
   overflow-y: auto;
+  /* ✅ CORRECTION : Suppression du padding qui créait l'espace vide */
+  padding: 0;
+  /* ✅ Assurer que le contenu utilise tout l'espace */
+  min-height: 0;
 }
 
 .sidebarOverlay {
@@ -307,15 +367,21 @@
   display: none;
 }
 
-/* Desktop */
+/* ✅ Desktop - Layout optimisé */
 @media (min-width: 1024px) {
   .studentSidebar {
-    position: relative;
+    position: fixed;
     transform: translateX(0);
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
   }
 
   .mainContent {
     margin-left: 280px;
+    width: calc(100vw - 280px);
+    min-height: 100vh;
   }
 
   .menuToggle {
@@ -325,12 +391,17 @@
   .sidebarClose {
     display: none;
   }
+
+  .headerTitle {
+    text-align: left;
+  }
 }
 
-/* Tablet et Mobile */
+/* ✅ Tablet et Mobile - Layout fluide */
 @media (max-width: 1023px) {
   .mainContent {
     margin-left: 0;
+    width: 100vw;
   }
 
   .sidebarOverlay {
@@ -344,6 +415,10 @@
   .headerTitle h2 {
     font-size: 1.25rem;
   }
+
+  .headerTitle {
+    text-align: center;
+  }
 }
 
 @media (max-width: 640px) {
@@ -351,7 +426,145 @@
     width: 100%;
   }
 
-  .pageContent {
-    padding: 0;
+  .topHeader {
+    padding: 0.875rem 1rem;
   }
+
+  .headerTitle h2 {
+    font-size: 1.125rem;
+  }
+
+  .headerActions {
+    gap: 0.5rem;
+  }
+
+  .notificationBtn,
+  .menuToggle {
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
+  }
+
+  .userMenu img {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ✅ Améliorations pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .studentSidebar,
+  .navLink,
+  .menuToggle,
+  .notificationBtn,
+  .logoutBtn {
+    transition: none;
+  }
+}
+
+/* ✅ Mode sombre (optionnel) */
+@media (prefers-color-scheme: dark) {
+  .studentLayout {
+    background: #0f172a;
+  }
+
+  .studentSidebar {
+    background: #1e293b;
+    border-right-color: #334155;
+  }
+
+  .sidebarHeader {
+    background: #334155;
+    border-bottom-color: #475569;
+  }
+
+  .logoText {
+    color: #f1f5f9;
+  }
+
+  .userInfo h3 {
+    color: #f1f5f9;
+  }
+
+  .navLink {
+    color: #94a3b8;
+  }
+
+  .navLink:hover {
+    background: #334155;
+    color: #f1f5f9;
+  }
+
+  .navLink.active {
+    background: #1e40af;
+    color: #dbeafe;
+  }
+
+  .topHeader {
+    background: #1e293b;
+    border-bottom-color: #334155;
+  }
+
+  .headerTitle h2 {
+    color: #f1f5f9;
+  }
+
+  .menuToggle,
+  .notificationBtn {
+    color: #94a3b8;
+  }
+
+  .menuToggle:hover,
+  .notificationBtn:hover {
+    background: #334155;
+    color: #f1f5f9;
+  }
+}
+
+/* Optimisations de performance */
+.studentSidebar,
+.mainContent {
+  will-change: transform;
+}
+
+.navLink,
+.menuToggle,
+.notificationBtn,
+.logoutBtn {
+  will-change: background-color, color;
+}
+
+/* ✅ Scrollbar personnalisée */
+.sidebarNav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebarNav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebarNav::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.sidebarNav::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.pageContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pageContent::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+.pageContent::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.pageContent::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

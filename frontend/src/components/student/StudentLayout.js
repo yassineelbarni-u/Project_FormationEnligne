@@ -36,7 +36,6 @@ const StudentLayout = ({ children }) => {
       path: "/student/dashboard",
       icon: "📚",
     },
- 
   ]
 
   if (!user) {

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import StudentLayout from "../../components/student/StudentLayout"
-import styles from "./CourseView.module.css"
+import "./CourseView.css"
 
 const BACKEND_URL = "http://localhost:8001"
 
@@ -12,58 +12,80 @@ const CourseView = () => {
   const [course, setCourse] = useState(null)
   const [videos, setVideos] = useState([])
   const [currentVideo, setCurrentVideo] = useState(null)
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [expandedModules, setExpandedModules] = useState([])
   const navigate = useNavigate()
 
   // Fonction pour organiser les vidéos par module
   const organizeVideosIntoModules = (videos) => {
-    const modules = {};
-    
-    // Groupe les vidéos par module
-    videos.forEach(video => {
-      const moduleName = video.module_name || "Autres vidéos";
+    const modules = {}
+    videos.forEach((video) => {
+      const moduleName = video.module_name || "Autres vidéos"
       if (!modules[moduleName]) {
-        modules[moduleName] = [];
+        modules[moduleName] = []
       }
-      modules[moduleName].push(video);
-    });
-    
-    return modules;
-  };
-  
+      modules[moduleName].push(video)
+    })
+    return modules
+  }
+
+  // Fonction pour obtenir toutes les vidéos dans l'ordre
+  const getAllVideosInOrder = () => {
+    const modules = organizeVideosIntoModules(videos)
+    const allVideos = []
+    Object.values(modules).forEach((moduleVideos) => {
+      allVideos.push(...moduleVideos.sort((a, b) => (a.order_in_course || 0) - (b.order_in_course || 0)))
+    })
+    return allVideos
+  }
+
+  // Navigation entre vidéos
+  const goToNextVideo = () => {
+    const allVideos = getAllVideosInOrder()
+    const nextIndex = currentVideoIndex + 1
+    if (nextIndex < allVideos.length) {
+      setCurrentVideo(allVideos[nextIndex])
+      setCurrentVideoIndex(nextIndex)
+    }
+  }
+
+  const goToPreviousVideo = () => {
+    const allVideos = getAllVideosInOrder()
+    const prevIndex = currentVideoIndex - 1
+    if (prevIndex >= 0) {
+      setCurrentVideo(allVideos[prevIndex])
+      setCurrentVideoIndex(prevIndex)
+    }
+  }
+
   // Fonction pour basculer l'état d'expansion d'un module
   const toggleModule = (moduleName) => {
     if (expandedModules.includes(moduleName)) {
-      setExpandedModules(expandedModules.filter(name => name !== moduleName));
+      setExpandedModules(expandedModules.filter((name) => name !== moduleName))
     } else {
-      setExpandedModules([...expandedModules, moduleName]);
+      setExpandedModules([...expandedModules, moduleName])
     }
-  };
+  }
 
   // Lors du premier chargement, définir tous les modules comme étant développés
   useEffect(() => {
     if (videos.length > 0) {
-      const modules = Object.keys(organizeVideosIntoModules(videos));
-      setExpandedModules(modules);
+      const modules = Object.keys(organizeVideosIntoModules(videos))
+      setExpandedModules(modules)
     }
-  }, [videos]);
+  }, [videos])
 
   useEffect(() => {
     fetchCourseData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId])
 
   const fetchCourseData = async () => {
     try {
       const token = localStorage.getItem("student_token")
-
-      // Récupérer les détails du cours
       const courseResponse = await fetch(`${BACKEND_URL}/api/student/course/${courseId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-
-      // Récupérer les vidéos du cours
       const videosResponse = await fetch(`${BACKEND_URL}/api/student/course/${courseId}/videos`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -71,13 +93,14 @@ const CourseView = () => {
       if (courseResponse.ok && videosResponse.ok) {
         const courseData = await courseResponse.json()
         const videosData = await videosResponse.json()
-
         setCourse(courseData)
         setVideos(videosData)
 
         // Sélectionner la première vidéo par défaut
         if (videosData.length > 0) {
-          setCurrentVideo(videosData[0])
+          const allVideos = getAllVideosInOrder()
+          setCurrentVideo(allVideos[0])
+          setCurrentVideoIndex(0)
         }
       } else if (courseResponse.status === 401 || videosResponse.status === 401) {
         navigate("/student/login")
@@ -93,12 +116,11 @@ const CourseView = () => {
 
   const extractDriveFileId = (url) => {
     const patterns = [
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/, // Format /file/d/{id}
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/, // Format ?id={id}
-      /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format ?id={id} pour uc
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format étendu avec u/x/
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/,
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/,
+      /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
     ]
-
     for (const pattern of patterns) {
       const match = url.match(pattern)
       if (match) return match[1]
@@ -106,31 +128,35 @@ const CourseView = () => {
     return null
   }
 
-  // Générer l'URL d'intégration de Google Drive
-  const generateDriveEmbedUrl = (fileId) => {
-    // Si on n'a pas réussi à extraire l'ID, retourner une URL par défaut
-    if (!fileId) return "about:blank";
+  const generateDriveEmbedUrl = (driveUrl) => {
+    const fileId = extractDriveFileId(driveUrl)
+    if (!fileId) return "about:blank"
     return `https://drive.google.com/file/d/${fileId}/preview`
   }
 
-  const formatDuration = (duration) => {
-    if (!duration) return "N/A"
-    
-    // Si la durée est juste un nombre (minutes), formater en MM:00
-    if (!isNaN(duration)) {
-      const minutes = parseInt(duration);
-      return `${minutes}:00`;
+  // ✅ Fonction pour générer une vraie miniature de vidéo Google Drive
+  const generateVideoThumbnail = (video) => {
+    const fileId = extractDriveFileId(video.drive_url)
+    if (fileId) {
+      // Utiliser l'API Google Drive pour obtenir la miniature réelle
+      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w320-h180`
     }
-    
-    // Si le format est déjà MM:SS, le retourner tel quel
-    return duration;
+    // Fallback avec une image de tableau/cours
+    return `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 10))}`
+  }
+
+  const selectVideo = (video) => {
+    const allVideos = getAllVideosInOrder()
+    const index = allVideos.findIndex((v) => v.id === video.id)
+    setCurrentVideo(video)
+    setCurrentVideoIndex(index)
   }
 
   if (isLoading) {
     return (
       <StudentLayout>
-        <div className={styles.courseLoading}>
-          <div className={styles.loadingSpinner}></div>
+        <div className="course-loading">
+          <div className="loading-spinner"></div>
           <p>Chargement du cours...</p>
         </div>
       </StudentLayout>
@@ -140,100 +166,106 @@ const CourseView = () => {
   if (!course) {
     return (
       <StudentLayout>
-        <div className={styles.courseError}>
-          <div className={styles.errorIcon}>📚</div>
+        <div className="course-error">
+          <div className="error-icon">📚</div>
           <h2>Cours non trouvé</h2>
           <p>Ce cours n'existe pas ou vous n'y avez pas accès.</p>
-          <button onClick={() => navigate("/student/dashboard")} className={styles.btnBack}>
+          <button onClick={() => navigate("/student/dashboard")} className="btn-back">
             Retour aux cours
           </button>
         </div>
       </StudentLayout>
     )
   }
-  
+
+  const allVideos = getAllVideosInOrder()
+  const hasNextVideo = currentVideoIndex < allVideos.length - 1
+  const hasPreviousVideo = currentVideoIndex > 0
+
   return (
     <StudentLayout>
-      <div className={styles.courseView}>
+      <div className="course-view-container">
         {/* Header du cours */}
-        <div className={styles.courseHeader}>
-          <button onClick={() => navigate("/student/dashboard")} className={styles.backBtn}>
+        <div className="course-header">
+          <button onClick={() => navigate("/student/dashboard")} className="back-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="m15 18-6-6 6-6" />
             </svg>
             Retour aux cours
           </button>
-          <div className={styles.courseInfo}>
+          <div className="course-info">
             <h1>{course.title}</h1>
-            <div className={styles.courseMeta}>
-              <span className={styles.subject}>{course.subject}</span>
-              <span className={styles.level}>{course.level}</span>
-              <span className={styles.videoCount}>{videos.length} vidéos</span>
+            <div className="course-meta">
+              <span className="course-subject">{course.subject}</span>
+              <span className="course-level">{course.level}</span>
+              <span className="video-count">{videos.length} vidéos</span>
             </div>
           </div>
         </div>
 
-        <div className={styles.courseContent}>
-          {/* Sidebar avec liste des vidéos */}
-          <div className={styles.videoSidebar}>
-            <div className={styles.sidebarHeader}>
-              <h3>Contenu du cours</h3>
-              <p>{videos.length} vidéos</p>
+        {/* Layout responsive */}
+        <div className="course-layout">
+          {/* Section contenu - À GAUCHE sur desktop */}
+          <div className="content-section">
+            <div className="content-header">
+              <h2>Contenu du cours</h2>
+              <div className="video-count-badge">{videos.length} vidéos</div>
             </div>
 
-            <div className={styles.videoList}>
-              {/* Afficher les vidéos organisées par modules */}
+            <div className="modules-list">
               {Object.entries(organizeVideosIntoModules(videos)).map(([moduleName, moduleVideos]) => (
-                <div key={moduleName} className={styles.moduleContainer}>
-                  <div 
-                    className={styles.moduleHeader} 
-                    onClick={() => toggleModule(moduleName)}
-                  >
-                    <h3 className={styles.moduleTitle}>
-                      {moduleName} ({moduleVideos.length})
-                    </h3>
-                    <span className={styles.moduleToggle}>
-                      {expandedModules.includes(moduleName) ? '▼' : '►'}
-                    </span>
-                  </div>
-                  
-                  {expandedModules.includes(moduleName) && (
-                    <div className={styles.moduleVideos}>
-                      {moduleVideos.map((video, index) => (
-                <div
-                  key={video.id}
-                  className={`${styles.videoItem} ${currentVideo?.id === video.id ? styles.active : ""}`}
-                  onClick={() => setCurrentVideo(video)}
-                >
-                  <div className={styles.videoThumbnail}>
-                    <img
-                      src={
-                        video.thumbnail_url ||
-                        `https://drive.google.com/thumbnail?id=${extractDriveFileId(video.drive_url)}`
-                      }
-                      alt={video.title}
-                      onError={(e) => {
-                        // En cas d'erreur, utiliser une image de secours générée dynamiquement
-                        e.target.onerror = null;
-                        e.target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="90" viewBox="0 0 160 90" fill="none"><rect width="160" height="90" fill="%23667eea"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="bold" fill="white" font-size="12">Vidéo</text></svg>`;
-                      }}
-                    />
-                    <div className={styles.videoDuration}>{formatDuration(video.duration)}</div>
-                    <div className={styles.playOverlay}>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polygon points="5,3 19,12 5,21" />
+                <div key={moduleName} className="module-section">
+                  <div className="module-header" onClick={() => toggleModule(moduleName)}>
+                    <div className="module-info">
+                      <div className="module-details">
+                        <h3 className="module-title">{moduleName}</h3>
+                        <span className="module-count">{moduleVideos.length} vidéos</span>
+                      </div>
+                    </div>
+                    <div className={`module-toggle ${expandedModules.includes(moduleName) ? "expanded" : ""}`}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="6,9 12,15 18,9" />
                       </svg>
                     </div>
                   </div>
 
-                  <div className={styles.videoInfo}>
-                    <div className={styles.videoNumber}>Séance {index + 1}</div>
-                    <h4 className={styles.videoTitle}>{video.title}</h4>
-                    {video.description && <p className={styles.videoDescription}>{video.description}</p>}
-                  </div>
+                  {expandedModules.includes(moduleName) && (
+                    <div className="module-videos">
+                      {moduleVideos.map((video, index) => (
+                        <div
+                          key={video.id}
+                          className={`video-lesson ${currentVideo?.id === video.id ? "active" : ""}`}
+                          onClick={() => selectVideo(video)}
+                        >
+                          <div className="lesson-thumbnail">
+                            <img
+                              src={generateVideoThumbnail(video) || "/placeholder.svg"}
+                              onError={(e) => {
+                                // Fallback si la miniature Google Drive ne fonctionne pas
+                                e.target.src = `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 8))}`
+                              }}
+                            />
+                            <div className="play-icon">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <polygon points="5,3 19,12 5,21" />
+                              </svg>
+                            </div>
+                            {video.is_free && <div className="free-label">Gratuit</div>}
+                          </div>
 
-                  {video.is_free && <span className={styles.freeBadge}>Gratuit</span>}
-                </div>
+                          <div className="lesson-info">
+                            <div className="lesson-number">LEÇON {index + 1}</div>
+                            <h4 className="lesson-title">{video.title}</h4>
+                            {video.description && <p className="lesson-description">{video.description}</p>}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   )}
@@ -242,40 +274,80 @@ const CourseView = () => {
             </div>
           </div>
 
-          {/* Lecteur vidéo principal */}
-          <div className={styles.videoPlayerSection}>
+          {/* Section vidéo - À DROITE sur desktop */}
+          <div className="video-section">
             {currentVideo ? (
-              <div className={styles.videoPlayer}>
-                <div className={styles.videoHeader}>
+              <div className="video-player-container">
+                <div className="video-title-bar">
                   <h2>{currentVideo.title}</h2>
-                  <div className={styles.videoMeta}>
-                    <span>Durée: {formatDuration(currentVideo.duration)}</span>
-                    {currentVideo.is_free && <span className={styles.freeTag}>Gratuit</span>}
+                  <div className="video-controls">
+                    {currentVideo.is_free && <span className="free-badge">Gratuit</span>}
+                    <div className="navigation-controls">
+                      <button
+                        className="nav-btn prev-btn"
+                        onClick={goToPreviousVideo}
+                        disabled={!hasPreviousVideo}
+                        title="Vidéo précédente"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <polygon points="19,20 9,12 19,4" />
+                        </svg>
+                      </button>
+                      <span className="video-counter">
+                        {currentVideoIndex + 1} / {allVideos.length}
+                      </span>
+                      <button
+                        className="nav-btn next-btn"
+                        onClick={goToNextVideo}
+                        disabled={!hasNextVideo}
+                        title="Vidéo suivante"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <polygon points="5,4 15,12 5,20" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                
-                <div className={styles.drivePlayer}>
+
+                <div className="video-player">
                   <iframe
-                    src={generateDriveEmbedUrl(extractDriveFileId(currentVideo.drive_url))}
+                    src={generateDriveEmbedUrl(currentVideo.drive_url)}
                     title={currentVideo.title}
                     frameBorder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
+                    width="100%"
+                    height="100%"
                   />
                 </div>
 
                 {currentVideo.description && (
-                  <div className={styles.videoDescriptionFull}>
-                    <h3>À propos de la leçon</h3>
+                  <div className="video-description">
+                    <h3>À propos de cette leçon</h3>
                     <p>{currentVideo.description}</p>
                   </div>
                 )}
               </div>
             ) : (
-              <div className={styles.noVideoSelected}>
-                <div className={styles.noVideoIcon}>🎥</div>
-                <h3>Sélectionnez une vidéo</h3>
-                <p>Choisissez une vidéo dans la liste pour commencer à apprendre</p>
+              <div className="no-video-placeholder">
+                <div className="placeholder-icon">🎥</div>
+                <h3>Sélectionnez une leçon</h3>
+                <p>Choisissez une vidéo dans la liste pour commencer votre apprentissage</p>
               </div>
             )}
           </div>

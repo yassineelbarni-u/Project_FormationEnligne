@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import StudentLayout from "../../components/student/StudentLayout"
-import styles from "./StudentDashboard.module.css"
+import "./StudentDashboard.css"
 
 const BACKEND_URL = "http://localhost:8001"
 
@@ -29,7 +29,6 @@ const StudentDashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-
       if (response.ok) {
         const data = await response.json()
         setCourses(data)
@@ -44,57 +43,58 @@ const StudentDashboard = () => {
   }
 
   const getSubjectIcon = (subject) => {
-    const subject_lower = subject ? subject.toLowerCase() : '';
-    
-    // Utiliser des images SVG pour les matières
-    if (subject_lower.includes('math')) {
+    const subject_lower = subject ? subject.toLowerCase() : ""
+
+    if (subject_lower.includes("math")) {
       return (
-        <img 
-          src="/images/subjects/math-icon.svg" 
-          alt="Mathématiques" 
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23667eea" stroke-width="2"><path d="M3 3l18 18M3 21L21 3M7 12h10"/></svg>';
-          }}
-        />
-      );
-    }
-    else if (subject_lower.includes('phys')) {
+        <div className="subject-icon math">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M3 3l18 18M3 21L21 3M7 12h10" />
+          </svg>
+        </div>
+      )
+    } else if (subject_lower.includes("phys")) {
       return (
-        <img 
-          src="/images/subjects/physics-icon.svg" 
-          alt="Physique" 
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23667eea" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
-          }}
-        />
-      );
-    }
-    else {
+        <div className="subject-icon physics">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="8" />
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          </svg>
+        </div>
+      )
+    } else if (subject_lower.includes("info") || subject_lower.includes("program")) {
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#667eea" strokeWidth="2">
-          <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5a2.5 2.5 0 01-2.5-2.5z"></path>
-          <path d="M8 7h6M8 11h8M8 15h5"></path>
-        </svg>
-      );
+        <div className="subject-icon computer">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg>
+        </div>
+      )
+    } else {
+      return (
+        <div className="subject-icon default">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5a2.5 2.5 0 01-2.5-2.5z" />
+            <path d="M8 7h6M8 11h8M8 15h5" />
+          </svg>
+        </div>
+      )
     }
   }
 
-  const getLevelClass = (level) => {
+  const getLevelBadgeClass = (level) => {
     const classes = {
-      Débutant: "levelBeginner",
-      Intermédiaire: "levelIntermediate",
-      Avancé: "levelAdvanced",
-      default: "levelDefault",
+      Débutant: "level-beginner",
+      Intermédiaire: "level-intermediate",
+      Avancé: "level-advanced",
     }
-    return classes[level] || classes.default
+    return classes[level] || "level-default"
   }
 
   const handleStartLearning = (courseId, e) => {
-    // Ajouter une petite animation avant la navigation
     const button = e.currentTarget
     button.style.transform = "scale(0.95)"
     setTimeout(() => {
@@ -102,54 +102,81 @@ const StudentDashboard = () => {
     }, 150)
   }
 
+  const getTotalVideos = () => {
+    return courses.reduce((total, course) => total + (course.video_count || 0), 0)
+  }
+
+  const getEstimatedTime = () => {
+    const totalVideos = getTotalVideos()
+    return Math.ceil(totalVideos * 15) // 15 min par vidéo en moyenne
+  }
+
   return (
     <StudentLayout>
-      <div className={styles.dashboard}>
-        {/* Header de bienvenue */}
-        <div className={styles.welcomeHeader}>
-          <div className={styles.welcomeContent}>
-            <h1>Bienvenue, {user?.name || "Étudiant"} 👋</h1>
-            <p>Voici vos cours disponibles. Continuez votre apprentissage !</p>
-          </div>
-          <div className={styles.userStats}>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>{courses.length}</span>
-              <span className={styles.statLabel}>Cours</span>
+      <div className="dashboard-container">
+        {/* Section de bienvenue */}
+        <div className="welcome-section">
+          <div className="welcome-content">
+            <div className="welcome-text">
+              <h1>Bienvenue, {user?.name || "Étudiant"} 👋</h1>
+              <p>Continuez votre parcours d'apprentissage avec vos cours personnalisés</p>
+            </div>
+            <div className="welcome-stats">
+              <div className="stat-card">
+                <div className="stat-number">{courses.length}</div>
+                <div className="stat-label">Cours disponibles</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">{getTotalVideos()}</div>
+                <div className="stat-label">Vidéos totales</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">~{getEstimatedTime()}min</div>
+                <div className="stat-label">Temps d'étude</div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Contenu principal */}
-        <div className={styles.dashboardContent}>
+        {/* Section des cours */}
+        <div className="courses-section">
+          <div className="section-header">
+            <h2>Mes Cours</h2>
+            <p>Accédez à tous vos cours et continuez votre progression</p>
+          </div>
+
           {isLoading ? (
-            <div className={styles.coursesLoading}>
-              <div className={styles.loadingSpinner}></div>
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
               <p>Chargement de vos cours...</p>
             </div>
           ) : courses.length === 0 ? (
-            <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>📚</div>
+            <div className="empty-state">
+              <div className="empty-icon">📚</div>
               <h3>Aucun cours disponible</h3>
-              <p>Vous n'avez pas encore accès à des cours. Contactez votre formateur.</p>
+              <p>Vous n'avez pas encore accès à des cours. Contactez votre formateur pour obtenir l'accès.</p>
+              <button className="btn-contact" onClick={() => (window.location.href = "mailto:support@eduplatform.com")}>
+                Contacter le support
+              </button>
             </div>
           ) : (
-            <div className={styles.coursesGrid}>
+            <div className="courses-grid">
               {courses.map((course) => (
-                <div key={course.id} className={styles.courseCard}>
-                  <div className={styles.courseHeader}>
-                    <div className={styles.courseIcon}>{getSubjectIcon(course.subject)}</div>
-                    <div className={`${styles.courseLevel} ${styles[getLevelClass(course.level)]}`}>{course.level}</div>
+                <div key={course.id} className="course-card">
+                  <div className="course-header">
+                    {getSubjectIcon(course.subject)}
+                    <div className={`course-level ${getLevelBadgeClass(course.level)}`}>{course.level}</div>
                   </div>
 
-                  <div className={styles.courseContent}>
-                    <h3 className={styles.courseTitle}>{course.title}</h3>
-                    <p className={styles.courseSubject}>{course.subject}</p>
-                    {course.description && <p className={styles.courseDescription}>{course.description}</p>}
+                  <div className="course-content">
+                    <div className="course-subject">{course.subject}</div>
+                    <h3 className="course-title">{course.title}</h3>
+                    {course.description && <p className="course-description">{course.description}</p>}
 
-                    <div className={styles.courseStats}>
-                      <div className={styles.stat}>
+                    <div className="course-stats">
+                      <div className="stat-item">
                         <svg
-                          className={styles.statIcon}
+                          className="stat-icon"
                           width="16"
                           height="16"
                           viewBox="0 0 24 24"
@@ -162,9 +189,9 @@ const StudentDashboard = () => {
                         </svg>
                         <span>{course.video_count || 0} vidéos</span>
                       </div>
-                      <div className={styles.stat}>
+                      <div className="stat-item">
                         <svg
-                          className={styles.statIcon}
+                          className="stat-icon"
                           width="16"
                           height="16"
                           viewBox="0 0 24 24"
@@ -180,9 +207,9 @@ const StudentDashboard = () => {
                     </div>
                   </div>
 
-                  <div className={styles.courseActions}>
+                  <div className="course-actions">
                     <button
-                      className={styles.button}
+                      className="btn-start-learning"
                       onClick={(e) => handleStartLearning(course.id, e)}
                       aria-label={`Commencer le cours ${course.title}`}
                     >
