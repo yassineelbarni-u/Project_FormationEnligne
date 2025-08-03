@@ -94,6 +94,11 @@ const AdminLayout = ({ children }) => {
       />
 
       <div className={`admin-main-modern ${sidebarOpen ? "sidebar-open" : ""}`}>
+        {/* Bouton de menu mobile */}
+        <button className="mobile-menu-button" onClick={toggleSidebar}>
+          <span>☰</span>
+        </button>
+        
         <main className="admin-content-modern">{children}</main>
       </div>
 

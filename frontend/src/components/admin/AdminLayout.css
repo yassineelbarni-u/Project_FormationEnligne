@@ -58,6 +58,26 @@
   display: none;
 }
 
+/* Bouton de menu mobile */
+.mobile-menu-button {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 45px;
+  height: 45px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  z-index: 997;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .admin-main-modern {
@@ -70,5 +90,13 @@
 
   .sidebar-overlay {
     display: block;
+  }
+  
+  .mobile-menu-button {
+    display: flex;
+  }
+  
+  .admin-content-modern {
+    padding-top: 70px; /* Ajouter de l'espace pour le bouton de menu */
   }
 }
