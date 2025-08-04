@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import StudentLayout from "../../components/student/StudentLayout"
+import apiService from "../../utils/api"
 import "./CourseView.css"
-
-const BACKEND_URL = "http://localhost:8001"
 
 const CourseView = () => {
   const { courseId } = useParams()
@@ -80,35 +79,33 @@ const CourseView = () => {
     fetchCourseData()
   }, [courseId])
 
+  // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchCourseData = async () => {
     try {
-      const token = localStorage.getItem("student_token")
-      const courseResponse = await fetch(`${BACKEND_URL}/api/student/course/${courseId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      const videosResponse = await fetch(`${BACKEND_URL}/api/student/course/${courseId}/videos`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      setIsLoading(true)
 
-      if (courseResponse.ok && videosResponse.ok) {
-        const courseData = await courseResponse.json()
-        const videosData = await videosResponse.json()
-        setCourse(courseData)
-        setVideos(videosData)
+      // Utiliser apiService pour récupérer les données
+      const courseData = await apiService.getStudentCourse(courseId)
+      const videosData = await apiService.getStudentCourseVideos(courseId)
 
-        // Sélectionner la première vidéo par défaut
-        if (videosData.length > 0) {
-          const allVideos = getAllVideosInOrder()
-          setCurrentVideo(allVideos[0])
-          setCurrentVideoIndex(0)
-        }
-      } else if (courseResponse.status === 401 || videosResponse.status === 401) {
-        navigate("/student/login")
-      } else if (courseResponse.status === 403) {
-        navigate("/student/dashboard")
+      setCourse(courseData)
+      setVideos(videosData)
+
+      // Sélectionner la première vidéo par défaut
+      if (videosData.length > 0) {
+        const allVideos = getAllVideosInOrder()
+        setCurrentVideo(allVideos[0])
+        setCurrentVideoIndex(0)
       }
     } catch (error) {
       console.error("Erreur lors du chargement du cours:", error)
+
+      // Gestion des erreurs d'authentification
+      if (error.message.includes("401")) {
+        navigate("/student/login")
+      } else if (error.message.includes("403")) {
+        navigate("/student/dashboard")
+      }
     } finally {
       setIsLoading(false)
     }
@@ -217,6 +214,7 @@ const CourseView = () => {
                 <div key={moduleName} className="module-section">
                   <div className="module-header" onClick={() => toggleModule(moduleName)}>
                     <div className="module-info">
+                      <div className="module-icon">📁</div>
                       <div className="module-details">
                         <h3 className="module-title">{moduleName}</h3>
                         <span className="module-count">{moduleVideos.length} vidéos</span>

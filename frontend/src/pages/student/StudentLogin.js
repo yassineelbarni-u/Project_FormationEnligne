@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import styles from "./StudentLogin.module.css" // Import en tant que module CSS
-
-const BACKEND_URL = "http://localhost:8001"
+import apiService from "../../utils/api"
+import styles from "./StudentLogin.module.css" 
 
 const StudentLogin = () => {
   const [formData, setFormData] = useState({
@@ -29,20 +28,9 @@ const StudentLogin = () => {
     setError("")
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/student/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.detail || "Erreur de connexion")
-      }
-
-      const data = await response.json()
+      //Utilisation d'apiService au lieu d'appels directs
+      const data = await apiService.studentLogin(formData)
 
       // Stocker le token et les infos utilisateur
       localStorage.setItem("student_token", data.access_token)
@@ -66,7 +54,6 @@ const StudentLogin = () => {
       <div className={styles.background}>
         <div className={styles.backgroundPattern}></div>
       </div>
-
       <div className={styles.container}>
         <div className={styles.card}>
           <div className={styles.header}>
@@ -78,7 +65,6 @@ const StudentLogin = () => {
               <p>Se connecter et accéder à votre espace étudiant.</p>
             </div>
           </div>
-
 
           {error && <div className={styles.error}>{error}</div>}
 
@@ -105,14 +91,11 @@ const StudentLogin = () => {
                 onChange={handleChange}
                 required
               />
-             
             </div>
 
             <button type="submit" className={styles.button} disabled={isLoading}>
               {isLoading ? "Connexion..." : "Se Connecter"}
             </button>
-
-          
           </form>
 
           <div className={styles.helpSection}>

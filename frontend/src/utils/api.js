@@ -6,13 +6,15 @@ class ApiService {
     this.baseURL = BACKEND_URL
   }
 
-  // Méthode pour obtenir les headers avec token
-  getHeaders(includeAuth = true) {
+  // Méthode pour obtenir les headers avec token (admin ou étudiant)
+  getHeaders(includeAuth = true, isStudent = false) {
     const headers = {
       "Content-Type": "application/json",
     }
     if (includeAuth) {
-      const token = localStorage.getItem("token")
+      // Choisir le bon token selon le type d'utilisateur
+      const tokenKey = isStudent ? "student_token" : "token"
+      const token = localStorage.getItem(tokenKey)
       if (token) {
         headers.Authorization = `Bearer ${token}`
       }
@@ -24,7 +26,7 @@ class ApiService {
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`
     const config = {
-      headers: this.getHeaders(options.auth !== false),
+      headers: this.getHeaders(options.auth !== false, options.isStudent),
       ...options,
     }
     try {
@@ -200,6 +202,45 @@ class ApiService {
   async toggleAdminStatus(adminId) {
     return this.request(`/api/admin/management/${adminId}/toggle-status`, {
       method: "PUT",
+    })
+  }
+
+  // 🆕 STUDENT API METHODS - Nouvelles méthodes pour les étudiants
+
+  // Connexion étudiant
+  async studentLogin(credentials) {
+    return this.request("/api/student/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+      auth: false,
+    })
+  }
+
+  // Récupérer les cours de l'étudiant connecté
+  async getStudentCourses() {
+    return this.request("/api/student/my-courses", {
+      isStudent: true,
+    })
+  }
+
+  // Récupérer un cours spécifique pour l'étudiant
+  async getStudentCourse(courseId) {
+    return this.request(`/api/student/course/${courseId}`, {
+      isStudent: true,
+    })
+  }
+
+  // Récupérer les vidéos d'un cours pour l'étudiant
+  async getStudentCourseVideos(courseId) {
+    return this.request(`/api/student/course/${courseId}/videos`, {
+      isStudent: true,
+    })
+  }
+
+  // Vérifier le token étudiant
+  async verifyStudentToken() {
+    return this.request("/api/student/verify", {
+      isStudent: true,
     })
   }
 }

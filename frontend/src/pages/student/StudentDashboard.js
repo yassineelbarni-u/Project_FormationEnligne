@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import StudentLayout from "../../components/student/StudentLayout"
+import apiService from "../../utils/api"
 import "./StudentDashboard.css"
-
-const BACKEND_URL = "http://localhost:8001"
 
 const StudentDashboard = () => {
   const [courses, setCourses] = useState([])
@@ -21,22 +20,17 @@ const StudentDashboard = () => {
     fetchMyCourses()
   }, [])
 
+  // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchMyCourses = async () => {
     try {
-      const token = localStorage.getItem("student_token")
-      const response = await fetch(`${BACKEND_URL}/api/student/my-courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setCourses(data)
-      } else if (response.status === 401) {
-        navigate("/student/login")
-      }
+      setIsLoading(true)
+      const data = await apiService.getStudentCourses()
+      setCourses(data)
     } catch (error) {
       console.error("Erreur lors du chargement des cours:", error)
+      if (error.message.includes("401")) {
+        navigate("/student/login")
+      }
     } finally {
       setIsLoading(false)
     }
