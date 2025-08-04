@@ -424,6 +424,7 @@
 @media (max-width: 640px) {
   .studentSidebar {
     width: 100%;
+    max-width: 60%;
   }
 
   .topHeader {

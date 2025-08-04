@@ -99,8 +99,8 @@ const StudentLayout = ({ children }) => {
       <div className="mainContent">
         {/* Top Header */}
         <header className="topHeader">
-          <button className="menuToggle" onClick={() => setSidebarOpen(true)}>
-            ☰
+          <button className="mobile-menu-button" onClick={() => setSidebarOpen(true)}>
+            <span>☰</span>
           </button>
           <div className="headerTitle">
             <h2>Espace Étudiant</h2>
