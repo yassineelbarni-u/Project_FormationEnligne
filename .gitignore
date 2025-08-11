@@ -20,5 +20,7 @@ Thumbs.db
 .next/
 
 .venv/
+venv/
+
 
 

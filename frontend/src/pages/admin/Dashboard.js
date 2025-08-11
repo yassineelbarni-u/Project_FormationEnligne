@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./Dashboard.css"
-
-// Backend sur port 8001
-const BACKEND_URL = "http://localhost:8001"
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -25,23 +23,14 @@ const Dashboard = () => {
 
   const fetchDashboardStats = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/dashboard/stats`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const data = await apiService.getDashboardStats()
+      setStats({
+        totalCourses: data.total_courses,
+        totalVideos: data.total_videos,
+        totalStudents: data.total_students,
+        totalAccesses: data.total_accesses,
+        recentActivity: data.recent_activity,
       })
-
-      if (response.ok) {
-        const data = await response.json()
-        setStats({
-          totalCourses: data.total_courses,
-          totalVideos: data.total_videos,
-          totalStudents: data.total_students,
-          totalAccesses: data.total_accesses,
-          recentActivity: data.recent_activity,
-        })
-      }
     } catch (error) {
       console.error("Erreur lors du chargement des stats:", error)
     } finally {

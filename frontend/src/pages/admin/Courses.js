@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./Courses.css"
-
-const BACKEND_URL = "http://localhost:8001"
 
 const Courses = () => {
   const [courses, setCourses] = useState([])
@@ -20,21 +19,13 @@ const Courses = () => {
 
   const fetchCourses = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setCourses(data)
-      } else if (response.status === 401) {
-        navigate("/login")
-      }
+      const data = await apiService.getCourses()
+      setCourses(data)
     } catch (error) {
       console.error("Erreur lors du chargement des cours:", error)
+      if (error.message.includes("401")) {
+        navigate("/login")
+      }
     } finally {
       setIsLoading(false)
     }
@@ -44,18 +35,9 @@ const Courses = () => {
     if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce cours ?")) return
 
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        setCourses(courses.filter((course) => course.id !== id))
-        alert("Cours supprimé avec succès")
-      }
+      await apiService.deleteCourse(id)
+      setCourses(courses.filter((course) => course.id !== id))
+      alert("Cours supprimé avec succès")
     } catch (error) {
       alert("Erreur lors de la suppression")
     }
@@ -63,13 +45,8 @@ const Courses = () => {
 
   const generateAccessLink = async (courseId) => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/${courseId}/generate-link`, {
+      const response = await apiService.request(`/api/admin/courses/${courseId}/generate-link`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           course_id: courseId,
           access_type: "link",
@@ -77,11 +54,8 @@ const Courses = () => {
         }),
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        navigator.clipboard.writeText(data.access_url)
-        alert(`Lien d'accès copié !\n${data.access_url}`)
-      }
+      navigator.clipboard.writeText(response.access_url)
+      alert(`Lien d'accès copié !\n${response.access_url}`)
     } catch (error) {
       alert("Erreur lors de la génération du lien")
     }
@@ -187,7 +161,6 @@ const Courses = () => {
                       🎥 Vidéos
                     </button>
                   
-        
                     <button
                       className="btn-edit"
                       onClick={() => navigate(`/admin/courses/${course.id}/edit`)}

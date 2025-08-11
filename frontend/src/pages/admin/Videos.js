@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./Videos.css"
 
-const BACKEND_URL = "http://localhost:8001"
 
 const Videos = () => {
   const [videos, setVideos] = useState([])
@@ -20,66 +20,43 @@ const Videos = () => {
     fetchCourses()
   }, [])
 
-  const fetchVideos = async () => {
+    const fetchVideos = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/videos/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setVideos(data)
-      } else if (response.status === 401) {
+      const data = await apiService.getVideos()
+      setVideos(data)
+    } catch (error) {
+      if (error.message.includes("401")) {
         navigate("/login")
       }
-    } catch (error) {
       console.error("Error fetching videos:", error)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const fetchCourses = async () => {
-    try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
 
-      if (response.ok) {
-        const data = await response.json()
-        setCourses(data)
+      const fetchCourses = async () => {
+        try {
+          const data = await apiService.getCourses()
+          setCourses(data)
+        } catch (error) {
+          console.error("Error fetching courses:", error)
+        }
       }
-    } catch (error) {
-      console.error("Error fetching courses:", error)
-    }
-  }
+
 
   const deleteVideo = async (id) => {
     if (!window.confirm("Êtes-vous sûr de vouloir supprimer cette vidéo ?")) return
 
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/videos/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        setVideos(videos.filter((video) => video.id !== id))
-        alert("Vidéo supprimée avec succès")
-      }
+      await apiService.deleteVideo(id)
+      setVideos(videos.filter((video) => video.id !== id))
+      alert("Vidéo supprimée avec succès")
     } catch (error) {
       alert("Erreur lors de la suppression")
     }
   }
+
 
   const getCourseTitle = (courseId) => {
     const course = courses.find((c) => c.id === courseId)

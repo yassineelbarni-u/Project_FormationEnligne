@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import AdminSidebar from "./AdminSidebar"
+import apiService from "../../utils/api"
 import "./AdminLayout.css"
-
-// Backend sur port 8001
-const BACKEND_URL = "http://localhost:8001"
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -38,22 +36,13 @@ const AdminLayout = ({ children }) => {
     }
 
     // Vérifier la validité du token avec le backend FastAPI
-    verifyToken(token)
+    verifyToken()
   }, [navigate])
 
-  const verifyToken = async (token) => {
+  const verifyToken = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/verify`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        setIsLoading(false)
-      } else {
-        handleLogout()
-      }
+      await apiService.verifyToken()
+      setIsLoading(false)
     } catch (error) {
       console.error("Erreur vérification token:", error)
       handleLogout()
@@ -89,7 +78,7 @@ const AdminLayout = ({ children }) => {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         currentPath={location.pathname}
-        user={user} // 🎯 Passer les infos utilisateur à la sidebar
+        user={user}
         onLogout={handleLogout}
       />
 

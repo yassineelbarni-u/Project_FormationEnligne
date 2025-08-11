@@ -1,10 +1,10 @@
 "use client"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import styles from "./Login.module.css" // Import en tant que module CSS
+import apiService from "../../utils/api"
+import styles from "./Login.module.css" 
 
-// ✅ Backend sur port 8001
-const BACKEND_URL = "http://localhost:8001"
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,47 +24,30 @@ const Login = () => {
     setError("")
   }
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.detail || "Erreur de connexion")
-      }
-
-      const data = await response.json()
-
+      // Utilisation de apiService pour le login
+      const data = await apiService.login(formData)
+      
       // Stocker le token
       localStorage.setItem("token", data.access_token)
       
       // Récupérer les informations de l'utilisateur avec le token
-      const userResponse = await fetch(`${BACKEND_URL}/api/auth/me`, {
-        headers: {
-          "Authorization": `Bearer ${data.access_token}`
-        }
-      });
+      const userData = await apiService.request("/api/auth/me", {
+        auth: true // Active l'authentification via token
+      })
       
-      if (userResponse.ok) {
-        const userData = await userResponse.json();
-        localStorage.setItem("user", JSON.stringify(userData));
-      }
+      localStorage.setItem("user", JSON.stringify(userData))
 
       // Rediriger vers le dashboard admin
       navigate("/admin/dashboard")
     } catch (error) {
       if (error.message.includes("Failed to fetch")) {
-        setError(`❌ Impossible de se connecter au serveur. Vérifiez que le backend est démarré sur ${BACKEND_URL}`)
+        setError(`❌ Impossible de se connecter au serveur. Vérifiez que le backend est démarré`)
       } else {
         setError(error.message || "Email ou mot de passe incorrect")
       }

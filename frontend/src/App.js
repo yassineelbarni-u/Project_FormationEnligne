@@ -12,10 +12,10 @@ import CourseForm from "./pages/admin/CourseForm"
 import CourseVideos from "./pages/admin/CourseVideos"
 import Students from "./pages/admin/Students"
 import StudentsInvite from "./pages/admin/StudentsInvite"
-import StudentForm from "./pages/admin/StudentForm" // 🆕 Ajouter l'import
+import StudentForm from "./pages/admin/StudentForm" 
 import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
-import AccessForm from "./pages/admin/AccessForm" // 🆕 Nouveau composant
+import AccessForm from "./pages/admin/AccessForm" 
 import AdminManagement from "./pages/admin/AdminManagement"
 
 // Import pages étudiantes

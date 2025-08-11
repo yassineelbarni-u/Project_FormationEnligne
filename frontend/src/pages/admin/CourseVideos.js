@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./CourseVideos.css"
 import "./module-styles.css"
-
-const BACKEND_URL = "http://localhost:8001"
 
 const CourseVideos = () => {
   const { courseId } = useParams()
@@ -19,7 +18,6 @@ const CourseVideos = () => {
     title: "",
     description: "",
     drive_url: "",
-    // ❌ SUPPRIMÉ: duration: "",
     order_in_course: 0,
     is_free: false,
     module_name: "",
@@ -32,30 +30,19 @@ const CourseVideos = () => {
     fetchVideos()
   }, [courseId])
 
-  // Extraire les noms de modules existants
   useEffect(() => {
     if (videos.length > 0) {
-      // Collecter tous les noms de modules uniques
       const uniqueModules = [...new Set(videos.filter((v) => v.module_name).map((v) => v.module_name))].sort((a, b) =>
         a.localeCompare(b),
       )
-
       setModuleNames(uniqueModules)
     }
   }, [videos])
 
   const fetchCourse = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/${courseId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setCourse(data)
-      }
+      const data = await apiService.getCourse(courseId)
+      setCourse(data)
     } catch (error) {
       console.error("Erreur lors du chargement du cours:", error)
     }
@@ -63,16 +50,8 @@ const CourseVideos = () => {
 
   const fetchVideos = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/${courseId}/videos`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setVideos(data)
-      }
+      const data = await apiService.getCourseVideos(courseId)
+      setVideos(data)
     } catch (error) {
       console.error("Erreur lors du chargement des vidéos:", error)
     } finally {
@@ -82,10 +61,10 @@ const CourseVideos = () => {
 
   const extractDriveFileId = (url) => {
     const patterns = [
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/, // Format /file/d/{id}
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/, // Format ?id={id}
-      /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format ?id={id} pour uc
-      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/, // Format étendu avec u/x/
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/,
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/,
+      /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
     ]
 
     for (const pattern of patterns) {
@@ -103,39 +82,24 @@ const CourseVideos = () => {
     }
 
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/${courseId}/videos`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...newVideo,
-          course_id: Number.parseInt(courseId),
-        }),
+      const video = await apiService.addVideoToCourse(courseId, {
+        ...newVideo,
+        course_id: Number.parseInt(courseId),
       })
-
-      if (response.ok) {
-        const video = await response.json()
-        setVideos([...videos, video])
-        setNewVideo({
-          title: "",
-          description: "",
-          drive_url: "",
-          // ❌ SUPPRIMÉ: duration: "",
-          module_name: "",
-          order_in_course: videos.length + 1,
-          is_free: false,
-        })
-        setShowAddForm(false)
-        alert("Vidéo ajoutée avec succès !")
-      } else {
-        const error = await response.json()
-        alert(error.detail || "Erreur lors de l'ajout")
-      }
+      
+      setVideos([...videos, video])
+      setNewVideo({
+        title: "",
+        description: "",
+        drive_url: "",
+        module_name: "",
+        order_in_course: videos.length + 1,
+        is_free: false,
+      })
+      setShowAddForm(false)
+      alert("Vidéo ajoutée avec succès !")
     } catch (error) {
-      alert("Erreur de connexion")
+      alert(error?.response?.data?.detail || "Erreur lors de l'ajout")
     }
   }
 
@@ -143,18 +107,9 @@ const CourseVideos = () => {
     if (!window.confirm("Supprimer cette vidéo ?")) return
 
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/videos/${videoId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        setVideos(videos.filter((v) => v.id !== videoId))
-        alert("Vidéo supprimée")
-      }
+      await apiService.deleteVideo(videoId)
+      setVideos(videos.filter((v) => v.id !== videoId))
+      alert("Vidéo supprimée")
     } catch (error) {
       alert("Erreur lors de la suppression")
     }
@@ -202,7 +157,6 @@ const CourseVideos = () => {
               </button>
             </div>
             <form onSubmit={handleAddVideo}>
-              {/* ❌ SUPPRIMÉ: Le champ durée */}
               <div className="form-group">
                 <label>Titre de la vidéo *</label>
                 <input
@@ -311,11 +265,9 @@ const CourseVideos = () => {
             </div>
           ) : (
             <div className="modules-container">
-              {/* Organiser les vidéos par modules */}
               {(() => {
                 const modules = {}
 
-                // Regrouper les vidéos par module
                 videos.forEach((video) => {
                   const moduleName = video.module_name || "Autres vidéos"
                   if (!modules[moduleName]) {
@@ -324,7 +276,6 @@ const CourseVideos = () => {
                   modules[moduleName].push(video)
                 })
 
-                // Afficher les modules et leurs vidéos
                 return Object.entries(modules).map(([moduleName, moduleVideos]) => (
                   <div key={moduleName} className="module">
                     <div className="module-header">
@@ -348,7 +299,6 @@ const CourseVideos = () => {
                               }}
                             />
                             <div className="video-order">#{video.order_in_course || index + 1}</div>
-                            {/* ❌ SUPPRIMÉ: L'affichage de la durée */}
                             {video.is_free && <div className="video-free">GRATUIT</div>}
                           </div>
                           <div className="video-content">

@@ -2,9 +2,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./CourseForm.css"
-
-const BACKEND_URL = "http://localhost:8001"
 
 const CourseForm = () => {
   const { id } = useParams()
@@ -32,24 +31,17 @@ const CourseForm = () => {
 
   const fetchCourse = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const course = await apiService.getCourse(id)
+      setFormData({
+        title: course.title || "",
+        description: course.description || "",
+        subject: course.subject || "",
+        level: course.level || "",
+        drive_folder_id: course.drive_folder_id || "",
       })
-      if (response.ok) {
-        const course = await response.json()
-        setFormData({
-          title: course.title,
-          description: course.description || "",
-          subject: course.subject,
-          level: course.level,
-          drive_folder_id: course.drive_folder_id || "",
-        })
-      }
-    } catch (error) {
-      console.error("Erreur lors du chargement du cours:", error)
+    } catch (err) {
+      console.error("Erreur lors du chargement du cours:", err)
+      setError("Erreur lors du chargement du cours.")
     }
   }
 
@@ -67,29 +59,19 @@ const CourseForm = () => {
     setError("")
 
     try {
-      const token = localStorage.getItem("token")
-      const url = isEdit ? `${BACKEND_URL}/api/admin/courses/${id}` : `${BACKEND_URL}/api/admin/courses/`
-      const method = isEdit ? "PUT" : "POST"
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        const course = await response.json()
-        alert(`Cours ${isEdit ? "modifié" : "créé"} avec succès !`)
-        navigate(`/admin/courses/${course.id}/videos`)
+      let course
+      if (isEdit) {
+        course = await apiService.updateCourse(id, formData)
+        alert("Cours modifié avec succès !")
       } else {
-        const errorData = await response.json()
-        setError(errorData.detail || "Erreur lors de la sauvegarde")
+        course = await apiService.createCourse(formData)
+        alert("Cours créé avec succès !")
       }
-    } catch (error) {
-      setError("Erreur de connexion au serveur")
+
+      navigate(`/admin/courses/${course.id}/videos`)
+    } catch (err) {
+      const msg = err?.response?.data?.detail || err.message || "Erreur lors de la sauvegarde"
+      setError(msg)
     } finally {
       setIsLoading(false)
     }

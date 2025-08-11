@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
+import apiService from "../../utils/api"
 import "./StudentsInvite.css"
 
-// Backend sur port 8001
-const BACKEND_URL = "http://localhost:8001"
 
 const StudentsInvite = () => {
   const navigate = useNavigate()
@@ -22,23 +21,16 @@ const StudentsInvite = () => {
   const [success, setSuccess] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchCourses = async () => {
-    try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/courses/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
 
-      if (response.ok) {
-        const data = await response.json()
-        setCourses(data)
-      }
-    } catch (error) {
-      console.error("Erreur lors du chargement des cours:", error)
-    }
+  const fetchCourses = async () => {
+  try {
+    const data = await apiService.getCourses()
+    setCourses(data)
+  } catch (error) {
+    console.error("Erreur lors du chargement des cours:", error)
   }
+}
+
 
   useEffect(() => {
     fetchCourses()
@@ -53,47 +45,34 @@ const StudentsInvite = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
-    setSuccess("")
+  e.preventDefault()
+  setIsLoading(true)
+  setError("")
+  setSuccess("")
 
-    try {
-      const token = localStorage.getItem("token")
-      const response = await fetch(`${BACKEND_URL}/api/admin/students/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      })
+  try {
+    await apiService.createStudent(formData)
+    setSuccess("Étudiant invité avec succès!")
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      level: "",
+      course_id: "",
+    })
 
-      if (response.ok) {
-        setSuccess("Étudiant invité avec succès!")
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          level: "",
-          course_id: "",
-        })
-
-        // Redirection après 2 secondes
-        setTimeout(() => {
-          navigate("/admin/students")
-        }, 2000)
-      } else {
-        const errorData = await response.json()
-        setError(errorData.detail || "Erreur lors de l'invitation de l'étudiant")
-      }
-    } catch (error) {
-      setError("Erreur de connexion au serveur")
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
+    // Redirection après 2 secondes
+    setTimeout(() => {
+      navigate("/admin/students")
+    }, 2000)
+  } catch (error) {
+    const msg = error?.message || "Erreur lors de l'invitation de l'étudiant"
+    setError(msg)
+  } finally {
+    setIsLoading(false)
   }
+}
+
 
   return (
     <AdminLayout>
