@@ -55,7 +55,7 @@ const Footer = () => {
       </div>
 
       <div className="whatsapp-float">
-        <a href="https://wa.me/212648263079" target="_blank" rel="noopener noreferrer">
+        <a href="https://wa.me/212 648-263079" target="_blank" rel="noopener noreferrer">
           <span>💬 Contactez-nous via WhatsApp</span>
         </a>
       </div>
