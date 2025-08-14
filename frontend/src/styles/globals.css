@@ -740,3 +740,419 @@ body {
     font-size: 0.9rem;
   }
 }
+
+/* ===== STYLES RESPONSIVE AVANCÉS POUR HOME PAGE ===== */
+
+/* Tablets et grandes largeurs */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+    padding: 0 30px;
+  }
+
+  .hero-content {
+    gap: 40px;
+  }
+
+  .hero-text h1 {
+    font-size: 3rem;
+  }
+
+  .student-image {
+    width: 350px;
+    height: 350px;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .reasons-grid,
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  .contact-content,
+  .testimonial-container {
+    gap: 50px;
+  }
+}
+
+/* Tablettes moyennes */
+@media (max-width: 840px) {
+  .hero-section {
+    padding: 60px 0;
+    min-height: 500px;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .student-image {
+    width: 300px;
+    height: 300px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+
+  .why-choose-section,
+  .services-section,
+  .testimonials-section,
+  .faq-section,
+  .contact-section {
+    padding: 60px 0;
+  }
+
+  .reason-card,
+  .service-card {
+    padding: 30px 20px;
+  }
+
+  .testimonial-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-container {
+    padding: 30px;
+  }
+}
+
+/* Mobiles et petites tablettes */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  /* Header responsive */
+  .header-top {
+    padding: 6px 0;
+    font-size: 12px;
+  }
+
+  .contact-info {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar {
+    padding: 12px 0;
+  }
+
+  .nav-brand h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Hero section responsive */
+  .hero-section {
+    padding: 50px 0;
+    min-height: 400px;
+  }
+
+  .hero-text h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .student-image {
+    width: 250px;
+    height: 250px;
+  }
+
+  /* Cards responsive */
+  .reasons-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .reason-card {
+    padding: 25px 20px;
+    text-align: center;
+  }
+
+  .reason-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .service-card {
+    margin: 0 10px;
+  }
+
+  .service-content {
+    padding: 25px 20px;
+  }
+
+  /* FAQ responsive */
+  .faq-question {
+    padding: 20px 25px;
+    font-size: 1rem;
+  }
+
+  .faq-answer {
+    padding: 0 25px 20px;
+  }
+
+  /* Testimonials responsive */
+  .testimonial-content {
+    padding: 30px 25px;
+  }
+
+  .testimonial-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .quote-mark {
+    font-size: 3rem;
+  }
+
+  /* Contact responsive */
+  .contact-info h2 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .contact-details {
+    gap: 20px;
+  }
+
+  .contact-item {
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Footer responsive */
+  .footer {
+    padding: 40px 0 15px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+}
+
+/* Petits mobiles */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  /* Header très petit */
+  .header-top {
+    display: none; /* Masquer le header top sur très petits écrans */
+  }
+
+  .navbar {
+    padding: 10px 0;
+  }
+
+  .nav-brand h2 {
+    font-size: 1.3rem;
+  }
+
+  /* Hero très responsive */
+  .hero-section {
+    padding: 40px 0;
+    min-height: 350px;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .hero-text p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .student-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  /* Sections padding réduit */
+  .why-choose-section,
+  .services-section,
+  .testimonials-section,
+  .faq-section,
+  .contact-section {
+    padding: 40px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  /* Cards très compactes */
+  .reason-card,
+  .service-content,
+  .testimonial-content,
+  .contact-form-container {
+    padding: 20px 15px;
+  }
+
+  .reason-card h3,
+  .service-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .service-image {
+    height: 150px;
+  }
+
+  /* FAQ compact */
+  .faq-question {
+    padding: 15px 20px;
+    font-size: 0.95rem;
+  }
+
+  .faq-answer {
+    padding: 0 20px 15px;
+    font-size: 0.9rem;
+  }
+
+  /* Contact compact */
+  .contact-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  /* WhatsApp button responsive */
+  .whatsapp-float {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .whatsapp-float a {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Très petits écrans (320px et moins) */
+@media (max-width: 320px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .student-image {
+    width: 180px;
+    height: 180px;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  .reason-card,
+  .service-content,
+  .testimonial-content {
+    padding: 15px 10px;
+  }
+}
+
+/* Amélioration de la navigation mobile */
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 80px 30px 30px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-link {
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+    width: 100%;
+    font-size: 1.1rem;
+  }
+
+  .mobile-menu-btn {
+    z-index: 1001;
+  }
+
+  /* Overlay pour fermer le menu */
+  .nav-menu.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+}

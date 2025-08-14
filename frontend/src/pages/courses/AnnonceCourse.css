@@ -1,0 +1,293 @@
+/* Completely simplified styles for image display and WhatsApp button */
+
+/* Page Container */
+.annonce-course-page {
+  min-height: 100vh;
+  background: #fafbfc;
+  width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Section */
+.annonce-course-section {
+  flex: 1;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Container */
+.annonce-course-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Carousel Wrapper */
+.carousel-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+/* Image Wrapper - Modified for carousel */
+.annonce-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f5f9;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Carousel Navigation Buttons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn-prev {
+  left: 10px;
+}
+
+.carousel-btn-next {
+  right: 10px;
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: #3b82f6;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: #64748b;
+}
+
+/* Image Counter */
+.image-counter {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Main Image - Updated for carousel */
+.annonce-image {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease;
+}
+
+/* Action Section */
+.annonce-action {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* WhatsApp Button */
+.whatsapp-button {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3);
+  text-decoration: none;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.whatsapp-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+  background: linear-gradient(135deg, #128c7e 0%, #25d366 100%);
+}
+
+.whatsapp-button:active {
+  transform: translateY(-1px);
+}
+
+.whatsapp-icon {
+  font-size: 1.3rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .annonce-course-section {
+    padding: 30px 15px;
+  }
+
+  .annonce-course-container {
+    gap: 25px;
+  }
+
+  .annonce-image-wrapper {
+    padding: 15px;
+  }
+
+  .whatsapp-button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    min-width: 180px;
+  }
+
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .carousel-btn-prev {
+    left: 5px;
+  }
+
+  .carousel-btn-next {
+    right: 5px;
+  }
+
+  .image-counter {
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .annonce-course-section {
+    padding: 20px 10px;
+  }
+
+  .annonce-course-container {
+    gap: 20px;
+  }
+
+  .annonce-image-wrapper {
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  .annonce-image {
+    border-radius: 10px;
+  }
+
+  .whatsapp-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    min-width: 160px;
+  }
+
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+
+  .carousel-indicators {
+    gap: 8px;
+    margin-top: 15px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .annonce-course-section {
+    padding: 15px 5px;
+  }
+
+  .whatsapp-button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    min-width: 140px;
+  }
+
+  .carousel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .image-counter {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+}

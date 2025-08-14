@@ -59,12 +59,12 @@ const Header = () => {
           </div>
 
           <div className={`nav-menu ${isMenuOpen ? "active" : ""}`}>
-            <a href="#accueil" className="nav-link">
+            <Link to="/" className="nav-link">
               Accueil
-            </a>
-            <a href="#cours" className="nav-link">
+            </Link>
+            <Link to="/courses" className="nav-link">
               Nos Cours
-            </a>
+            </Link>
             <a href="#services" className="nav-link">
               Nos Services
             </a>

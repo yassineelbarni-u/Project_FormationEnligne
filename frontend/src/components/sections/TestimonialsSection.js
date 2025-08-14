@@ -9,7 +9,7 @@ const TestimonialsSection = () => {
     {
       name: "Sarah Benali",
       role: "Étudiante en Terminale S",
-      image: "/placeholder.svg?height=300&width=400&text=Sarah",
+      image: "../assets/sarah.png",
       quote: "J'ai été surprise par la simplicité et rapidité du service.",
       description:
         "Grâce aux cours d'Ilyas, j'ai pu améliorer mes notes en mathématiques de 8 à 16. L'approche personnalisée m'a vraiment aidée à comprendre les concepts difficiles.",

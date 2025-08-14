@@ -46,6 +46,11 @@ const Footer = () => {
             <h4>Contact</h4>
             <p>📞 +212 6 57883241</p>
             <p>✉️ groupe.ensamaroc@gmail.com</p>
+            <ul>
+              <li>
+                <a href="https://www.facebook.com/e.learning.ilyas">Facebook</a>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -54,11 +59,12 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="whatsapp-float">
-        <a href="https://wa.me/212 648-263079" target="_blank" rel="noopener noreferrer">
-          <span>💬 Contactez-nous via WhatsApp</span>
-        </a>
-      </div>
+     <div className="whatsapp-float">
+  <a href="https://wa.me/212631262790" target="_blank" rel="noopener noreferrer">
+    <span>💬 Contactez-nous via WhatsApp</span>
+  </a>
+   </div>
+
     </footer>
   )
 }

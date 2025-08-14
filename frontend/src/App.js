@@ -5,6 +5,7 @@ import "./App.css"
 
 // Ensuite importer les composants
 import Home from "./pages/home/Home"
+import AnnonceCoursePage from "./pages/courses/AnnonceCourse"
 import Login from "./pages/login/Login"
 import Dashboard from "./pages/admin/Dashboard"
 import Courses from "./pages/admin/Courses"
@@ -61,6 +62,7 @@ function App() {
         <Routes>
           {/* Routes publiques */}
           <Route path="/" element={<Home />} />
+          <Route path="/courses" element={<AnnonceCoursePage />} />
           <Route path="/login" element={<Login />} />
 
           {/* Routes admin protégées */}
