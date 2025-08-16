@@ -13,11 +13,12 @@ import CourseForm from "./pages/admin/CourseForm"
 import CourseVideos from "./pages/admin/CourseVideos"
 import Students from "./pages/admin/Students"
 import StudentsInvite from "./pages/admin/StudentsInvite"
-import StudentForm from "./pages/admin/StudentForm" 
+import StudentForm from "./pages/admin/StudentForm"
 import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
-import AccessForm from "./pages/admin/AccessForm" 
+import AccessForm from "./pages/admin/AccessForm"
 import AdminManagement from "./pages/admin/AdminManagement"
+import AnnouncementManagement from "./pages/admin/AnnouncementManagement"
 
 // Import pages étudiantes
 import StudentLogin from "./pages/student/StudentLogin"
@@ -126,7 +127,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* 🆕 Routes pour le formulaire d'étudiant */}
+          {/* Routes pour le formulaire d'étudiant */}
           <Route
             path="/admin/students/new"
             element={
@@ -162,16 +163,16 @@ function App() {
             }
           />
 
-            <Route
-              path="/admin/accesses/:id/edit"
-              element={
-                <ProtectedRoute>
-                  <AccessForm />
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/admin/accesses/:id/edit"
+            element={
+              <ProtectedRoute>
+                <AccessForm />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* 🆕 Gestion des admins - Réservé aux super admins */}
+          {/* Gestion des admins - Réservé aux super admins */}
           <Route
             path="/admin/manage-admins"
             element={
@@ -186,6 +187,15 @@ function App() {
               <SuperAdminRoute>
                 <AdminManagement />
               </SuperAdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/announcements"
+            element={
+              <ProtectedRoute>
+                <AnnouncementManagement />
+              </ProtectedRoute>
             }
           />
 

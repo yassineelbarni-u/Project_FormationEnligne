@@ -1,5 +1,5 @@
 // Configuration API centralisée
-const BACKEND_URL = "http://localhost:8001"
+const BACKEND_URL = "http://localhost:8002"
 
 class ApiService {
   constructor() {
@@ -170,42 +170,13 @@ class ApiService {
     })
   }
 
-  // 🆕 Admin Management (Super Admin only)
-  async getAdmins() {
-    return this.request("/api/admin/management/")
-  }
-
-  async createAdmin(adminData) {
-    return this.request("/api/admin/management/", {
-      method: "POST",
-      body: JSON.stringify(adminData),
-    })
-  }
-
-  async getAdmin(adminId) {
-    return this.request(`/api/admin/management/${adminId}`)
-  }
-
-  async updateAdmin(adminId, adminData) {
-    return this.request(`/api/admin/management/${adminId}`, {
-      method: "PUT",
-      body: JSON.stringify(adminData),
-    })
-  }
-
-  async deleteAdmin(adminId) {
-    return this.request(`/api/admin/management/${adminId}`, {
-      method: "DELETE",
-    })
-  }
-
   async toggleAdminStatus(adminId) {
     return this.request(`/api/admin/management/${adminId}/toggle-status`, {
       method: "PUT",
     })
   }
 
-  // 🆕 STUDENT API METHODS - Nouvelles méthodes pour les étudiants
+  // STUDENT API METHODS - Nouvelles méthodes pour les étudiants
 
   // Connexion étudiant
   async studentLogin(credentials) {
@@ -241,6 +212,56 @@ class ApiService {
   async verifyStudentToken() {
     return this.request("/api/student/verify", {
       isStudent: true,
+    })
+  }
+
+  // ANNOUNCEMENTS API METHODS - Méthodes pour la gestion des annonces
+
+  // Récupérer toutes les annonces (admin)
+  async getAnnouncements() {
+    return this.request("/api/admin/announcements/admin")
+  }
+
+  // Créer une nouvelle annonce
+  async createAnnouncement(formData) {
+    return this.request("/api/admin/announcements/", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+  }
+
+  // Modifier une annonce
+  async updateAnnouncement(announcementId, formData) {
+    return this.request(`/api/admin/announcements/${announcementId}`, {
+      method: "PUT",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+  }
+
+  // Supprimer une annonce
+  async deleteAnnouncement(announcementId) {
+    return this.request(`/api/admin/announcements/${announcementId}`, {
+      method: "DELETE",
+    })
+  }
+
+  // Activer/désactiver une annonce
+  async toggleAnnouncementStatus(announcementId) {
+    return this.request(`/api/admin/announcements/${announcementId}/toggle`, {
+      method: "PUT",
+    })
+  }
+
+  // Récupérer les annonces actives (public, sans authentification)
+  async getActiveAnnouncements() {
+    return this.request("/api/announcements/?active_only=true", {
+      auth: false,
     })
   }
 }

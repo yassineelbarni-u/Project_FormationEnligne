@@ -98,3 +98,20 @@ class CourseAccess(Base):
     # Relations
     student = relationship("Student", back_populates="accesses")
     course = relationship("Course", back_populates="accesses")
+
+
+class Announcement(Base):
+    __tablename__ = "announcements"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    image_url = Column(String(500), nullable=False)
+    image_filename = Column(String(255), nullable=False)
+    is_active = Column(Boolean, default=True)
+    display_order = Column(Integer, default=0)
+    admin_id = Column(Integer, ForeignKey("admins.id"))
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    
+    # Relations
+    admin = relationship("Admin", backref="announcements")
+

@@ -21,7 +21,12 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       label: "Cours",
       access: "all",
     },
-
+    {
+      path: "/admin/announcements",
+      icon: "campaign",
+      label: "Annonces",
+      access: "superadmin", // Réservé aux super admins
+    },
     {
       path: "/admin/students",
       icon: "people",

@@ -4,12 +4,14 @@ Point d'entrée principal FastAPI avec toutes les routes
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import uvicorn
+import os
 
 # Imports locaux
 from app.database import engine
 from app.models import Base
-from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses , admin_management
+from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses, admin_management, announcements
 
 # Créer les tables
 Base.metadata.create_all(bind=engine)
@@ -39,6 +41,16 @@ app.include_router(admin_students.router, prefix="/api/admin/students", tags=["a
 app.include_router(admin_accesses.router, prefix="/api/admin/accesses", tags=["admin_accesses"])
 app.include_router(admin_management.router, prefix="/api/admin/management", tags=["admin_management"])
 
+app.include_router(announcements.router, prefix="/api/admin/announcements", tags=["announcements_admin"])
+app.include_router(announcements.router, prefix="/api/announcements", tags=["announcements_public"])
+
+# Créer le dossier pour les images d'annonces dans le backend
+announcements_images_dir = "backend/uploads/images/announcements"
+os.makedirs(announcements_images_dir, exist_ok=True)
+
+# Servir les fichiers statiques depuis le backend
+app.mount("/images", StaticFiles(directory="backend/uploads/images"), name="images")
+
 @app.get("/")
 async def root():
     return {"message": "API Système de Gestion des Cours"}
@@ -48,5 +60,5 @@ async def health_check():
     return {"status": "healthy"}
 
 if __name__ == "__main__":
-    print("🚀 Démarrage du serveur avec système de gestion vidéos...")
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    print("🚀 Démarrage du serveur avec système de gestion des annonces...")
+    uvicorn.run(app, host="0.0.0.0", port=8002)

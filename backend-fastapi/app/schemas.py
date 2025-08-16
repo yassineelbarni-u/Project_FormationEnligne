@@ -166,3 +166,29 @@ class DashboardStats(BaseModel):
     total_students: int
     total_accesses: int
     recent_activity: List[dict]
+
+
+# ==================== SCHÉMAS ANNONCES ====================
+
+class AnnouncementBase(BaseModel):
+    is_active: bool = True
+    display_order: int = 0
+
+class AnnouncementCreate(AnnouncementBase):
+    pass
+
+class AnnouncementUpdate(BaseModel):
+    is_active: Optional[bool] = None
+    display_order: Optional[int] = None
+
+class AnnouncementResponse(AnnouncementBase):
+    id: int
+    image_url: str
+    image_filename: str
+    admin_id: Optional[int]
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
+

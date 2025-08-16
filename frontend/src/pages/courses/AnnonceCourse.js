@@ -1,37 +1,34 @@
 "use client"
+
+import { useState, useEffect } from "react"
 import Header from "../../components/common/Header"
 import Footer from "../../components/common/Footer"
+import apiService from "../../utils/api"
 import "./AnnonceCourse.css"
 
-const AnnonceCoursePage = () => {
-  // <CHANGE> Suppression de la logique carrousel, ajout d'une grille de cards
-  const annonceImages = [
-    {
-      src: "/images/preparation_examane.png",
-      alt: "Préparation aux concours - Cours de soutien",
-      title: "Préparation aux concours 2026"
-    },
-    {
-      src: "/advanced-math-class.png",
-      alt: "Cours de mathématiques avancées",
-      title: "Mathématiques Avancées"
-    },
-    {
-      src: "/cours-physique-chimie.png",
-      alt: "Cours de physique et chimie",
-      title: "Physique & Chimie"
-    },
-    {
-      src: "/cours-informatique.png",
-      alt: "Cours d'informatique",
-      title: "Informatique"
-    },
-  ]
+const AnnonceCourse = () => {
+  const [announcements, setAnnouncements] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const handleWhatsAppClick = (courseTitle) => {
+  useEffect(() => {
+    fetchAnnouncements()
+  }, [])
+
+  const fetchAnnouncements = async () => {
+    try {
+      const data = await apiService.getActiveAnnouncements()
+      setAnnouncements(data)
+    } catch (error) {
+      console.error("Erreur lors du chargement des annonces:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleWhatsAppClick = (announcementTitle) => {
     const phoneNumber = "+212631262790"
-    const message = `Bonjour, je suis intéressé(e) par le cours "${courseTitle}". Pouvez-vous me donner plus d'informations ?`
-    const whatsappUrl = `https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(message)}`
+    const message = `Bonjour, je suis intéressé(e) par "${announcementTitle}". Pouvez-vous me donner plus d'informations ?`
+    const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")
   }
 
@@ -39,38 +36,53 @@ const AnnonceCoursePage = () => {
     <div className="annonce-course-page">
       <Header />
 
-      <section className="annonce-course-section">
-        <div className="annonce-course-container">
-          {/* <CHANGE> Grille de cards au lieu du carrousel */}
-          <div className="annonces-grid">
-            {annonceImages.map((annonce, index) => (
-              <div key={index} className="annonce-card">
-                <div className="annonce-image-wrapper">
-                  <img
-                    src={annonce.src || "/placeholder.svg"}
-                    alt={annonce.alt}
-                    className="annonce-image"
-                  />
-                </div>
-                
-                <div className="annonce-action">
-                  <button 
-                    className="whatsapp-button" 
-                    onClick={() => handleWhatsAppClick(annonce.title)}
-                  >
-                    <span className="whatsapp-icon">📱</span>
-                    S'inscrire cours
-                  </button>
-                </div>
-              </div>
-            ))}
+      <main className="main-content">
+        <div className="container">
+          <div className="page-header">
+            <h1>Nos Annonces de Cours</h1>
+            <p>Découvrez toutes nos formations disponibles</p>
           </div>
+
+          {loading ? (
+            <div className="loading-state">
+              <div className="loading-spinner"></div>
+              <p>Chargement des annonces...</p>
+            </div>
+          ) : announcements.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">
+                <span className="material-symbols-outlined">campaign</span>
+              </div>
+              <h3>Aucune annonce disponible</h3>
+              <p>Revenez bientôt pour découvrir nos nouvelles formations</p>
+            </div>
+          ) : (
+            <div className="announcements-grid">
+              {announcements.map((announcement) => (
+                <div key={announcement.id} className="announcement-card">
+                  <div className="announcement-image">
+                    <img
+                      src={`http://localhost:8002${announcement.image_url}` || "/placeholder.svg"}
+                      alt="Annonce de cours"
+                    />
+                  </div>
+
+                  <div className="announcement-footer">
+                    <button className="whatsapp-button" onClick={() => handleWhatsAppClick("cette formation")}>
+                      <span className="material-symbols-outlined">phone</span>
+                      S'inscrire cours
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </section>
+      </main>
 
       <Footer />
     </div>
   )
 }
 
-export default AnnonceCoursePage
+export default AnnonceCourse
