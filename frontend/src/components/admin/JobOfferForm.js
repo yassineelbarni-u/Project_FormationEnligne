@@ -8,8 +8,6 @@ const JobOfferForm = ({ initialData, onSubmit, onCancel }) => {
     title: initialData?.title || "",
     company: initialData?.company || "",
     location: initialData?.location || "",
-    job_type: initialData?.job_type || "CDI",
-    experience_level: initialData?.experience_level || "Intermédiaire",
     description: initialData?.description || "",
     requirements: initialData?.requirements || "",
     benefits: initialData?.benefits || "",
@@ -157,32 +155,6 @@ const JobOfferForm = ({ initialData, onSubmit, onCancel }) => {
                 onChange={handleInputChange}
                 placeholder="Ex: 15 000 - 25 000 MAD"
               />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="job_type">Type de contrat</label>
-              <select id="job_type" name="job_type" value={formData.job_type} onChange={handleInputChange}>
-                <option value="CDI">CDI</option>
-                <option value="CDD">CDD</option>
-                <option value="Stage">Stage</option>
-                <option value="Freelance">Freelance</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="experience_level">Niveau d'expérience</label>
-              <select
-                id="experience_level"
-                name="experience_level"
-                value={formData.experience_level}
-                onChange={handleInputChange}
-              >
-                <option value="Débutant">Débutant</option>
-                <option value="Intermédiaire">Intermédiaire</option>
-                <option value="Senior">Senior</option>
-              </select>
             </div>
           </div>
 

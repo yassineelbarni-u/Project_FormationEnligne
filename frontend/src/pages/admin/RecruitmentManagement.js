@@ -156,7 +156,6 @@ const RecruitmentManagement = () => {
                 <tr>
                   <th>Titre</th>
                   <th>Entreprise</th>
-                  <th>Type</th>
                   <th>Statut</th>
                   <th>Candidatures</th>
                   <th>Date limite</th>
@@ -174,9 +173,6 @@ const RecruitmentManagement = () => {
                       </div>
                     </td>
                     <td>{offer.company}</td>
-                    <td>
-                      <span className={`job-type-badge ${offer.job_type.toLowerCase()}`}>{offer.job_type}</span>
-                    </td>
                     <td>
                       <button
                         onClick={() => handleToggleStatus(offer.id)}

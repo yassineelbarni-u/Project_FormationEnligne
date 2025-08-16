@@ -202,7 +202,6 @@ const JobApplication = () => {
             <div className="job-summary">
               <span className="company">{jobOffer?.company}</span>
               {jobOffer?.location && <span className="location">📍 {jobOffer.location}</span>}
-              <span className={`job-type ${jobOffer?.job_type.toLowerCase()}`}>{jobOffer?.job_type}</span>
             </div>
           </div>
 
@@ -211,12 +210,6 @@ const JobApplication = () => {
               <div className="job-info-card">
                 <h3>Détails de l'offre</h3>
                 <div className="job-meta">
-                  <div className="meta-item">
-                    <strong>Type:</strong> {jobOffer?.job_type}
-                  </div>
-                  <div className="meta-item">
-                    <strong>Expérience:</strong> {jobOffer?.experience_level}
-                  </div>
                   {jobOffer?.salary_range && (
                     <div className="meta-item">
                       <strong>Salaire:</strong> {jobOffer.salary_range}

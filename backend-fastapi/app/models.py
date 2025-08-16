@@ -28,6 +28,7 @@ class Admin(Base):
     courses = relationship("Course", back_populates="admin")
     videos = relationship("Video", back_populates="admin")
     job_offers = relationship("JobOffer", back_populates="admin")
+    announcements = relationship("Announcement", back_populates="admin")
 
 class Course(Base):
     __tablename__ = "courses"
@@ -113,7 +114,7 @@ class Announcement(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     
     # Relations
-    admin = relationship("Admin", backref="announcements")
+    admin = relationship("Admin", back_populates="announcements")
 
 class JobOffer(Base):
     __tablename__ = "job_offers"
@@ -122,8 +123,6 @@ class JobOffer(Base):
     title = Column(String(255), nullable=False, index=True)
     company = Column(String(255), nullable=False)
     location = Column(String(255))
-    job_type = Column(String(50))  # "CDI", "CDD", "Stage", "Freelance"
-    experience_level = Column(String(50))  # "Débutant", "Intermédiaire", "Senior"
     description = Column(Text, nullable=False)
     requirements = Column(Text)
     benefits = Column(Text)

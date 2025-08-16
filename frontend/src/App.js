@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 // Importer d'abord les styles globaux pour que les styles spécifiques aux composants puissent les surcharger
 import "./styles/globals.css"
+// import "./styles/recruitment.css"
+
 import "./App.css"
 
 // Ensuite importer les composants
@@ -37,7 +39,7 @@ const ProtectedRoute = ({ children }) => {
   return token ? children : <Navigate to="/login" />
 }
 
-// 🆕 Composant de protection pour les super admins uniquement
+// Composant de protection pour les super admins uniquement
 const SuperAdminRoute = ({ children }) => {
   const token = localStorage.getItem("token")
   const userData = localStorage.getItem("user")
@@ -213,17 +215,17 @@ function App() {
           <Route
             path="/admin/recruitment"
             element={
-              <ProtectedRoute>
+              <SuperAdminRoute>
                 <RecruitmentManagement />
-              </ProtectedRoute>
+              </SuperAdminRoute>
             }
           />
           <Route
             path="/admin/applications"
             element={
-              <ProtectedRoute>
+              <SuperAdminRoute>
                 <ApplicationsManagement />
-              </ProtectedRoute>
+              </SuperAdminRoute>
             }
           />
 

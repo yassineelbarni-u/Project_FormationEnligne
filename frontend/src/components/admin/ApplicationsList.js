@@ -41,7 +41,7 @@ const ApplicationsList = ({ applications, onViewDetails, onStatusUpdate, onDownl
 
   return (
     <div className="applications-list">
-      <div className="applications-table-container">
+      <div className="applications-table-container desktop-only">
         <table className="applications-table">
           <thead>
             <tr>
@@ -120,6 +120,71 @@ const ApplicationsList = ({ applications, onViewDetails, onStatusUpdate, onDownl
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="applications-mobile-cards mobile-tablet-only">
+        {applications.map((application) => (
+          <div key={application.id} className={`application-mobile-card ${application.status}`}>
+            <div className="card-header">
+              <div className="candidate-name">
+                <strong>
+                  {application.first_name} {application.last_name}
+                </strong>
+              </div>
+              {getStatusBadge(application.status)}
+            </div>
+
+            <div className="card-content">
+              <div className="job-title">
+                <span className="label">Poste:</span>
+                <span className="value">{application.job_title}</span>
+              </div>
+
+              <div className="company-name">
+                <span className="label">Entreprise:</span>
+                <span className="value">{application.company_name}</span>
+              </div>
+
+              <div className="application-date">
+                <span className="label">Date:</span>
+                <span className="value">{formatDate(application.created_at)}</span>
+              </div>
+            </div>
+
+            <div className="card-actions">
+              <div className="status-control">
+                <select
+                  value={application.status}
+                  onChange={(e) => handleQuickStatusChange(application.id, e.target.value)}
+                  className={`mobile-status-select ${application.status}`}
+                >
+                  <option value="pending">En attente</option>
+                  <option value="reviewed">Examinée</option>
+                  <option value="accepted">Acceptée</option>
+                  <option value="rejected">Refusée</option>
+                </select>
+              </div>
+
+              <div className="action-buttons">
+                {application.cv_url && (
+                  <button
+                    onClick={() =>
+                      onDownloadCV(application.cv_url, `${application.first_name}_${application.last_name}`)
+                    }
+                    className="mobile-cv-btn"
+                    title="Télécharger le CV"
+                  >
+                    📄 CV
+                  </button>
+                )}
+
+                <button onClick={() => onViewDetails(application)} className="mobile-details-btn">
+                  Voir détails
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

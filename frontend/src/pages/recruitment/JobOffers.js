@@ -12,8 +12,6 @@ const JobOffers = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [filters, setFilters] = useState({
-    jobType: "",
-    experienceLevel: "",
     location: "",
   })
 
@@ -35,11 +33,7 @@ const JobOffers = () => {
   }
 
   const filteredOffers = jobOffers.filter((offer) => {
-    return (
-      (!filters.jobType || offer.job_type === filters.jobType) &&
-      (!filters.experienceLevel || offer.experience_level === filters.experienceLevel) &&
-      (!filters.location || offer.location?.toLowerCase().includes(filters.location.toLowerCase()))
-    )
+    return !filters.location || offer.location?.toLowerCase().includes(filters.location.toLowerCase())
   })
 
   const formatDate = (dateString) => {
@@ -93,44 +87,7 @@ const JobOffers = () => {
           )}
 
           {/* Filtres */}
-          <div className="filters-section">
-            <h3>Filtrer les offres</h3>
-            <div className="filters-grid">
-              <div className="filter-group">
-                <label>Type de contrat</label>
-                <select value={filters.jobType} onChange={(e) => setFilters({ ...filters, jobType: e.target.value })}>
-                  <option value="">Tous les types</option>
-                  <option value="CDI">CDI</option>
-                  <option value="CDD">CDD</option>
-                  <option value="Stage">Stage</option>
-                  <option value="Freelance">Freelance</option>
-                </select>
-              </div>
-
-              <div className="filter-group">
-                <label>Niveau d'expérience</label>
-                <select
-                  value={filters.experienceLevel}
-                  onChange={(e) => setFilters({ ...filters, experienceLevel: e.target.value })}
-                >
-                  <option value="">Tous les niveaux</option>
-                  <option value="Débutant">Débutant</option>
-                  <option value="Intermédiaire">Intermédiaire</option>
-                  <option value="Senior">Senior</option>
-                </select>
-              </div>
-
-              <div className="filter-group">
-                <label>Localisation</label>
-                <input
-                  type="text"
-                  placeholder="Ville ou région..."
-                  value={filters.location}
-                  onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                />
-              </div>
-            </div>
-          </div>
+         
 
           {/* Liste des offres */}
           <div className="job-offers-grid">
@@ -152,8 +109,6 @@ const JobOffers = () => {
 
                   <div className="card-body">
                     <div className="job-meta">
-                      <span className={`job-type ${offer.job_type.toLowerCase()}`}>{offer.job_type}</span>
-                      <span className="experience-level">{offer.experience_level}</span>
                       {offer.salary_range && <span className="salary">💰 {offer.salary_range}</span>}
                     </div>
 

@@ -200,8 +200,6 @@ class JobOfferBase(BaseModel):
     title: str
     company: str
     location: Optional[str] = None
-    job_type: str  # "CDI", "CDD", "Stage", "Freelance"
-    experience_level: str  # "Débutant", "Intermédiaire", "Senior"
     description: str
     requirements: Optional[str] = None
     benefits: Optional[str] = None
@@ -215,8 +213,6 @@ class JobOfferUpdate(BaseModel):
     title: Optional[str] = None
     company: Optional[str] = None
     location: Optional[str] = None
-    job_type: Optional[str] = None
-    experience_level: Optional[str] = None
     description: Optional[str] = None
     requirements: Optional[str] = None
     benefits: Optional[str] = None
