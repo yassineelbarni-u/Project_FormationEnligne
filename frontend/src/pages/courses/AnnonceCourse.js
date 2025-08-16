@@ -62,7 +62,11 @@ const AnnonceCourse = () => {
                 <div key={announcement.id} className="announcement-card">
                   <div className="announcement-image">
                     <img
+<<<<<<< HEAD
                       src={`http://localhost:8001${announcement.image_url}` || "/placeholder.svg"}
+=======
+                      src={`http://localhost:8002${announcement.image_url}` || "/placeholder.svg"}
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
                       alt="Annonce de cours"
                     />
                   </div>

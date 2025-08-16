@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 /* Styles améliorés pour des images plus grandes et seulement 2 annonces par ligne */
 
 .annonce-course-page {
   min-height: 100vh;
   /* Fond plus coloré inspiré de l'image de référence */
+=======
+/* Styles complètement refaits pour un rendu professionnel */
+
+.annonce-course-page {
+  min-height: 100vh;
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   display: flex;
   flex-direction: column;
@@ -14,7 +21,11 @@
 }
 
 .container {
+<<<<<<< HEAD
   max-width: 1400px; /* Conteneur plus large pour accommoder 2 cartes plus grandes */
+=======
+  max-width: 1400px;
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -27,7 +38,10 @@
 .page-header h1 {
   font-size: 3.5rem;
   font-weight: 800;
+<<<<<<< HEAD
   /* Couleur blanche pour contraster avec le fond coloré */
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   color: #1e293b;
   margin-bottom: 16px;
   background: linear-gradient(135deg, #1e293b 0%, #4f46e5 100%);
@@ -38,13 +52,17 @@
 
 .page-header p {
   font-size: 1.3rem;
+<<<<<<< HEAD
   /* Couleur blanche avec opacité pour le sous-titre */
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   color: #64748b;
   font-weight: 500;
   max-width: 600px;
   margin: 0 auto;
 }
 
+<<<<<<< HEAD
 /* Grille modifiée pour afficher exactement 2 annonces par ligne avec des cartes plus grandes */
 .announcements-grid {
   display: grid;
@@ -55,6 +73,15 @@
 }
 
 /* Cartes plus grandes avec des images sans limitation de taille */
+=======
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 .announcement-card {
   background: white;
   border-radius: 24px;
@@ -63,8 +90,11 @@
   border: 1px solid rgba(255, 255, 255, 0.8);
   transition: all 0.4s ease;
   position: relative;
+<<<<<<< HEAD
   max-width: 800px; /* Largeur maximum plus grande */
   margin: 0 auto; /* Centre les cartes */
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 }
 
 .announcement-card::before {
@@ -75,7 +105,10 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, #4f46e5, #7c3aed, #ec4899);
+<<<<<<< HEAD
   z-index: 1;
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 }
 
 .announcement-card:hover {
@@ -83,26 +116,41 @@
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 12px 35px rgba(0, 0, 0, 0.08);
 }
 
+<<<<<<< HEAD
 /* Images beaucoup plus grandes et sans limitation de taille */
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 .announcement-image {
   position: relative;
   overflow: hidden;
   background: #f8fafc;
+<<<<<<< HEAD
   height: auto; /* Hauteur automatique selon l'image */
   min-height: 500px; /* Hauteur minimum pour les petites images */
   display: flex;
   align-items: center;
   justify-content: center;
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 }
 
 .announcement-image img {
   width: 100%;
+<<<<<<< HEAD
   height: auto; /* Hauteur automatique pour garder les proportions */
   max-width: 100%;
   object-fit: contain;
   display: block;
   transition: transform 0.4s ease;
   padding: 0; /* Supprime tout padding pour utiliser tout l'espace */
+=======
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.4s ease;
+  padding: 20px;
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 }
 
 .announcement-card:hover .announcement-image img {
@@ -112,6 +160,7 @@
 .announcement-footer {
   padding: 30px;
   text-align: center;
+<<<<<<< HEAD
   /* Dégradé plus subtil pour le footer */
   background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
   height: auto;
@@ -122,6 +171,12 @@
 
 .whatsapp-button {
   /* Dégradé WhatsApp plus vibrant */
+=======
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.whatsapp-button {
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
   color: white;
   border: none;
@@ -165,7 +220,11 @@
 }
 
 .whatsapp-icon {
+<<<<<<< HEAD
   width: 20px; /* Icône plus grande */
+=======
+  width: 20px;
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   height: 20px;
 }
 
@@ -221,6 +280,7 @@
   color: #64748b;
 }
 
+<<<<<<< HEAD
 /* Responsive design adapté pour maintenir 2 colonnes sur tablette et 1 sur mobile */
 @media (max-width: 1200px) {
   .container {
@@ -232,6 +292,9 @@
   }
 }
 
+=======
+/* Responsive Design */
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 @media (max-width: 768px) {
   .main-content {
     padding: 60px 0;
@@ -245,6 +308,7 @@
     font-size: 1.1rem;
   }
 
+<<<<<<< HEAD
   /* Sur mobile, passer à 1 colonne mais garder les grandes images */
   .announcements-grid {
     grid-template-columns: 1fr; /* Une seule colonne sur mobile */
@@ -255,6 +319,13 @@
     min-height: 400px; /* Hauteur minimum réduite sur mobile */
   }
 
+=======
+  .announcements-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   .announcement-footer {
     padding: 25px;
   }
@@ -281,17 +352,23 @@
 
   .announcements-grid {
     gap: 25px;
+<<<<<<< HEAD
     grid-template-columns: 1fr; /* Une seule colonne sur très petit écran */
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   }
 
   .announcement-card {
     border-radius: 16px;
   }
 
+<<<<<<< HEAD
   .announcement-image {
     min-height: 300px; /* Hauteur minimum pour très petits écrans */
   }
 
+=======
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
   .announcement-footer {
     padding: 20px;
   }

@@ -1,5 +1,9 @@
 // Configuration API centralisée
+<<<<<<< HEAD
 const BACKEND_URL = "http://localhost:8001"
+=======
+const BACKEND_URL = "http://localhost:8002"
+>>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
 
 class ApiService {
   constructor() {
