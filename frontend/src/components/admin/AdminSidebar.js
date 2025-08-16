@@ -1,4 +1,4 @@
-import React from "react"
+"use client"
 import { Link, useNavigate } from "react-router-dom"
 import "./AdminSidebar.css"
 
@@ -40,6 +40,18 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       access: "all",
     },
     {
+      path: "/admin/recruitment",
+      icon: "work",
+      label: "Recrutement",
+      access: "superadmin",
+    },
+    {
+      path: "/admin/applications",
+      icon: "assignment",
+      label: "Candidatures",
+      access: "superadmin",
+    },
+    {
       path: "/admin/manage-admins",
       icon: "admin_panel_settings",
       label: "Gestion Admins",
@@ -47,7 +59,7 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
     },
   ]
 
-  const filteredItems = menuItems.filter(item => {
+  const filteredItems = menuItems.filter((item) => {
     if (item.access === "all") return true
     if (item.access === "superadmin" && isSuperAdmin) return true
     return false
@@ -67,14 +79,10 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
         </div>
 
         <div className="user-info">
-          <div className="avatar">
-            {user?.name?.charAt(0) || "A"}
-          </div>
+          <div className="avatar">{user?.name?.charAt(0) || "A"}</div>
           <div className="user-details">
             <p className="user-name">{user?.name || "Admin"}</p>
-            <p className="user-role">
-              {isSuperAdmin ? "Super Administrateur" : "Administrateur"}
-            </p>
+            <p className="user-role">{isSuperAdmin ? "Super Administrateur" : "Administrateur"}</p>
           </div>
         </div>
 
@@ -82,11 +90,7 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
           <ul>
             {filteredItems.map((item) => (
               <li key={item.path}>
-                <Link
-                  to={item.path}
-                  className={currentPath === item.path ? "active" : ""}
-                  onClick={onClose}
-                >
+                <Link to={item.path} className={currentPath === item.path ? "active" : ""} onClick={onClose}>
                   <span className="material-symbols-outlined">{item.icon}</span>
                   {item.label}
                 </Link>

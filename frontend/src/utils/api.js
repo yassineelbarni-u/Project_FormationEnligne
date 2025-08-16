@@ -170,6 +170,35 @@ class ApiService {
     })
   }
 
+  // Admin Management - Méthodes pour la gestion des administrateurs
+  async getAdmins() {
+    return this.request("/api/admin/management/")
+  }
+
+  async createAdmin(adminData) {
+    return this.request("/api/admin/management/", {
+      method: "POST",
+      body: JSON.stringify(adminData),
+    })
+  }
+
+  async getAdmin(adminId) {
+    return this.request(`/api/admin/management/${adminId}`)
+  }
+
+  async updateAdmin(adminId, adminData) {
+    return this.request(`/api/admin/management/${adminId}`, {
+      method: "PUT",
+      body: JSON.stringify(adminData),
+    })
+  }
+
+  async deleteAdmin(adminId) {
+    return this.request(`/api/admin/management/${adminId}`, {
+      method: "DELETE",
+    })
+  }
+
   async toggleAdminStatus(adminId) {
     return this.request(`/api/admin/management/${adminId}/toggle-status`, {
       method: "PUT",
@@ -263,6 +292,149 @@ class ApiService {
     return this.request("/api/announcements/?active_only=true", {
       auth: false,
     })
+  }
+
+  // RECRUITMENT API METHODS - Méthodes pour la gestion du recrutement
+
+  // Récupérer toutes les offres d'emploi (public)
+  async getJobOffers(activeOnly = false) {
+    const endpoint = activeOnly ? "/api/recruitment/?active_only=true" : "/api/recruitment/"
+    return this.request(endpoint, {
+      auth: false,
+    })
+  }
+
+  // Récupérer une offre d'emploi spécifique (public)
+  async getJobOffer(jobOfferId) {
+    return this.request(`/api/recruitment/${jobOfferId}`, {
+      auth: false,
+    })
+  }
+
+  // Créer une nouvelle offre d'emploi (admin)
+  async createJobOffer(jobOfferData) {
+    return this.request("/api/admin/recruitment/", {
+      method: "POST",
+      body: JSON.stringify(jobOfferData),
+    })
+  }
+
+  // Modifier une offre d'emploi (admin)
+  async updateJobOffer(jobOfferId, jobOfferData) {
+    return this.request(`/api/admin/recruitment/${jobOfferId}`, {
+      method: "PUT",
+      body: JSON.stringify(jobOfferData),
+    })
+  }
+
+  // Supprimer une offre d'emploi (admin)
+  async deleteJobOffer(jobOfferId) {
+    return this.request(`/api/admin/recruitment/${jobOfferId}`, {
+      method: "DELETE",
+    })
+  }
+
+  // Activer/désactiver une offre d'emploi (admin)
+  async toggleJobOfferStatus(jobOfferId) {
+    return this.request(`/api/admin/recruitment/${jobOfferId}/toggle`, {
+      method: "PUT",
+    })
+  }
+
+  // Récupérer toutes les offres d'emploi pour l'admin
+  async getAdminJobOffers() {
+    return this.request("/api/admin/recruitment/")
+  }
+
+  // JOB APPLICATIONS API METHODS - Méthodes pour la gestion des candidatures
+
+  // Créer une nouvelle candidature (public)
+  async createJobApplication(applicationData) {
+    return this.request("/api/applications/", {
+      method: "POST",
+      body: applicationData, // FormData avec fichier CV
+      headers: {
+        // Ne pas définir Content-Type pour FormData
+        Authorization: localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token")}` : undefined,
+      },
+      auth: false,
+    })
+  }
+
+  // Récupérer toutes les candidatures (admin)
+  async getJobApplications(jobOfferId = null, status = null) {
+    let endpoint = "/api/admin/applications/"
+    const params = new URLSearchParams()
+
+    if (jobOfferId) params.append("job_offer_id", jobOfferId)
+    if (status) params.append("status", status)
+
+    if (params.toString()) {
+      endpoint += `?${params.toString()}`
+    }
+
+    return this.request(endpoint)
+  }
+
+  // Récupérer une candidature spécifique (admin)
+  async getJobApplication(applicationId) {
+    return this.request(`/api/admin/applications/${applicationId}`)
+  }
+
+  // Modifier une candidature (admin)
+  async updateJobApplication(applicationId, applicationData) {
+    return this.request(`/api/admin/applications/${applicationId}`, {
+      method: "PUT",
+      body: JSON.stringify(applicationData),
+    })
+  }
+
+  // Supprimer une candidature (admin)
+  async deleteJobApplication(applicationId) {
+    return this.request(`/api/admin/applications/${applicationId}`, {
+      method: "DELETE",
+    })
+  }
+
+  // Télécharger un CV (admin)
+  async downloadCV(cvUrl) {
+    const url = `${this.baseURL}${cvUrl}`
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error("Erreur lors du téléchargement du CV")
+    }
+
+    return response.blob()
+  }
+
+  // Exporter les candidatures en CSV (admin)
+  async exportApplicationsCSV(jobOfferId = null) {
+    let endpoint = "/api/admin/applications/export"
+    if (jobOfferId) {
+      endpoint += `?job_offer_id=${jobOfferId}`
+    }
+
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'export des candidatures")
+    }
+
+    return response.blob()
+  }
+
+  // Obtenir les statistiques de recrutement (admin)
+  async getRecruitmentStats() {
+    return this.request("/api/admin/recruitment/stats")
   }
 }
 

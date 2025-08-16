@@ -9,7 +9,7 @@ const Header = () => {
   const schools = ["ENSA", "FST", "FS", "EST", "ENCG", "ENSAM"]
 
   // Couleur rouge cramoisi fixe
-  const schoolColor = "#DC143C" 
+  const schoolColor = "#DC143C"
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,6 +71,9 @@ const Header = () => {
             <a href="#faq" className="nav-link">
               FAQ
             </a>
+            <Link to="/recruitment" className="nav-link recruitment-link">
+              Recrutement
+            </Link>
             <a href="#contact" className="nav-link">
               Contact
             </a>
@@ -79,10 +82,7 @@ const Header = () => {
             </Link>
           </div>
 
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
+          <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             ☰
           </button>
         </div>

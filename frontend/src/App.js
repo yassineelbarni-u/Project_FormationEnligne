@@ -20,6 +20,12 @@ import AccessForm from "./pages/admin/AccessForm"
 import AdminManagement from "./pages/admin/AdminManagement"
 import AnnouncementManagement from "./pages/admin/AnnouncementManagement"
 
+import RecruitmentManagement from "./pages/admin/RecruitmentManagement"
+import ApplicationsManagement from "./pages/admin/ApplicationsManagement"
+import JobOffers from "./pages/recruitment/JobOffers"
+import JobApplication from "./pages/recruitment/JobApplication"
+import JobApplicationSuccess from "./pages/recruitment/JobApplicationSuccess"
+
 // Import pages étudiantes
 import StudentLogin from "./pages/student/StudentLogin"
 import StudentDashboard from "./pages/student/StudentDashboard"
@@ -65,6 +71,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<AnnonceCoursePage />} />
           <Route path="/login" element={<Login />} />
+
+          <Route path="/recruitment" element={<JobOffers />} />
+          <Route path="/recruitment/offer/:jobId" element={<JobOffers />} />
+          <Route path="/recruitment/apply/:jobId" element={<JobApplication />} />
+          <Route path="/recruitment/application-success" element={<JobApplicationSuccess />} />
 
           {/* Routes admin protégées */}
           <Route
@@ -195,6 +206,23 @@ function App() {
             element={
               <ProtectedRoute>
                 <AnnouncementManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/recruitment"
+            element={
+              <ProtectedRoute>
+                <RecruitmentManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/applications"
+            element={
+              <ProtectedRoute>
+                <ApplicationsManagement />
               </ProtectedRoute>
             }
           />

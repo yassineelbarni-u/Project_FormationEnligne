@@ -192,3 +192,76 @@ class AnnouncementResponse(AnnouncementBase):
     class Config:
         from_attributes = True
 
+
+
+# ==================== SCHÉMAS RECRUTEMENT ====================
+
+class JobOfferBase(BaseModel):
+    title: str
+    company: str
+    location: Optional[str] = None
+    job_type: str  # "CDI", "CDD", "Stage", "Freelance"
+    experience_level: str  # "Débutant", "Intermédiaire", "Senior"
+    description: str
+    requirements: Optional[str] = None
+    benefits: Optional[str] = None
+    salary_range: Optional[str] = None
+    application_deadline: Optional[datetime] = None
+
+class JobOfferCreate(JobOfferBase):
+    pass
+
+class JobOfferUpdate(BaseModel):
+    title: Optional[str] = None
+    company: Optional[str] = None
+    location: Optional[str] = None
+    job_type: Optional[str] = None
+    experience_level: Optional[str] = None
+    description: Optional[str] = None
+    requirements: Optional[str] = None
+    benefits: Optional[str] = None
+    salary_range: Optional[str] = None
+    application_deadline: Optional[datetime] = None
+    is_active: Optional[bool] = None
+
+class JobOfferResponse(JobOfferBase):
+    id: int
+    is_active: bool
+    admin_id: int
+    created_at: datetime
+    updated_at: datetime
+    applications_count: Optional[int] = 0
+    
+    class Config:
+        from_attributes = True
+
+class JobApplicationBase(BaseModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
+    phone: Optional[str] = None
+    cover_letter: Optional[str] = None
+
+class JobApplicationCreate(JobApplicationBase):
+    job_offer_id: int
+
+class JobApplicationUpdate(BaseModel):
+    status: Optional[str] = None  # "pending", "reviewed", "accepted", "rejected"
+    admin_notes: Optional[str] = None
+
+class JobApplicationResponse(JobApplicationBase):
+    id: int
+    job_offer_id: int
+    cv_filename: Optional[str]
+    cv_url: Optional[str]
+    status: str
+    admin_notes: Optional[str]
+    created_at: datetime
+    updated_at: datetime
+    
+    # Informations supplémentaires
+    job_title: Optional[str] = None
+    company_name: Optional[str] = None
+    
+    class Config:
+        from_attributes = True

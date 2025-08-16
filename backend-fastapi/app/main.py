@@ -12,6 +12,7 @@ import os
 from app.database import engine
 from app.models import Base
 from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses, admin_management, announcements
+from app.routes import recruitment, applications
 
 # Créer les tables
 Base.metadata.create_all(bind=engine)
@@ -44,21 +45,30 @@ app.include_router(admin_management.router, prefix="/api/admin/management", tags
 app.include_router(announcements.router, prefix="/api/admin/announcements", tags=["announcements_admin"])
 app.include_router(announcements.router, prefix="/api/announcements", tags=["announcements_public"])
 
+app.include_router(recruitment.router, prefix="/api/recruitment", tags=["recruitment"])
+app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
+app.include_router(recruitment.router, prefix="/api/admin/recruitment", tags=["admin_recruitment"])
+app.include_router(applications.router, prefix="/api/admin/applications", tags=["admin_applications"])
+
 # Créer le dossier pour les images d'annonces dans le backend
 announcements_images_dir = "backend/uploads/images/announcements"
 os.makedirs(announcements_images_dir, exist_ok=True)
 
+cv_upload_dir = "backend/uploads/cv"
+os.makedirs(cv_upload_dir, exist_ok=True)
+
 # Servir les fichiers statiques depuis le backend
 app.mount("/images", StaticFiles(directory="backend/uploads/images"), name="images")
+app.mount("/cv", StaticFiles(directory="backend/uploads/cv"), name="cv")
 
 @app.get("/")
 async def root():
-    return {"message": "API Système de Gestion des Cours"}
+    return {"message": "API Système de Gestion des Cours avec Recrutement"}
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
 if __name__ == "__main__":
-    print("🚀 Démarrage du serveur avec système de gestion des annonces...")
+    print("🚀 Démarrage du serveur avec système de recrutement...")
     uvicorn.run(app, host="0.0.0.0", port=8001)
