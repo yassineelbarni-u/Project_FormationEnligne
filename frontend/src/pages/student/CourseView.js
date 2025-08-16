@@ -214,7 +214,6 @@ const CourseView = () => {
                 <div key={moduleName} className="module-section">
                   <div className="module-header" onClick={() => toggleModule(moduleName)}>
                     <div className="module-info">
-                      <div className="module-icon">📁</div>
                       <div className="module-details">
                         <h3 className="module-title">{moduleName}</h3>
                         <span className="module-count">{moduleVideos.length} vidéos</span>
