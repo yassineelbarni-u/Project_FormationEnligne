@@ -16,15 +16,9 @@ const Home = () => {
       <HeroSection />
       <WhyChooseUsSection />
       <ServicesSection />
-<<<<<<< HEAD
       <AnnonceSection />
       <TestimonialsSection />
       <VideoSection />
-=======
-      <VideoSection />
-      <AnnonceSection />
-      <TestimonialsSection />
->>>>>>> c79657081c0335c07b1c654f0d60fb8a6cf4dac1
       <FAQSection />
       <ContactSection />
     
