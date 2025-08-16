@@ -1,0 +1,627 @@
+/* Page principale des étudiants */
+.students-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Header de la page */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.page-header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Bouton principal */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.loading-container p {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Liste des étudiants */
+.students-list {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+/* Statistiques */
+.stats-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.student-count {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4f46e5;
+  margin: 0;
+}
+
+.student-count-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Container du tableau */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Tableau */
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+/* En-têtes */
+.students-table thead {
+  background-color: #f9fafb;
+}
+
+.students-table th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Lignes */
+.students-table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.students-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.students-table td {
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+  color: #374151;
+}
+
+/* Informations étudiant */
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.student-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.student-name {
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Email */
+.email-text {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+/* Téléphone */
+.phone-text {
+  color: #6b7280;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* Badges de niveau */
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.level-débutant {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.level-intermédiaire {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.level-avancé {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.level-unknown {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+/* Date */
+.date-text {
+  color: #6b7280;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.8125rem;
+}
+
+/* Boutons d'action */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+}
+
+.btn-icon.edit {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.btn-icon.edit:hover {
+  background-color: #dbeafe;
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+.btn-icon.danger {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.btn-icon.danger:hover {
+  background-color: #fee2e2;
+  border-color: #f87171;
+  transform: translateY(-1px);
+}
+
+/* État vide */
+.no-data {
+  text-align: center;
+  padding: 3rem 2rem !important;
+  color: #6b7280;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.empty-state p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Tablettes (1024px et moins) */
+@media (max-width: 1024px) {
+  .students-container {
+    padding: 1.5rem;
+  }
+
+  .page-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .stats-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .students-table th,
+  .students-table td {
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+/* Tablettes portrait et petits écrans (768px et moins) */
+@media (max-width: 768px) {
+  .students-container {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .stats-header {
+    padding: 1rem 1.5rem;
+    text-align: center;
+  }
+
+  .student-count {
+    font-size: 1.75rem;
+  }
+
+  .students-table {
+    font-size: 0.8125rem;
+  }
+
+  .students-table th,
+  .students-table td {
+    padding: 0.75rem 1rem;
+  }
+
+  .students-table th {
+    font-size: 0.6875rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .btn-icon {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.6875rem;
+    justify-content: center;
+  }
+
+  .student-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .level-badge {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Smartphones (640px et moins) */
+@media (max-width: 640px) {
+  .students-container {
+    padding: 0.75rem;
+  }
+
+  .page-header {
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.375rem;
+  }
+
+  .students-list {
+    border-radius: 8px;
+  }
+
+  .stats-header {
+    padding: 1rem;
+  }
+
+  .student-count {
+    font-size: 1.5rem;
+  }
+
+  .student-count-label {
+    font-size: 0.8125rem;
+  }
+
+  /* Masquer certaines colonnes sur mobile */
+  .students-table th:nth-child(3),
+  .students-table td:nth-child(3),
+  .students-table th:nth-child(4),
+  .students-table td:nth-child(4),
+  .students-table th:nth-child(5),
+  .students-table td:nth-child(5) {
+    display: none;
+  }
+
+  .students-table th,
+  .students-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .student-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .student-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6875rem;
+  }
+
+  .student-name {
+    font-size: 0.875rem;
+  }
+
+  .email-text {
+    font-size: 0.8125rem;
+    word-break: break-all;
+  }
+
+  .btn-icon {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.625rem;
+    gap: 0.25rem;
+  }
+
+  .loading-container {
+    padding: 2rem 1rem;
+  }
+
+  .loading-spinner {
+    width: 32px;
+    height: 32px;
+  }
+
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1rem;
+  }
+
+  .empty-state p {
+    font-size: 0.875rem;
+  }
+}
+
+/* Très petits écrans (480px et moins) */
+@media (max-width: 480px) {
+  .students-container {
+    padding: 0.5rem;
+  }
+
+  .page-header {
+    padding: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .btn-primary {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .stats-header {
+    padding: 0.75rem;
+  }
+
+  .student-count {
+    font-size: 1.375rem;
+  }
+
+  .students-table th,
+  .students-table td {
+    padding: 0.5rem 0.375rem;
+  }
+
+  .students-table {
+    font-size: 0.75rem;
+  }
+
+  .students-table th {
+    font-size: 0.625rem;
+  }
+
+  .student-info {
+    gap: 0.375rem;
+  }
+
+  .student-name {
+    font-size: 0.8125rem;
+  }
+
+  .email-text {
+    font-size: 0.75rem;
+  }
+
+  .btn-icon {
+    padding: 0.25rem 0.375rem;
+    font-size: 0.5625rem;
+  }
+
+  .action-buttons {
+    gap: 0.25rem;
+  }
+}
+
+/* Mode paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .page-header {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .btn-primary {
+    width: auto;
+    min-width: 200px;
+  }
+
+  .students-table th:nth-child(3),
+  .students-table td:nth-child(3) {
+    display: table-cell;
+  }
+}
+
+/* Amélioration de l'accessibilité sur mobile */
+@media (max-width: 768px) {
+  .btn-icon,
+  .btn-primary,
+  .btn-secondary {
+    min-height: 44px; /* Taille minimale recommandée pour le tactile */
+  }
+
+  .student-avatar {
+    min-width: 28px;
+    min-height: 28px;
+  }
+}

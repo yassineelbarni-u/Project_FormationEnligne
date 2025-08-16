@@ -1,0 +1,304 @@
+/* Styles améliorés pour des images plus grandes et seulement 2 annonces par ligne */
+
+.annonce-course-page {
+  min-height: 100vh;
+  /* Fond plus coloré inspiré de l'image de référence */
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 80px 0;
+}
+
+.container {
+  max-width: 1400px; /* Conteneur plus large pour accommoder 2 cartes plus grandes */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.page-header h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  /* Couleur blanche pour contraster avec le fond coloré */
+  color: #1e293b;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #1e293b 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-header p {
+  font-size: 1.3rem;
+  /* Couleur blanche avec opacité pour le sous-titre */
+  color: #64748b;
+  font-weight: 500;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Grille modifiée pour afficher exactement 2 annonces par ligne avec des cartes plus grandes */
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); /* Cartes encore plus larges */
+  gap: 50px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+/* Cartes plus grandes avec des images sans limitation de taille */
+.announcement-card {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.4s ease;
+  position: relative;
+  max-width: 800px; /* Largeur maximum plus grande */
+  margin: 0 auto; /* Centre les cartes */
+}
+
+.announcement-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed, #ec4899);
+  z-index: 1;
+}
+
+.announcement-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* Images beaucoup plus grandes et sans limitation de taille */
+.announcement-image {
+  position: relative;
+  overflow: hidden;
+  background: #f8fafc;
+  height: auto; /* Hauteur automatique selon l'image */
+  min-height: 500px; /* Hauteur minimum pour les petites images */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.announcement-image img {
+  width: 100%;
+  height: auto; /* Hauteur automatique pour garder les proportions */
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.4s ease;
+  padding: 0; /* Supprime tout padding pour utiliser tout l'espace */
+}
+
+.announcement-card:hover .announcement-image img {
+  transform: scale(1.05);
+}
+
+.announcement-footer {
+  padding: 30px;
+  text-align: center;
+  /* Dégradé plus subtil pour le footer */
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsapp-button {
+  /* Dégradé WhatsApp plus vibrant */
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.whatsapp-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.whatsapp-button:hover::before {
+  left: 100%;
+}
+
+.whatsapp-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
+  background: linear-gradient(135deg, #128c7e 0%, #25d366 100%);
+}
+
+.whatsapp-icon {
+  width: 20px; /* Icône plus grande */
+  height: 20px;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state p {
+  font-size: 1.2rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #cbd5e1;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-size: 1.8rem;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: #64748b;
+}
+
+/* Responsive design adapté pour maintenir 2 colonnes sur tablette et 1 sur mobile */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+
+  .announcements-grid {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 60px 0;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .page-header p {
+    font-size: 1.1rem;
+  }
+
+  /* Sur mobile, passer à 1 colonne mais garder les grandes images */
+  .announcements-grid {
+    grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    gap: 30px;
+  }
+
+  .announcement-image {
+    min-height: 400px; /* Hauteur minimum réduite sur mobile */
+  }
+
+  .announcement-footer {
+    padding: 25px;
+  }
+
+  .whatsapp-button {
+    padding: 14px 32px;
+    font-size: 1rem;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 40px 0;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .announcements-grid {
+    gap: 25px;
+    grid-template-columns: 1fr; /* Une seule colonne sur très petit écran */
+  }
+
+  .announcement-card {
+    border-radius: 16px;
+  }
+
+  .announcement-image {
+    min-height: 300px; /* Hauteur minimum pour très petits écrans */
+  }
+
+  .announcement-footer {
+    padding: 20px;
+  }
+
+  .whatsapp-button {
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    min-width: 160px;
+  }
+}

@@ -1,0 +1,102 @@
+/* Layout Admin Moderne */
+.admin-layout-modern {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #64748b;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-main-modern {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+  margin-left: 280px; /* Width of the sidebar */
+}
+
+.admin-content-modern {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: none;
+}
+
+/* Bouton de menu mobile */
+.mobile-menu-button {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 45px;
+  height: 45px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  z-index: 997;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-main-modern {
+    margin-left: 0;
+  }
+  
+  .admin-main-modern.sidebar-open {
+    margin-left: 0;
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+  
+  .mobile-menu-button {
+    display: flex;
+  }
+  
+  .admin-content-modern {
+    padding-top: 70px; /* Ajouter de l'espace pour le bouton de menu */
+  }
+}

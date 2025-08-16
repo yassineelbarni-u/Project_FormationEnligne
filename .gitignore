@@ -1,0 +1,26 @@
+
+
+# Python (FastAPI)
+__pycache__/
+*.py[cod]
+*.env
+*.db
+*.sqlite3
+
+# Venv
+backend-fastapi/venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+.next/
+
+.venv/
+venv/
+
+
+

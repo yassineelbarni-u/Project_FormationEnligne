@@ -1,0 +1,22 @@
+"""
+Configuration base de données MySQL - XAMPP
+"""
+
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# URL de connexion MySQL pour XAMPP
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/database_ilyas_nahi"
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
