@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # URL de connexion MySQL pour XAMPP
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/database_ilyas_nahi"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://user:rootpassword@db:3306/database_ilyas_nahi"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

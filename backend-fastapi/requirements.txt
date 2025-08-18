@@ -9,5 +9,6 @@ python-multipart==0.0.6
 pydantic[email]==2.5.0
 annotated_types==0.5.0
 aiofiles
+alembic
 python-multipart
 
