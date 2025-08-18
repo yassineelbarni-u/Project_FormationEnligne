@@ -4,11 +4,15 @@ Routes pour la gestion des cours
 
 from typing import List
 import re
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 import secrets
 import string
+import os
+import shutil
+from pathlib import Path
 
 from app.database import get_db
 from app.models import Admin, Course, Video, Student, CourseAccess
@@ -49,21 +53,6 @@ def generate_access_token():
 
 # ==================== GESTION DES COURS ====================
 
-@router.get("/", response_model=List[CourseResponse])
-async def get_courses(
-    current_admin: Admin = Depends(get_current_admin),
-    db: Session = Depends(get_db)
-):
-    """Récupérer tous les cours de l'admin"""
-    courses = db.query(Course).filter(Course.admin_id == current_admin.id).all()
-    
-    # Ajouter les compteurs
-    for course in courses:
-        course.video_count = db.query(Video).filter(Video.course_id == course.id).count()
-        course.student_count = len(course.students)
-    
-    return courses
-
 @router.post("/", response_model=CourseResponse)
 async def create_course(
     course: CourseCreate,
@@ -74,12 +63,17 @@ async def create_course(
     # Générer un code d'accès unique
     access_code = generate_access_code()
     
-    # Vérifier que le code est unique
+    # Vérifier que le code d'accès est unique
     while db.query(Course).filter(Course.access_code == access_code).first():
         access_code = generate_access_code()
     
+    # Créer le cours
     db_course = Course(
-        **course.dict(),
+        title=course.title,
+        description=course.description,
+        subject=course.subject,
+        level=course.level,
+        drive_folder_id=course.drive_folder_id,
         access_code=access_code,
         admin_id=current_admin.id
     )
@@ -88,11 +82,72 @@ async def create_course(
     db.commit()
     db.refresh(db_course)
     
-    # Ajouter les compteurs
-    db_course.video_count = 0
-    db_course.student_count = 0
-    
     return db_course
+
+@router.post("/{course_id}/upload-image")
+async def upload_course_image(
+    course_id: int,
+    file: UploadFile = File(...),
+    current_admin: Admin = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
+    """Upload une image pour un cours"""
+    # Vérifier que le cours appartient à l'admin
+    course = db.query(Course).filter(
+        Course.id == course_id,
+        Course.admin_id == current_admin.id
+    ).first()
+    
+    if not course:
+        raise HTTPException(status_code=404, detail="Cours non trouvé")
+    
+    # Vérifier le type de fichier
+    if not file.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail="Le fichier doit être une image")
+    
+    # Créer le dossier s'il n'existe pas
+    upload_dir = Path("backend/uploads/images/courses")
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Générer un nom de fichier unique
+    file_extension = file.filename.split('.')[-1]
+    filename = f"course_{course_id}.{file_extension}"
+    file_path = upload_dir / filename
+    
+    # Supprimer l'ancienne image si elle existe
+    if course.image_filename:
+        old_file_path = upload_dir / course.image_filename
+        if old_file_path.exists():
+            old_file_path.unlink()
+    
+    # Sauvegarder le nouveau fichier
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    # Mettre à jour la base de données
+    course.image_filename = filename
+    db.commit()
+    
+    return {"message": "Image uploadée avec succès", "filename": filename}
+
+@router.get("/", response_model=List[CourseResponse])
+async def get_courses(
+    current_admin: Admin = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
+    """Récupérer tous les cours de l'admin"""
+    courses = db.query(Course).filter(Course.admin_id == current_admin.id).all()
+    
+    # Ajouter les compteurs et URL des images
+    for course in courses:
+        course.video_count = db.query(Video).filter(Video.course_id == course.id).count()
+        course.student_count = len(course.students)
+        if course.image_filename:
+            course.image_url = f"/api/admin/courses/{course.id}/image"
+        else:
+            course.image_url = None
+    
+    return courses
 
 @router.get("/{course_id}", response_model=CourseResponse)
 async def get_course(
@@ -109,11 +164,33 @@ async def get_course(
     if not course:
         raise HTTPException(status_code=404, detail="Cours non trouvé")
     
-    # Ajouter les compteurs
+    # Ajouter les compteurs et URL de l'image
     course.video_count = db.query(Video).filter(Video.course_id == course.id).count()
     course.student_count = len(course.students)
+    if course.image_filename:
+        course.image_url = f"/api/admin/courses/{course.id}/image"
+    else:
+        course.image_url = None
     
     return course
+
+@router.get("/{course_id}/image")
+async def get_course_image(
+    course_id: int,
+    db: Session = Depends(get_db)
+):
+    """Récupérer l'image d'un cours"""
+    course = db.query(Course).filter(Course.id == course_id).first()
+    
+    if not course or not course.image_filename:
+        raise HTTPException(status_code=404, detail="Image non trouvée")
+    
+    file_path = Path("backend/uploads/images/courses") / course.image_filename
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Fichier image non trouvé")
+    
+    return FileResponse(file_path)
 
 @router.put("/{course_id}", response_model=CourseResponse)
 async def update_course(

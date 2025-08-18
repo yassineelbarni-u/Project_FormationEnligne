@@ -40,6 +40,7 @@ class Course(Base):
     level = Column(String(50))     # Débutant, Intermédiaire, Avancé
     drive_folder_id = Column(String(255))  # ID du dossier Google Drive
     access_code = Column(String(50), unique=True)  # Code d'accès unique
+    image_filename = Column(String(255), nullable=True)  # Nom du fichier image
     is_active = Column(Boolean, default=True)
     admin_id = Column(Integer, ForeignKey("admins.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -63,6 +63,7 @@ class CourseBase(BaseModel):
     subject: str
     level: str
     drive_folder_id: Optional[str] = None
+    image_filename: Optional[str] = None  # Ajout du champ image_filename pour stocker le nom du fichier image
 
 class CourseCreate(CourseBase):
     pass
@@ -71,6 +72,7 @@ class CourseUpdate(CourseBase):
     title: Optional[str] = None
     subject: Optional[str] = None
     level: Optional[str] = None
+    image_filename: Optional[str] = None  # Ajout du champ image_filename dans CourseUpdate
 
 class CourseResponse(CourseBase):
     id: int
@@ -80,6 +82,7 @@ class CourseResponse(CourseBase):
     created_at: datetime
     video_count: Optional[int] = 0
     student_count: Optional[int] = 0
+    image_url: Optional[str] = None  # Ajout du champ image_url pour l'URL complète de l'image
     
     class Config:
         from_attributes = True

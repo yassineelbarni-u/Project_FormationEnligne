@@ -100,6 +100,10 @@ async def get_my_courses(
     for course in courses:
         course.video_count = db.query(Video).filter(Video.course_id == course.id).count()
         course.student_count = len(course.students)
+        if course.image_filename:
+            course.image_url = f"/api/admin/courses/{course.id}/image"
+        else:
+            course.image_url = None
     
     return courses
 
@@ -130,6 +134,10 @@ async def get_course_details(
     # Ajouter les compteurs
     course.video_count = db.query(Video).filter(Video.course_id == course.id).count()
     course.student_count = len(course.students)
+    if course.image_filename:
+        course.image_url = f"/api/admin/courses/{course.id}/image"
+    else:
+        course.image_url = None
     
     return course
 

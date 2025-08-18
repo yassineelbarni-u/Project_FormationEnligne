@@ -161,6 +161,20 @@ const StudentDashboard = () => {
                     {getSubjectIcon(course.subject)}
                     <div className={`course-level ${getLevelBadgeClass(course.level)}`}>{course.level}</div>
                   </div>
+                  
+                  {/* Affichage de l'image du cours */}
+                  <div className="course-image">
+                    <img
+                      src={course.image_filename ? 
+                        `http://localhost:8001/api/admin/courses/${course.id}/image` :
+                        "/assets/math-course.png"}
+                      alt={course.title}
+                      onError={(e) => {
+                        e.target.src = "/assets/math-course.png"
+                        e.target.onerror = null
+                      }}
+                    />
+                  </div>
 
                   <div className="course-content">
                     <div className="course-subject">{course.subject}</div>

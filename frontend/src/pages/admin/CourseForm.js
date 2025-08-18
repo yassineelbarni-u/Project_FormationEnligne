@@ -16,9 +16,12 @@ const CourseForm = () => {
     subject: "",
     level: "",
     drive_folder_id: "",
+    image_filename: "",
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState("")
 
   const subjects = ["Mathématiques", "Physique", "Chimie", "Biologie", "Informatique", "Autre"]
   const levels = ["Débutant", "Intermédiaire", "Avancé"]
@@ -38,7 +41,11 @@ const CourseForm = () => {
         subject: course.subject || "",
         level: course.level || "",
         drive_folder_id: course.drive_folder_id || "",
+        image_filename: course.image_filename || "",
       })
+      if (course.image_url) {
+        setImagePreview(course.image_url)
+      }
     } catch (err) {
       console.error("Erreur lors du chargement du cours:", err)
       setError("Erreur lors du chargement du cours.")
@@ -53,6 +60,51 @@ const CourseForm = () => {
     setError("")
   }
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setSelectedImage(file)
+      setFormData({
+        ...formData,
+        image_filename: file.name,
+      })
+
+      // Créer un aperçu de l'image
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setImagePreview(e.target.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const uploadImage = async (courseId) => {
+    if (!selectedImage) return;
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedImage);
+      
+      const response = await fetch(`http://localhost:8001/api/admin/courses/${courseId}/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formData
+      });
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement de l\'image');
+      }
+      
+      console.log('Image téléchargée avec succès');
+      return await response.json();
+    } catch (error) {
+      console.error('Erreur lors du téléchargement de l\'image:', error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
@@ -62,9 +114,15 @@ const CourseForm = () => {
       let course
       if (isEdit) {
         course = await apiService.updateCourse(id, formData)
+        if (selectedImage) {
+          await uploadImage(course.id);
+        }
         alert("Cours modifié avec succès !")
       } else {
         course = await apiService.createCourse(formData)
+        if (selectedImage) {
+          await uploadImage(course.id);
+        }
         alert("Cours créé avec succès !")
       }
 
@@ -114,6 +172,23 @@ const CourseForm = () => {
                 placeholder="Description du cours..."
                 rows="4"
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="image">Image du cours</label>
+              <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange} />
+              <small className="form-help">
+                Sélectionnez une image depuis votre dossier local (formats: JPG, PNG, GIF)
+              </small>
+              {imagePreview && (
+                <div className="image-preview">
+                  <img
+                    src={imagePreview || "/placeholder.svg"}
+                    alt="Aperçu"
+                    style={{ maxWidth: "200px", maxHeight: "150px", marginTop: "10px" }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="form-row">

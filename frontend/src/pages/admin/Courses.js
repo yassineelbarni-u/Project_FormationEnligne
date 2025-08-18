@@ -130,6 +130,17 @@ const Courses = () => {
           <div className="courses-grid">
             {filteredCourses.map((course) => (
               <div key={course.id} className="course-card">
+                {course.image_url && (
+                  <div className="course-image">
+                    <img
+                      src={course.image_url || "/placeholder.svg"}
+                      alt={course.title}
+                      onError={(e) => {
+                        e.target.style.display = "none"
+                      }}
+                    />
+                  </div>
+                )}
                 <div className="course-header">
                   <div className="course-subject">{course.subject}</div>
                   <div className="course-level">{course.level}</div>
@@ -160,7 +171,7 @@ const Courses = () => {
                     >
                       🎥 Vidéos
                     </button>
-                  
+
                     <button
                       className="btn-edit"
                       onClick={() => navigate(`/admin/courses/${course.id}/edit`)}
