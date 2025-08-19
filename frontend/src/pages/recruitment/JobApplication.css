@@ -40,7 +40,7 @@
 
 .job-summary .company {
   font-weight: 600;
-  color: #dc143c;
+  color: var(--primary-color, #2563eb);
   font-size: 1.1rem;
 }
 

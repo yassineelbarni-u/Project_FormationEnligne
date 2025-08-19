@@ -58,7 +58,7 @@
 }
 
 .candidate-email {
-  color: #dc143c;
+  color: var(--primary-color, #2563eb);
   font-size: 0.9rem;
   margin-bottom: 0.25rem;
 }
@@ -141,7 +141,7 @@
 }
 
 .download-cv-btn-small {
-  background: #dc143c;
+  background: var(--primary-color, #2563eb);
   color: white;
   border: none;
   padding: 0.5rem;
@@ -152,7 +152,7 @@
 }
 
 .download-cv-btn-small:hover {
-  background: #b91c3c;
+  background: var(--primary-hover, #1d4ed8);
 }
 
 .no-cv {

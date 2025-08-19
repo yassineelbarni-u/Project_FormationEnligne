@@ -8,8 +8,8 @@ const Header = () => {
   const [schoolIndex, setSchoolIndex] = useState(0)
   const schools = ["ENSA", "FST", "FS", "EST", "ENCG", "ENSAM"]
 
-  // Couleur rouge cramoisi fixe
-  const schoolColor = "#DC143C"
+  // Utiliser la couleur primaire
+  const schoolColor = "var(--primary-color, #2563eb)"
 
   useEffect(() => {
     const interval = setInterval(() => {
