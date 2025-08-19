@@ -130,17 +130,18 @@ const Courses = () => {
           <div className="courses-grid">
             {filteredCourses.map((course) => (
               <div key={course.id} className="course-card">
-                {course.image_url && (
-                  <div className="course-image">
-                    <img
-                      src={course.image_url || "/placeholder.svg"}
-                      alt={course.title}
-                      onError={(e) => {
-                        e.target.style.display = "none"
-                      }}
-                    />
-                  </div>
-                )}
+                <div className="course-image">
+                  <img
+                    src={course.image_filename ? 
+                      `http://localhost:8001${course.image_url}` : 
+                      "/assets/math-course.png"}
+                    alt={course.title}
+                    onError={(e) => {
+                      e.target.src = "/assets/math-course.png"
+                      e.target.onerror = null
+                    }}
+                  />
+                </div>
                 <div className="course-header">
                   <div className="course-subject">{course.subject}</div>
                   <div className="course-level">{course.level}</div>
