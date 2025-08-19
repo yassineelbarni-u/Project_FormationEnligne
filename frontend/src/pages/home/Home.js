@@ -1,7 +1,7 @@
 import Header from "../../components/common/Header"
 import HeroSection from "../../components/sections/HeroSection"
 import WhyChooseUsSection from "../../components/sections/WhyChooseUsSection"
-// import ServicesSection from "../../components/sections/ServicesSection"
+import ServicesSection from "../../components/sections/ServicesSection"
 import TestimonialsSection from "../../components/sections/TestimonialsSection"
 import FAQSection from "../../components/sections/FAQSection"
 import ContactSection from "../../components/sections/ContactSection"
@@ -15,7 +15,7 @@ const Home = () => {
       <Header />
       <HeroSection />
       <WhyChooseUsSection />
-      {/* <ServicesSection /> */}
+      <ServicesSection />
       <AnnonceSection />
       <TestimonialsSection />
       <VideoSection />
