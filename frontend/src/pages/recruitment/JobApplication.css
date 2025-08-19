@@ -11,7 +11,7 @@
 .back-button {
   background: none;
   border: none;
-  color: #dc143c;
+  color: var(--primary-color, #2563eb);
   font-size: 1rem;
   cursor: pointer;
   margin-bottom: 1rem;
@@ -21,7 +21,7 @@
 }
 
 .back-button:hover {
-  color: #b91c3c;
+  color: var(--primary-hover, #1d4ed8);
 }
 
 .application-header h1 {
@@ -162,7 +162,7 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #dc143c;
+  border-color: var(--primary-color, #2563eb);
 }
 
 .form-group input.error,
@@ -222,7 +222,7 @@
 
 .submit-btn {
   padding: 0.75rem 2rem;
-  background: #dc143c;
+  background: var(--primary-color, #2563eb);
   color: white;
   border: none;
   border-radius: 8px;
@@ -232,7 +232,7 @@
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #b91c3c;
+  background: var(--primary-hover, #1d4ed8);
 }
 
 .submit-btn:disabled,
@@ -252,7 +252,7 @@
 }
 
 .back-btn {
-  background: #dc143c;
+  background: var(--primary-color, #2563eb);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -266,7 +266,7 @@
 }
 
 .back-btn:hover {
-  background: #b91c3c;
+  background: var(--primary-hover, #1d4ed8);
   color: white;
   text-decoration: none;
 }

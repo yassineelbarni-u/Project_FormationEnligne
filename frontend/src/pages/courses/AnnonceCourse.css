@@ -65,6 +65,9 @@
   position: relative;
   max-width: 800px; /* Largeur maximum plus grande */
   margin: 0 auto; /* Centre les cartes */
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .announcement-card::before {
@@ -86,23 +89,26 @@
 /* Images beaucoup plus grandes et sans limitation de taille */
 .announcement-image {
   position: relative;
+  border-radius: 12px;
   overflow: hidden;
-  background: #f8fafc;
-  height: auto; /* Hauteur automatique selon l'image */
-  min-height: 500px; /* Hauteur minimum pour les petites images */
+  background: #ffffff;
+  width: 100%;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin: 0;
+  padding: 0;
 }
 
 .announcement-image img {
-  width: 100%;
-  height: auto; /* Hauteur automatique pour garder les proportions */
+  width: auto;
+  height: auto;
   max-width: 100%;
   object-fit: contain;
   display: block;
   transition: transform 0.4s ease;
-  padding: 0; /* Supprime tout padding pour utiliser tout l'espace */
 }
 
 .announcement-card:hover .announcement-image img {
@@ -289,7 +295,7 @@
   }
 
   .announcement-image {
-    min-height: 300px; /* Hauteur minimum pour très petits écrans */
+    height: auto; /* Hauteur automatique pour s'adapter au contenu */
   }
 
   .announcement-footer {

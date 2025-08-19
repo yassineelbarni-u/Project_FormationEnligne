@@ -64,6 +64,12 @@ const AnnonceCourse = () => {
                     <img
                       src={`http://localhost:8001${announcement.image_url}` || "/placeholder.svg"}
                       alt="Annonce de cours"
+                      onLoad={(e) => {
+                        // Ajuster la taille pour garantir que l'image s'affiche correctement
+                        if (e.target.naturalHeight > 800) {
+                          e.target.style.maxHeight = "800px";
+                        }
+                      }}
                     />
                   </div>
 
