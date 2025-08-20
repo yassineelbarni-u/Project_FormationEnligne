@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useState, useEffect, useCallback } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import StudentLayout from "../../components/student/StudentLayout"
 import apiService from "../../utils/api"
 import "./CourseView.css"
+import "./pdf-styles.css"
 
 const CourseView = () => {
   const { courseId } = useParams()
@@ -147,6 +148,9 @@ const CourseView = () => {
     const index = allVideos.findIndex((v) => v.id === video.id)
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
+    
+    // Debug - affichons le contenu de la vidéo sélectionnée
+    console.log("Vidéo sélectionnée:", video)
   }
 
   if (isLoading) {
@@ -333,10 +337,35 @@ const CourseView = () => {
                   />
                 </div>
 
+                {/* Description de la vidéo */}
                 {currentVideo.description && (
                   <div className="video-description">
                     <h3>À propos de cette leçon</h3>
                     <p>{currentVideo.description}</p>
+                  </div>
+                )}
+                
+                {/* PDF associé à la vidéo */}
+                {currentVideo.pdf_url && (
+                  <div className="video-pdf-container">
+                    <h3>Document du cours</h3>
+                    <div className="pdf-button-container">
+                      <a 
+                        href={currentVideo.pdf_url.replace('/file/d/', '/preview/')} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="pdf-view-button"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                          <path d="M14 2v6h6"></path>
+                          <path d="M16 13H8"></path>
+                          <path d="M16 17H8"></path>
+                          <path d="M10 9H8"></path>
+                        </svg>
+                        Voir le document PDF
+                      </a>
+                    </div>
                   </div>
                 )}
               </div>

@@ -59,6 +59,7 @@ class Video(Base):
     description = Column(Text)
     drive_file_id = Column(String(255))
     drive_url = Column(String(500))
+    pdf_url = Column(String(500), nullable=True)  # Lien vers le PDF du cours (optionnel)
     thumbnail_url = Column(String(500))
     order_in_course = Column(Integer, default=0)  # Ordre dans le cours
     is_free = Column(Boolean, default=False)      # Vidéo gratuite ou payante

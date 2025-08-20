@@ -18,6 +18,7 @@ const CourseVideos = () => {
     title: "",
     description: "",
     drive_url: "",
+    pdf_url: "",  // Nouveau champ pour le lien PDF
     order_in_course: 0,
     is_free: false,
     module_name: "",
@@ -92,6 +93,7 @@ const CourseVideos = () => {
         title: "",
         description: "",
         drive_url: "",
+        pdf_url: "",  // Réinitialisation du champ PDF
         module_name: "",
         order_in_course: videos.length + 1,
         is_free: false,
@@ -169,7 +171,7 @@ const CourseVideos = () => {
               </div>
 
               <div className="form-group">
-                <label>URL Google Drive *</label>
+                <label>URL Google Drive de la vidéo *</label>
                 <input
                   type="url"
                   value={newVideo.drive_url}
@@ -177,6 +179,19 @@ const CourseVideos = () => {
                   placeholder="https://drive.google.com/file/d/..."
                   required
                 />
+              </div>
+
+              <div className="form-group">
+                <label>URL Google Drive du PDF (optionnel)</label>
+                <input
+                  type="url"
+                  value={newVideo.pdf_url || ""}
+                  onChange={(e) => setNewVideo({ ...newVideo, pdf_url: e.target.value })}
+                  placeholder="https://drive.google.com/file/d/..."
+                />
+                <small className="input-help">
+                  Ajoutez un lien vers un document PDF complémentaire pour cette vidéo.
+                </small>
               </div>
 
               <div className="form-group">

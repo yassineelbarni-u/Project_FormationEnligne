@@ -92,6 +92,7 @@ class VideoBase(BaseModel):
     title: str
     description: Optional[str] = None
     drive_url: str
+    pdf_url: Optional[str] = None  # Lien vers le PDF du cours (optionnel)
     order_in_course: int = 0
     is_free: bool = False
     module_name: Optional[str] = None
@@ -103,6 +104,7 @@ class VideoUpdate(VideoBase):
     title: Optional[str] = None
     drive_file_id: Optional[str] = None
     drive_url: Optional[str] = None
+    pdf_url: Optional[str] = None  # Lien vers le PDF du cours (optionnel)
     course_id: Optional[int] = None
 
 class VideoResponse(VideoBase):
