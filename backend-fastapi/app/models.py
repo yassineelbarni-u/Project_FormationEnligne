@@ -59,11 +59,11 @@ class Video(Base):
     description = Column(Text)
     drive_file_id = Column(String(255))
     drive_url = Column(String(500))
-    pdf_url = Column(String(500), nullable=True)  # Lien vers le PDF du cours (optionnel)
+    pdf_url = Column(String(500), nullable=True)  
     thumbnail_url = Column(String(500))
-    order_in_course = Column(Integer, default=0)  # Ordre dans le cours
-    is_free = Column(Boolean, default=False)      # Vidéo gratuite ou payante
-    module_name = Column(String(255))             # Nom du module/playlist
+    order_in_course = Column(Integer, default=0) 
+    is_free = Column(Boolean, default=False)      
+    module_name = Column(String(255))         
     course_id = Column(Integer, ForeignKey("courses.id"))
     admin_id = Column(Integer, ForeignKey("admins.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
