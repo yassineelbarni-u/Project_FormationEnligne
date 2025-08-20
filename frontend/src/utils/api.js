@@ -25,10 +25,22 @@ class ApiService {
   // Méthode générique pour les requêtes
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`
+    
+    // Si custom headers est fourni, utilisez-les, sinon utilisez les headers par défaut
+    let headers = options.headers || this.getHeaders(options.auth !== false, options.isStudent);
+    
+    // Ne pas ajouter Content-Type pour FormData car le navigateur le définit automatiquement avec la boundary
+    if (options.body instanceof FormData) {
+      // Supprimez Content-Type pour FormData pour laisser le navigateur le définir
+      const { 'Content-Type': _, ...headersWithoutContentType } = headers;
+      headers = headersWithoutContentType;
+    }
+    
     const config = {
-      headers: this.getHeaders(options.auth !== false, options.isStudent),
+      headers,
       ...options,
     }
+    
     try {
       const response = await fetch(url, config)
       if (!response.ok) {
@@ -256,9 +268,7 @@ class ApiService {
     return this.request("/api/admin/announcements/", {
       method: "POST",
       body: formData,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
+      // On ne définit pas les headers ici car la méthode request les gère automatiquement
     })
   }
 
@@ -267,9 +277,7 @@ class ApiService {
     return this.request(`/api/admin/announcements/${announcementId}`, {
       method: "PUT",
       body: formData,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
+      // On ne définit pas les headers ici car la méthode request les gère automatiquement
     })
   }
 

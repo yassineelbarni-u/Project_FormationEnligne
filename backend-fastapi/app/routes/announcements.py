@@ -88,7 +88,12 @@ async def create_announcement(
 @router.put("/{announcement_id}", response_model=AnnouncementResponse)
 async def update_announcement(
     announcement_id: int,
-    announcement_update: AnnouncementUpdate,
+    title: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+    price: Optional[str] = Form(None),
+    is_active: Optional[bool] = Form(None),
+    display_order: Optional[int] = Form(None),
+    image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
@@ -98,9 +103,48 @@ async def update_announcement(
     if not db_announcement:
         raise HTTPException(status_code=404, detail="Annonce non trouvée")
     
-    # Mettre à jour les champs
-    for field, value in announcement_update.dict(exclude_unset=True).items():
-        setattr(db_announcement, field, value)
+    # Mettre à jour les champs texte
+    if title is not None:
+        db_announcement.title = title
+    if description is not None:
+        db_announcement.description = description
+    if price is not None:
+        db_announcement.price = price
+    if is_active is not None:
+        db_announcement.is_active = is_active
+    if display_order is not None:
+        db_announcement.display_order = display_order
+    
+    # Traiter l'image si elle est fournie
+    if image:
+        # Vérifier le type de fichier
+        if not image.content_type.startswith("image/"):
+            raise HTTPException(status_code=400, detail="Le fichier doit être une image")
+        
+        # Générer un nom de fichier unique
+        file_extension = os.path.splitext(image.filename)[1]
+        unique_filename = f"{uuid.uuid4()}{file_extension}"
+        file_path = os.path.join(UPLOAD_DIR, unique_filename)
+        
+        # Sauvegarder la nouvelle image
+        try:
+            with open(file_path, "wb") as buffer:
+                content = await image.read()
+                buffer.write(content)
+                
+            # Supprimer l'ancienne image si elle existe
+            try:
+                old_file_path = os.path.join(UPLOAD_DIR, db_announcement.image_filename)
+                if os.path.exists(old_file_path):
+                    os.remove(old_file_path)
+            except Exception as e:
+                print(f"Erreur lors de la suppression de l'ancienne image: {e}")
+                
+            # Mettre à jour les champs d'image
+            db_announcement.image_url = f"/images/announcements/{unique_filename}"
+            db_announcement.image_filename = unique_filename
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Erreur lors de la sauvegarde: {str(e)}")
     
     db.commit()
     db.refresh(db_announcement)
