@@ -113,16 +113,37 @@ const CourseView = () => {
   }
 
   const extractDriveFileId = (url) => {
+    if (!url) return null
+    
+    // Ajout d'un pattern pour le format avec view?usp=drive_link et autres paramètres
     const patterns = [
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/,
       /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view/,
+      // Nouveau pattern qui capture l'ID même avec des paramètres de requête
+      /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view\?.*$/,
     ]
+    
     for (const pattern of patterns) {
       const match = url.match(pattern)
       if (match) return match[1]
     }
+    
+    // Méthode alternative si les patterns ne fonctionnent pas
+    // Diviser l'URL par parties et chercher l'ID entre /d/ et /view
+    try {
+      if (url.includes('/file/d/') && url.includes('/view')) {
+        const parts = url.split('/file/d/')[1]
+        const id = parts.split('/view')[0]
+        if (id) return id
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'extraction manuelle de l'ID:", error)
+    }
+    
+    console.log("⚠️ Impossible d'extraire l'ID Google Drive de l'URL:", url)
     return null
   }
 
@@ -130,6 +151,24 @@ const CourseView = () => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return "about:blank"
     return `https://drive.google.com/file/d/${fileId}/preview`
+  }
+  
+  // Fonction pour générer l'URL d'affichage du PDF Google Drive
+  const generatePdfEmbedUrl = (pdfUrl) => {
+    console.log("🔗 Transformation de l'URL PDF:", pdfUrl)
+    
+    const fileId = extractDriveFileId(pdfUrl)
+    console.log("📄 ID du fichier PDF extrait:", fileId)
+    
+    if (!fileId) {
+      console.warn("⚠️ Impossible d'extraire l'ID, utilisation de l'URL originale")
+      return pdfUrl // Retourner l'URL originale si on ne peut pas extraire l'ID
+    }
+    
+    // URL de prévisualisation Google Drive
+    const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`
+    console.log("🔗 URL de prévisualisation générée:", embedUrl)
+    return embedUrl
   }
 
   // ✅ Fonction pour générer une vraie miniature de vidéo Google Drive
@@ -146,6 +185,12 @@ const CourseView = () => {
   const selectVideo = (video) => {
     const allVideos = getAllVideosInOrder()
     const index = allVideos.findIndex((v) => v.id === video.id)
+    console.log("📄 Vidéo sélectionnée:", video)
+    console.log("PDF URL:", video.pdf_url)
+    if (video.pdf_url) {
+      console.log("PDF ID extrait:", extractDriveFileId(video.pdf_url))
+      console.log("PDF URL transformée:", generatePdfEmbedUrl(video.pdf_url))
+    }
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
     
@@ -351,7 +396,7 @@ const CourseView = () => {
                     <h3>Document du cours</h3>
                     <div className="pdf-button-container">
                       <a 
-                        href={currentVideo.pdf_url.replace('/file/d/', '/preview/')} 
+                        href={generatePdfEmbedUrl(currentVideo.pdf_url)} 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="pdf-view-button"
