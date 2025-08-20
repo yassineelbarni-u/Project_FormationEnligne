@@ -27,7 +27,7 @@ const AnnonceCourse = () => {
 
   const handleWhatsAppClick = (announcementTitle) => {
     const phoneNumber = "+212631262790"
-    const message = `Bonjour, je suis intéressé(e) par "${announcementTitle}". Pouvez-vous me donner plus d'informations ?`
+    const message = `Bonjour, je suis intéressé(e) par "${announcementTitle || 'votre formation'}". Pouvez-vous me donner plus d'informations ?`
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")
   }
@@ -63,7 +63,7 @@ const AnnonceCourse = () => {
                   <div className="announcement-image">
                     <img
                       src={`http://localhost:8001${announcement.image_url}` || "/placeholder.svg"}
-                      alt="Annonce de cours"
+                      alt={announcement.title || "Annonce de cours"}
                       onLoad={(e) => {
                         // Ajuster la taille pour garantir que l'image s'affiche correctement
                         if (e.target.naturalHeight > 800) {
@@ -72,9 +72,23 @@ const AnnonceCourse = () => {
                       }}
                     />
                   </div>
+                  
+                  <div className="announcement-info">
+                    {announcement.title && (
+                      <h3 className="announcement-title">{announcement.title}</h3>
+                    )}
+                    
+                    {announcement.description && (
+                      <p className="announcement-description">{announcement.description}</p>
+                    )}
+                    
+                    {announcement.price && (
+                      <p className="announcement-price"><strong>Prix:</strong> {announcement.price}</p>
+                    )}
+                  </div>
 
                   <div className="announcement-footer">
-                    <button className="whatsapp-button" onClick={() => handleWhatsAppClick("cette formation")}>
+                    <button className="whatsapp-button" onClick={() => handleWhatsAppClick(announcement.title || "cette formation")}>
                       <span className="material-symbols-outlined">phone</span>
                       S'inscrire cours
                     </button>

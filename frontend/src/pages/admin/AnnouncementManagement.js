@@ -12,6 +12,9 @@ const AnnouncementManagement = () => {
   const [editingAnnouncement, setEditingAnnouncement] = useState(null)
   const [formData, setFormData] = useState({
     image: null,
+    title: "",
+    description: "",
+    price: ""
   })
   const [message, setMessage] = useState({ type: "", text: "" })
 
@@ -44,6 +47,19 @@ const AnnouncementManagement = () => {
       if (formData.image) {
         submitData.append("image", formData.image)
       }
+      
+      // Ajouter les nouveaux champs au formulaire
+      if (formData.title) {
+        submitData.append("title", formData.title)
+      }
+      
+      if (formData.description) {
+        submitData.append("description", formData.description)
+      }
+      
+      if (formData.price) {
+        submitData.append("price", formData.price)
+      }
 
       if (editingAnnouncement) {
         await apiService.updateAnnouncement(editingAnnouncement.id, submitData)
@@ -64,6 +80,9 @@ const AnnouncementManagement = () => {
     setEditingAnnouncement(announcement)
     setFormData({
       image: null,
+      title: announcement.title || "",
+      description: announcement.description || "",
+      price: announcement.price || ""
     })
     setShowForm(true)
   }
@@ -91,7 +110,7 @@ const AnnouncementManagement = () => {
   }
 
   const resetForm = () => {
-    setFormData({ image: null })
+    setFormData({ image: null, title: "", description: "", price: "" })
     setEditingAnnouncement(null)
     setShowForm(false)
     setMessage({ type: "", text: "" })
@@ -106,6 +125,11 @@ const AnnouncementManagement = () => {
       }
       setFormData({ ...formData, image: file })
     }
+  }
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   return (
@@ -132,6 +156,42 @@ const AnnouncementManagement = () => {
               </div>
 
               <form onSubmit={handleSubmit} className="announcement-form">
+                <div className="form-group">
+                  <label htmlFor="title">Titre (optionnel)</label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    placeholder="Titre de l'annonce"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="description">Description (optionnel)</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    placeholder="Description du cours"
+                    rows="4"
+                  ></textarea>
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="price">Prix (optionnel)</label>
+                  <input
+                    type="text"
+                    id="price"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleInputChange}
+                    placeholder="Ex: 500 DH / Gratuit"
+                  />
+                </div>
+                
                 <div className="form-group">
                   <label htmlFor="image">Image de l'annonce</label>
                   <input
@@ -199,7 +259,13 @@ const AnnouncementManagement = () => {
                 </div>
 
                 <div className="announcement-content">
-                  <h3>{announcement.image_filename}</h3>
+                  <h3>{announcement.title || announcement.image_filename}</h3>
+                  {announcement.description && (
+                    <p className="announcement-description">{announcement.description}</p>
+                  )}
+                  {announcement.price && (
+                    <p className="announcement-price"><strong>Prix:</strong> {announcement.price}</p>
+                  )}
                   <p className="announcement-date">
                     Créé le {new Date(announcement.created_at).toLocaleDateString("fr-FR")}
                   </p>

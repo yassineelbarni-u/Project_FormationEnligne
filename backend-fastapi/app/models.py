@@ -106,6 +106,9 @@ class Announcement(Base):
     __tablename__ = "announcements"
     
     id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=True)  # Titre de l'annonce
+    description = Column(Text, nullable=True)  # Description de l'annonce
+    price = Column(String(100), nullable=True)  # Prix de l'annonce
     image_url = Column(String(500), nullable=False)
     image_filename = Column(String(255), nullable=False)
     is_active = Column(Boolean, default=True)

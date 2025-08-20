@@ -54,6 +54,32 @@
   justify-content: center;
 }
 
+/* Nouveaux styles pour les informations d'annonce */
+.announcement-info {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.announcement-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #1e293b;
+}
+
+.announcement-description {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.announcement-price {
+  font-size: 1.2rem;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
 /* Cartes plus grandes avec des images sans limitation de taille */
 .announcement-card {
   background: white;
