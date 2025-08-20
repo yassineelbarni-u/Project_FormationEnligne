@@ -42,9 +42,9 @@ async def get_admin_announcements(
 @router.post("/", response_model=AnnouncementResponse)
 async def create_announcement(
     display_order: int = Form(0),
-    title: str = Form(None),  # Champ titre optionnel
-    description: str = Form(None),  # Champ description optionnel
-    price: str = Form(None),  # Champ prix optionnel
+    title: str = Form(None),  
+    description: str = Form(None), 
+    price: str = Form(None),  
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
