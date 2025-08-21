@@ -107,9 +107,9 @@ class Announcement(Base):
     __tablename__ = "announcements"
     
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(255), nullable=True)  # Titre de l'annonce
-    description = Column(Text, nullable=True)  # Description de l'annonce
-    price = Column(String(100), nullable=True)  # Prix de l'annonce
+    title = Column(String(255), nullable=True)
+    description = Column(Text, nullable=True) 
+    price = Column(String(100), nullable=True)
     image_url = Column(String(500), nullable=False)
     image_filename = Column(String(255), nullable=False)
     is_active = Column(Boolean, default=True)
@@ -154,7 +154,7 @@ class JobApplication(Base):
     cover_letter = Column(Text)
     cv_filename = Column(String(255))
     cv_url = Column(String(500))
-    status = Column(String(50), default="pending")  # "pending", "reviewed", "accepted", "rejected"
+    status = Column(String(50), default="pending")
     admin_notes = Column(Text)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

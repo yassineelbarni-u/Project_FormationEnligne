@@ -20,8 +20,7 @@ const HeroSection = () => {
               l'université, bénéficiez d'un suivi adapté à votre rythme.
             </p>
             <div className="hero-buttons">
-              <Button variant="primary" to="/">Commencer maintenant</Button>
-              <Button variant="secondary" to="/">Découvrir nos cours</Button>
+           
               <Button variant="outline" to="/student/login">Accéder à mon espace étudiant</Button>
             </div>
           </div>
