@@ -1,0 +1,181 @@
+/* Styles spécifiques pour le Hero Section */
+
+.hero-section {
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  padding: 80px 0;
+  min-height: 650px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z" fill="%230ea5e9" fill-opacity="0.05"/></svg>');
+  background-size: 300px 300px;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #0c4a6e; /* Bleu foncé pour un meilleur contraste */
+}
+
+.text-highlight {
+  color: #f97316; /* Orange pour les accents */
+}
+
+.text-primary {
+  color: #0284c7; /* Bleu clair comme couleur principale */
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  color: #0f172a;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.geometric-pattern {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.geometric-shapes {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.08) 70%, transparent 100%);
+  z-index: -1;
+}
+
+.geometric-shapes:before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  border-radius: 50%;
+  border: 3px dashed rgba(14, 165, 233, 0.25);
+}
+
+.geometric-shapes:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 580px;
+  height: 580px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, transparent 67%, rgba(14, 165, 233, 0.15) 70%);
+  border-radius: 50%;
+}
+
+.student-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+  border: 10px solid white;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .hero-image {
+    margin-top: 40px;
+    order: 2;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 0;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+  
+  .student-image {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+  }
+  
+  .geometric-shapes {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+  
+  .student-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+  }
+  
+  .geometric-shapes {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+  }
+}

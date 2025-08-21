@@ -1,5 +1,6 @@
 import Button from "../common/Button"
-import imageHero from '../assets/image_hero.png';
+import imageHero from '../assets/hero.png.png';
+import '../styles/HeroSection.css';
 
 
 const HeroSection = () => {
@@ -9,30 +10,29 @@ const HeroSection = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-              Réussissez <span className="text-highlight">vos études</span>
+              Atteignez <span className="text-highlight">l'excellence</span>
               <br />
-              avec un accompagnement
+              grâce à nos cours 
               <br />
-              <span className="text-primary">personnalisé</span>
+              <span className="text-primary">de soutien universitaire</span>
             </h1>
             <p>
-              Cours de soutien en ligne avec Ilyas . Mathématiques, Physique-Chimie, Informatique. Du lycée à
-              l'université, bénéficiez d'un suivi adapté à votre rythme.
+              Cours de soutien en ligne spécialisés en Sciences. Mathématiques, Physique-Chimie, Informatique pour les étudiants 
+              des écoles d'ingénieurs ENSA, ENSAM, FST et FS au Maroc.
             </p>
             <div className="hero-buttons">
-           
-              <Button variant="outline" to="/student/login">Accéder à mon espace étudiant</Button>
+              <Button variant="primary" to="/courses">Découvrir nos cours</Button>
+              <Button variant="outline" to="/student/login">Espace étudiant</Button>
             </div>
           </div>
           <div className="hero-image">
             <div className="geometric-pattern">
-
+              <div className="geometric-shapes"></div>
               <img
                 src={imageHero}
-                alt="E-Learning by Ilyas"
+                alt="Cours de soutien universitaire"
                 className="student-image"
               />
-
             </div>
           </div>
         </div>
