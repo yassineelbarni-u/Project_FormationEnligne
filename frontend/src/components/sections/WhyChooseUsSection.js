@@ -21,7 +21,7 @@ const WhyChooseUsSection = () => {
     <section className="why-choose-section">
       <div className="container">
         <h2 className="section-title">
-          Pourquoi les étudiants choisissent <span className="text-primary">Ilyas Nahi</span>
+          Pourquoi les étudiants choisissent <span className="text-primary">El-earning by Ilyas</span>
         </h2>
 
         <div className="reasons-grid">

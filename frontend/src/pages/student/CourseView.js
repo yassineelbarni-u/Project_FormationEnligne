@@ -393,23 +393,25 @@ const CourseView = () => {
                 {/* PDF associé à la vidéo */}
                 {currentVideo.pdf_url && (
                   <div className="video-pdf-container">
-                    <h3>Document du cours</h3>
-                    <div className="pdf-button-container">
-                      <a 
-                        href={generatePdfEmbedUrl(currentVideo.pdf_url)} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="pdf-view-button"
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                          <path d="M14 2v6h6"></path>
-                          <path d="M16 13H8"></path>
-                          <path d="M16 17H8"></path>
-                          <path d="M10 9H8"></path>
-                        </svg>
-                        Voir le document PDF
-                      </a>
+                    <div className="pdf-header-container">
+                      <h3>Document du cours</h3>
+                      <div className="pdf-button-container">
+                        <a 
+                          href={generatePdfEmbedUrl(currentVideo.pdf_url)} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="pdf-view-button"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <path d="M14 2v6h6"></path>
+                            <path d="M16 13H8"></path>
+                            <path d="M16 17H8"></path>
+                            <path d="M10 9H8"></path>
+                          </svg>
+                          Voir le document PDF
+                        </a>
+                      </div>
                     </div>
                   </div>
                 )}

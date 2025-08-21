@@ -7,16 +7,22 @@
   border-top: 1px solid #e2e8f0;
 }
 
+.pdf-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
 .video-pdf-container h3 {
   font-size: 0.875rem;
   font-weight: 600;
   color: #111827;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
 }
 
 .pdf-button-container {
   display: flex;
-  margin-top: 0.5rem;
 }
 
 .pdf-view-button {
@@ -31,12 +37,16 @@
   transition: all 0.2s;
   gap: 0.5rem;
   font-size: 0.875rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  min-width: 165px;
+  justify-content: center;
 }
 
 .pdf-view-button:hover {
   background-color: #dc2626;
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .pdf-view-button svg {
@@ -48,6 +58,21 @@
   .video-pdf-container {
     margin-top: 0.5rem;
     border-top: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .pdf-header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .pdf-button-container {
+    margin-top: 0.5rem;
+  }
+  
+  .pdf-view-button {
+    width: 100%;
     border: 1px solid #e2e8f0;
   }
 }
