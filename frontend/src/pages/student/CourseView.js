@@ -6,6 +6,7 @@ import StudentLayout from "../../components/student/StudentLayout"
 import apiService from "../../utils/api"
 import "./CourseView.css"
 import "./pdf-styles.css"
+import "./webm-styles.css"
 
 const CourseView = () => {
   const { courseId } = useParams()
@@ -77,8 +78,11 @@ const CourseView = () => {
   }, [videos])
 
   useEffect(() => {
-    fetchCourseData()
-  }, [courseId])
+    const fetchData = async () => {
+      await fetchCourseData()
+    }
+    fetchData()
+  }, [courseId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchCourseData = async () => {
@@ -156,6 +160,21 @@ const CourseView = () => {
   // - dscb=1: désactive certains contrôles
   return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
 }
+
+  // Détecte si l'URL correspond à un fichier WebM
+  const isWebmVideo = (url) => {
+    if (!url) return false
+    return url.toLowerCase().includes('.webm') || url.toLowerCase().includes('webm=true')
+  }
+  
+  // Génère une URL directe pour les fichiers WebM
+  const generateWebmDirectUrl = (driveUrl) => {
+    const fileId = extractDriveFileId(driveUrl)
+    if (!fileId) return null
+    
+    // URL directe pour les fichiers WebM depuis Google Drive
+    return `https://drive.google.com/uc?export=download&id=${fileId}`
+  }
   
   // Fonction pour générer l'URL d'affichage du PDF Google Drive
  const generatePdfEmbedUrl = (pdfUrl) => {
@@ -288,6 +307,7 @@ const CourseView = () => {
                           <div className="lesson-thumbnail">
                             <img
                               src={generateVideoThumbnail(video) || "/placeholder.svg"}
+                              alt={`Miniature de la vidéo ${video.title}`}
                               onError={(e) => {
                                 // Fallback si la miniature Google Drive ne fonctionne pas
                                 e.target.src = `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 8))}`
@@ -373,17 +393,51 @@ const CourseView = () => {
                 </div>
 
                <div className="video-player">
-                  <iframe
-                    src={generateDriveEmbedUrl(currentVideo.drive_url)}
-                    title={currentVideo.title}
-                    frameBorder="0"
-                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    width="100%"
-                    height="100%"
-                    // Ajouter sandbox pour limiter certaines fonctionnalités
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                  />
+                  {isWebmVideo(currentVideo.drive_url) ? (
+                    // Lecteur vidéo HTML5 natif pour les fichiers WebM
+                    <video 
+                      src={generateWebmDirectUrl(currentVideo.drive_url)}
+                      title={currentVideo.title}
+                      controls
+                      controlsList="nodownload"
+                      width="100%"
+                      height="100%"
+                      autoPlay
+                      playsInline
+                      className="webm-video-player"
+                      onError={(e) => {
+                        console.error("Erreur de lecture WebM:", e);
+                        // Si vous avez un élément pour afficher des erreurs, vous pouvez l'utiliser ici
+                        e.target.outerHTML = `
+                          <div class="video-error-message">
+                            <p>Erreur de lecture de la vidéo WebM.</p>
+                            <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
+                            <a href="${generateWebmDirectUrl(currentVideo.drive_url)}" target="_blank" rel="noopener noreferrer">
+                              Essayer d'ouvrir la vidéo dans un nouvel onglet
+                            </a>
+                          </div>
+                        `;
+                      }}
+                    >
+                      Votre navigateur ne prend pas en charge les vidéos WebM.
+                      <a href={generateWebmDirectUrl(currentVideo.drive_url)} target="_blank" rel="noopener noreferrer">
+                        Ouvrir la vidéo dans un nouvel onglet
+                      </a>
+                    </video>
+                  ) : (
+                    // Iframe classique pour les autres formats de vidéo
+                    <iframe
+                      src={generateDriveEmbedUrl(currentVideo.drive_url)}
+                      title={currentVideo.title}
+                      frameBorder="0"
+                      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      width="100%"
+                      height="100%"
+                      // Ajouter sandbox pour limiter certaines fonctionnalités
+                      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                    />
+                  )}
               </div>
 
                 {/* Description de la vidéo */}

@@ -1,0 +1,73 @@
+/* Styles spécifiques pour les vidéos WebM */
+.webm-video-player {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Personnalisation des contrôles vidéo */
+.webm-video-player::-webkit-media-controls {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0 0 8px 8px;
+}
+
+.webm-video-player::-webkit-media-controls-play-button {
+  color: #2563eb;
+}
+
+.webm-video-player::-webkit-media-controls-timeline {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin: 0 15px;
+}
+
+/* Amélioration du lecteur vidéo */
+.video-player {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* Ratio 16:9 */
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.video-player iframe,
+.video-player video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+/* Message d'erreur au cas où la vidéo ne peut pas être lue */
+.video-error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+}
+
+.video-error-message a {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.video-error-message a:hover {
+  background-color: #1d4ed8;
+}
