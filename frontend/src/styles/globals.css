@@ -35,7 +35,20 @@ body {
 
 .social-links {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+}
+
+.social-links a {
+  color: var(--primary-color);
+  font-size: 18px;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-links a:hover {
+  transform: scale(1.2);
 }
 
 .social-links a {
@@ -85,10 +98,18 @@ body {
 
 .mobile-menu-btn {
   display: none;
-  background: none;
+  cursor: pointer;
+  background: transparent;
   border: none;
   font-size: 24px;
-  cursor: pointer;
+  color: var(--primary-color);
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(37, 99, 235, 0.1);
 }
 
 /* Button Styles */
@@ -663,22 +684,56 @@ body {
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: block;
+    z-index: 1001;
   }
 
   .nav-menu {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
     background: white;
     flex-direction: column;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 80px 20px 20px;
+    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    justify-content: flex-start;
+    align-items: center;
+    transition: all 0.3s ease;
   }
 
   .nav-menu.active {
     display: flex;
+    right: 0;
+  }
+  
+  /* Overlay pour fermer le menu */
+  .nav-menu.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+  
+  .nav-menu .nav-link {
+    font-size: 18px;
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  
+  .nav-menu .btn-primary {
+    margin-top: 20px;
+    width: 80%;
   }
 
   .hero-content,
@@ -840,19 +895,36 @@ body {
     padding: 6px 0;
     font-size: 12px;
   }
+  
+  .header-info {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
 
   .contact-info {
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 5px;
+    width: 100%;
   }
 
   .navbar {
     padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
   }
 
   .nav-brand h2 {
     font-size: 1.5rem;
+  }
+  
+  .nav-brand {
+    position: relative;
+    z-index: 1002;
   }
 
   /* Hero section responsive */
@@ -971,7 +1043,18 @@ body {
 
   /* Header très petit */
   .header-top {
-    display: none; /* Masquer le header top sur très petits écrans */
+    padding: 8px 0;
+  }
+  
+  .header-info {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    gap: 5px;
   }
 
   .navbar {
@@ -979,7 +1062,22 @@ body {
   }
 
   .nav-brand h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+  }
+  
+  .nav-menu {
+    width: 100%;
+    max-width: none;
+    padding: 70px 15px 15px;
+  }
+
+  .nav-menu .btn-primary {
+    width: 100%;
+  }
+  
+  .mobile-menu-btn {
+    font-size: 22px;
+    padding: 5px;
   }
 
   /* Hero très responsive */
@@ -1108,51 +1206,5 @@ body {
   .service-content,
   .testimonial-content {
     padding: 15px 10px;
-  }
-}
-
-/* Amélioration de la navigation mobile */
-@media (max-width: 768px) {
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 80px 30px 30px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: left 0.3s ease;
-    z-index: 1000;
-  }
-
-  .nav-menu.active {
-    left: 0;
-  }
-
-  .nav-link {
-    padding: 15px 0;
-    border-bottom: 1px solid #f1f5f9;
-    width: 100%;
-    font-size: 1.1rem;
-  }
-
-  .mobile-menu-btn {
-    z-index: 1001;
-  }
-
-  /* Overlay pour fermer le menu */
-  .nav-menu.active::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: -1;
   }
 }
