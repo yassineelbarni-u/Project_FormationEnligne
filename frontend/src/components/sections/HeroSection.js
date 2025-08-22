@@ -6,6 +6,15 @@ import '../styles/HeroSection.css';
 const HeroSection = () => {
   return (
     <section className="hero-section">
+      {/* Éléments géométriques d'arrière-plan */}
+      <div className="geometric-bg-elements">
+        <div className="geo-circle circle-1"></div>
+        <div className="geo-circle circle-2"></div>
+        <div className="geo-square"></div>
+        <div className="geo-triangle"></div>
+        <div className="geo-dots"></div>
+      </div>
+      
       <div className="container">
         <div className="hero-content">
           <div className="hero-text">

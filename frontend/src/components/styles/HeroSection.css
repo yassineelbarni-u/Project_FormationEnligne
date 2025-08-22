@@ -10,6 +10,7 @@
   overflow: hidden;
 }
 
+/* Motifs géométriques dans le fond */
 .hero-section:before {
   content: '';
   position: absolute;
@@ -17,9 +18,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z" fill="%230ea5e9" fill-opacity="0.05"/></svg>');
-  background-size: 300px 300px;
-  opacity: 0.5;
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z" fill="%230ea5e9" fill-opacity="0.05"/></svg>'),
+    url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="100" height="100" rx="20" ry="20" stroke="%230ea5e9" stroke-width="2" stroke-opacity="0.1" fill="none"/></svg>'),
+    url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><polygon points="30,5 55,50 5,50" stroke="%23f97316" stroke-width="2" stroke-opacity="0.07" fill="none"/></svg>'),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="5" y="25" font-family="Arial" font-size="20" fill="%230ea5e9" fill-opacity="0.07">∑</text></svg>'),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="7" y="25" font-family="Arial" font-size="20" fill="%23f97316" fill-opacity="0.07">π</text></svg>'),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="6" y="25" font-family="Arial" font-size="18" fill="%230ea5e9" fill-opacity="0.07">&lt;/&gt;</text></svg>'),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="8" y="25" font-family="Arial" font-size="20" fill="%23f97316" fill-opacity="0.07">∞</text></svg>');
+  background-size: 300px 300px, 240px 240px, 120px 120px, 80px 80px, 70px 70px, 90px 90px, 60px 60px;
+  background-position: 0 0, 40px 40px, 80px 80px, 200px 150px, 350px 250px, 100px 300px, 400px 80px;
+  opacity: 0.7;
   z-index: 0;
 }
 
@@ -84,6 +93,7 @@
   border-radius: 50%;
   background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.08) 70%, transparent 100%);
   z-index: -1;
+  animation: pulse 5s infinite ease-in-out;
 }
 
 .geometric-shapes:before {
@@ -95,6 +105,7 @@
   bottom: -30px;
   border-radius: 50%;
   border: 3px dashed rgba(14, 165, 233, 0.25);
+  animation: rotate 30s linear infinite;
 }
 
 .geometric-shapes:after {
@@ -109,6 +120,15 @@
   border-radius: 50%;
 }
 
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 .student-image {
   width: 100%;
   max-width: 500px;
@@ -119,6 +139,96 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 2;
+}
+
+/* Éléments géométriques d'arrière-plan */
+.geometric-bg-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.geo-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.circle-1 {
+  width: 500px;
+  height: 500px;
+  border: 4px solid #0ea5e9;
+  top: -150px;
+  right: -100px;
+  animation: float 15s infinite ease-in-out;
+}
+
+.circle-2 {
+  width: 300px;
+  height: 300px;
+  background: rgba(14, 165, 233, 0.05);
+  bottom: -100px;
+  left: 10%;
+  animation: float 10s infinite ease-in-out reverse;
+}
+
+.geo-square {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 3px solid rgba(249, 115, 22, 0.1);
+  transform: rotate(45deg);
+  top: 20%;
+  left: 5%;
+  animation: rotate 30s linear infinite;
+}
+
+.geo-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 180px solid rgba(14, 165, 233, 0.05);
+  bottom: 10%;
+  right: 15%;
+  animation: float 12s infinite ease-in-out;
+}
+
+.geo-dots {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background-image: radial-gradient(circle, #0ea5e9 2px, transparent 2px);
+  background-size: 30px 30px;
+  opacity: 0.07;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate 60s linear infinite;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive styles */
