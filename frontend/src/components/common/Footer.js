@@ -45,7 +45,7 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Contact</h4>
             <p>📞 +212 6 57883241</p>
-            <p>✉️ groupe.ensamaroc@gmail.com</p>
+            <p>✉️ email@gmail.com</p>
             <ul>
               <li>
                 <a href="https://www.facebook.com/e.learning.ilyas">Facebook</a>
