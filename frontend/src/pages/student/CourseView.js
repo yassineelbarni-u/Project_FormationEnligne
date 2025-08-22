@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import StudentLayout from "../../components/student/StudentLayout"
 import apiService from "../../utils/api"
@@ -148,28 +148,30 @@ const CourseView = () => {
   }
 
   const generateDriveEmbedUrl = (driveUrl) => {
-    const fileId = extractDriveFileId(driveUrl)
-    if (!fileId) return "about:blank"
-    return `https://drive.google.com/file/d/${fileId}/preview`
-  }
+  const fileId = extractDriveFileId(driveUrl)
+  if (!fileId) return "about:blank"
+  
+  // Paramètres supplémentaires pour renforcer la sécurité
+  // - rm=minimal: interface minimale
+  // - dscb=1: désactive certains contrôles
+  return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
+}
   
   // Fonction pour générer l'URL d'affichage du PDF Google Drive
-  const generatePdfEmbedUrl = (pdfUrl) => {
-    console.log("🔗 Transformation de l'URL PDF:", pdfUrl)
-    
-    const fileId = extractDriveFileId(pdfUrl)
-    console.log("📄 ID du fichier PDF extrait:", fileId)
-    
-    if (!fileId) {
-      console.warn("⚠️ Impossible d'extraire l'ID, utilisation de l'URL originale")
-      return pdfUrl // Retourner l'URL originale si on ne peut pas extraire l'ID
-    }
-    
-    // URL de prévisualisation Google Drive
-    const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`
-    console.log("🔗 URL de prévisualisation générée:", embedUrl)
-    return embedUrl
+ const generatePdfEmbedUrl = (pdfUrl) => {
+  console.log("🔗 Transformation de l'URL PDF:", pdfUrl)
+  
+  const fileId = extractDriveFileId(pdfUrl)
+  console.log("📄 ID du fichier PDF extrait:", fileId)
+  
+  if (!fileId) {
+    console.warn("⚠️ Impossible d'extraire l'ID, utilisation de l'URL originale")
+    return pdfUrl
   }
+  
+  // URL avec paramètres de sécurité renforcée
+  return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
+}
 
   // ✅ Fonction pour générer une vraie miniature de vidéo Google Drive
   const generateVideoThumbnail = (video) => {
@@ -370,17 +372,19 @@ const CourseView = () => {
                   </div>
                 </div>
 
-                <div className="video-player">
+               <div className="video-player">
                   <iframe
                     src={generateDriveEmbedUrl(currentVideo.drive_url)}
                     title={currentVideo.title}
                     frameBorder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     width="100%"
                     height="100%"
+                    // Ajouter sandbox pour limiter certaines fonctionnalités
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                   />
-                </div>
+              </div>
 
                 {/* Description de la vidéo */}
                 {currentVideo.description && (
