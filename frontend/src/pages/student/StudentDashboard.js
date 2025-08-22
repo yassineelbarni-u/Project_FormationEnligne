@@ -124,10 +124,7 @@ const StudentDashboard = () => {
                 <div className="stat-number">{getTotalVideos()}</div>
                 <div className="stat-label">Vidéos totales</div>
               </div>
-              <div className="stat-card">
-                <div className="stat-number">~{getEstimatedTime()}min</div>
-                <div className="stat-label">Temps d'étude</div>
-              </div>
+             
             </div>
           </div>
         </div>
@@ -197,21 +194,7 @@ const StudentDashboard = () => {
                         </svg>
                         <span>{course.video_count || 0} vidéos</span>
                       </div>
-                      <div className="stat-item">
-                        <svg
-                          className="stat-icon"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <circle cx="12" cy="12" r="10" />
-                          <polyline points="12,6 12,12 16,14" />
-                        </svg>
-                        <span>~{Math.ceil((course.video_count || 0) * 15)} min</span>
-                      </div>
+                    
                     </div>
                   </div>
 
