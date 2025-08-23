@@ -8,6 +8,8 @@ import FAQSection from "../../components/sections/FAQSection"
 import ContactSection from "../../components/sections/ContactSection"
 import VideoSection from "../../components/sections/VideoSection"
 import Footer from "../../components/common/Footer"
+import ReseauxSection from "../../components/sections/ReseauxSection"
+
 
 const Home = () => {
   return (
@@ -19,6 +21,7 @@ const Home = () => {
       {/* <ServicesSection /> */}
       <TestimonialsSection />
       <VideoSection />
+      <ReseauxSection />
       <FAQSection />
       <ContactSection />
     
