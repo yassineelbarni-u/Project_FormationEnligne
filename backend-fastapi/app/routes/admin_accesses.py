@@ -205,7 +205,7 @@ async def update_access(
         access.is_active = access_data["is_active"]
     
     if "duration_days" in access_data and access_data["duration_days"]:
-        access.expires_at = datetime.utcnow() + timedelta(days=access_data["duration_days"])
+        access.expires_at = datetime.utcnow() + timedelta(days=int(access_data["duration_days"]))
     
     db.commit()
     db.refresh(access)
