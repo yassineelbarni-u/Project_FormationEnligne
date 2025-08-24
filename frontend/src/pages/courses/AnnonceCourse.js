@@ -38,10 +38,10 @@ const AnnonceCourse = () => {
 
       <main className="main-content">
         <div className="container">
-          <div className="page-header">
+          {/* <div className="page-header">
             <h1>Nos Annonces de Cours</h1>
             <p>Découvrez toutes nos formations disponibles</p>
-          </div>
+          </div> */}
 
           {loading ? (
             <div className="loading-state">
