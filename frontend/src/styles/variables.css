@@ -1,40 +1,36 @@
 /* Variables CSS centralisées */
 :root {
   /* Couleurs principales */
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
   --primary-light: #dbeafe;
-  
+
   /* Couleurs secondaires */
   --secondary-color: #64748b;
-  
+
   /* Couleurs de feedback */
-  --success-color: #059669;
-  --error-color: #dc2626;
-  --error-bg: #fef2f2;
-  --warning-color: #d97706;
-  
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+
   /* Couleurs de texte */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  
-  /* Couleurs de bordures et fond */
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+
+  /* Couleurs de fond et bordures */
+  --background-light: #f8fafc;
   --border-color: #e2e8f0;
-  --border-focus: #3b82f6;
-  --background: #ffffff;
-  --background-secondary: #f8fafc;
-  
+
   /* Ombres */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  
+
   /* Arrondis */
   --radius: 0.5rem;
   --radius-lg: 0.75rem;
-  
+
   /* Espacement */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -44,7 +40,7 @@
   --space-8: 2rem;
   --space-12: 3rem;
   --space-16: 4rem;
-  
+
   /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
