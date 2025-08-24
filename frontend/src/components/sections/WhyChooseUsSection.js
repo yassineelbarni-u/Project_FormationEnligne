@@ -63,7 +63,7 @@ const WhyChooseUsSection = () => {
   ];
 
   return (
-    <section className="why-choose-section">
+    <section className="why-choose-section" id="services">
       <div className="container">
         <h2 className="section-title">
           Pourquoi les étudiants choisissent <span className="text-primary">El-earning by Ilyas</span>

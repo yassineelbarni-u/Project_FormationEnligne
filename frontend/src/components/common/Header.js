@@ -26,7 +26,7 @@ const Header = () => {
           // Nettoyer l'état après le défilement
           navigate(location.pathname, { replace: true, state: {} })
         }
-      }, 100) // Petit délai pour laisser le DOM se mettre à jour
+      }, 100) 
     }
   }, [location.state, navigate, location.pathname])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
