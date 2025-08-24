@@ -1,9 +1,34 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 const Header = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId)
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" })
+    } else if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: sectionId } })
+    }
+  }
+
+  // Gérer le défilement après la navigation
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      setTimeout(() => {
+        const section = document.getElementById(location.state.scrollTo)
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" })
+          // Nettoyer l'état après le défilement
+          navigate(location.pathname, { replace: true, state: {} })
+        }
+      }, 100) // Petit délai pour laisser le DOM se mettre à jour
+    }
+  }, [location.state, navigate, location.pathname])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [schoolIndex, setSchoolIndex] = useState(0)
   const schools = ["ENSA", "FST", "FS", "EST", "ENCG", "ENSAM"]
@@ -86,18 +111,39 @@ const Header = () => {
             <Link to="/courses" className="nav-link" onClick={closeMenu}>
               Nos Cours
             </Link>
-            <a href="#services" className="nav-link" onClick={closeMenu}>
+            <button
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault()
+                closeMenu()
+                scrollToSection("services")
+              }}
+            >
               Nos Services
-            </a>
-            <a href="#faq" className="nav-link" onClick={closeMenu}>
+            </button>
+            <button 
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault()
+                closeMenu()
+                scrollToSection("faq")
+              }}
+            >
               FAQ
-            </a>
+            </button>
             <Link to="/recruitment" className="nav-link recruitment-link" onClick={closeMenu}>
               Recrutement
             </Link>
-            <a href="#contact" className="nav-link" onClick={closeMenu}>
+            <button
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault()
+                closeMenu()
+                scrollToSection("contact")
+              }}
+            >
               Contact
-            </a>
+            </button>
             <Link to="/login" className="btn-primary" onClick={closeMenu}>
               Connexion
             </Link>
