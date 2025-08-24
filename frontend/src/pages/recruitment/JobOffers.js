@@ -128,9 +128,9 @@ const JobOffers = () => {
                     <Link to={`/recruitment/apply/${offer.id}`} className="apply-btn">
                       Postuler
                     </Link>
-                    <Link to={`/recruitment/offer/${offer.id}`} className="details-btn">
+                    {/* <Link to={`/recruitment/offer/${offer.id}`} className="details-btn">
                       Voir détails
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
               ))
