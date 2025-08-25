@@ -2,10 +2,11 @@
 .course-view-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background: #ffffff;
   margin: 0;
   padding: 0;
+  padding-bottom: 80px; /* Ajoute de l'espace en bas */
 }
 
 /* Header du cours */
@@ -239,6 +240,7 @@
   padding: 1rem;
   border-top: 1px solid #e2e8f0;
   background: #f8fafc;
+  margin-bottom: 20px;
 }
 
 .video-description h3 {
@@ -713,6 +715,44 @@
   .lesson-description {
     font-size: 0.75rem;
   }
+}
+
+/* Style pour le document PDF */
+.document-section {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 1rem 0;
+}
+
+.document-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.pdf-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ef4444;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.pdf-button:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
 }
 
 /* Tablet */

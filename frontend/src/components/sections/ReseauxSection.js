@@ -26,14 +26,14 @@ const ReseauxSection = () => (
         Page Facebook Learning by Ilyas
       </a>
       <a
-        href="https://chat.whatsapp.com/H2wlZMoGfGeCAwRlTVOelp?mode=r_t"
+        href="https://whatsapp.com/channel/0029Vb5Xh7oJUM2hCtw7Un3U"
         target="_blank"
         rel="noopener noreferrer"
         className="reseaux-link whatsapp"
         title="Groupe WhatsApp Préparation Concours"
       >
         <i className="fab fa-whatsapp"></i>
-        Groupe WhatsApp Préparation Concours
+        Chaîne d’annonce WhatsApp
       </a>
       <a
         href="https://www.instagram.com/elearning.ilyas/?igsh=eWJsZW9udzN5am9n#"
