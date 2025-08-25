@@ -35,6 +35,26 @@ const ReseauxSection = () => (
         <i className="fab fa-whatsapp"></i>
         Groupe WhatsApp Préparation Concours
       </a>
+      <a
+        href="https://www.instagram.com/elearning.ilyas/?igsh=eWJsZW9udzN5am9n#"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="reseaux-link instagram"
+        title="Instagram Learning by Ilyas"
+      >
+        <i className="fab fa-instagram"></i>
+        Instagram Learning by Ilyas
+      </a>
+      <a
+        href="https://www.youtube.com/@e-learning-by-ilyas"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="reseaux-link youtube"
+        title="Chaîne YouTube Learning by Ilyas"
+      >
+        <i className="fab fa-youtube"></i>
+        Chaîne YouTube Learning by Ilyas
+      </a>
     </div>
   </section>
 );
