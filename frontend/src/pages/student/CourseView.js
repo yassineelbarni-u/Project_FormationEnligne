@@ -18,6 +18,118 @@ const CourseView = () => {
   const [expandedModules, setExpandedModules] = useState([])
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const showCaptureWarning = () => {
+      alert(
+        "⚠️ Capture d'écran interdite !\n\nLa capture d'écran et l'enregistrement vidéo sont interdits sur cette page pour protéger le contenu du cours.",
+      )
+    }
+
+    const preventScreenCapture = (e) => {
+      // Empêcher Print Screen
+      if (e.key === "PrintScreen") {
+        e.preventDefault()
+        showCaptureWarning()
+        return false
+      }
+
+      // Empêcher Win+G (Xbox Game Bar)
+      if (e.key === "g" && e.metaKey) {
+        e.preventDefault()
+        showCaptureWarning()
+        return false
+      }
+
+      // Empêcher Alt+Print Screen
+      if (e.key === "PrintScreen" && e.altKey) {
+        e.preventDefault()
+        showCaptureWarning()
+        return false
+      }
+
+      // Empêcher Ctrl+Shift+S (capture Firefox)
+      if (e.key === "S" && e.ctrlKey && e.shiftKey) {
+        e.preventDefault()
+        showCaptureWarning()
+        return false
+      }
+
+      // Empêcher Win+Shift+S (Outil Capture Windows)
+      if (e.key === "S" && e.metaKey && e.shiftKey) {
+        e.preventDefault()
+        showCaptureWarning()
+        return false
+      }
+    }
+
+    const preventRightClick = (e) => {
+      e.preventDefault()
+      showCaptureWarning()
+      return false
+    }
+
+    const preventDragDrop = (e) => {
+      e.preventDefault()
+      return false
+    }
+
+    let visibilityCleanup = null
+
+    const setupScreenRecordingDetection = () => {
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+          const handleVisibilityChange = () => {
+            if (document.hidden) {
+              console.log("[v0] Page cachée - possible capture en cours")
+            }
+          }
+
+          document.addEventListener("visibilitychange", handleVisibilityChange)
+
+          visibilityCleanup = () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange)
+          }
+        }
+      } catch (error) {
+        console.log("[v0] Détection d'enregistrement non supportée")
+      }
+    }
+
+    // Ajouter les event listeners
+    document.addEventListener("keydown", preventScreenCapture)
+    document.addEventListener("keyup", preventScreenCapture)
+    document.addEventListener("contextmenu", preventRightClick)
+    document.addEventListener("dragstart", preventDragDrop)
+    document.addEventListener("selectstart", preventDragDrop)
+
+    // Empêcher la sélection de texte
+    document.body.style.userSelect = "none"
+    document.body.style.webkitUserSelect = "none"
+    document.body.style.mozUserSelect = "none"
+    document.body.style.msUserSelect = "none"
+
+    setupScreenRecordingDetection()
+
+    // Nettoyage lors du démontage du composant
+    return () => {
+      document.removeEventListener("keydown", preventScreenCapture)
+      document.removeEventListener("keyup", preventScreenCapture)
+      document.removeEventListener("contextmenu", preventRightClick)
+      document.removeEventListener("dragstart", preventDragDrop)
+      document.removeEventListener("selectstart", preventDragDrop)
+
+      // Restaurer la sélection de texte
+      document.body.style.userSelect = ""
+      document.body.style.webkitUserSelect = ""
+      document.body.style.mozUserSelect = ""
+      document.body.style.msUserSelect = ""
+
+      if (visibilityCleanup) {
+        visibilityCleanup()
+      }
+    }
+  }, [])
+
   // Fonction pour organiser les vidéos par module
   const organizeVideosIntoModules = (videos) => {
     const modules = {}
@@ -118,7 +230,7 @@ const CourseView = () => {
 
   const extractDriveFileId = (url) => {
     if (!url) return null
-    
+
     // Ajout d'un pattern pour le format avec view?usp=drive_link et autres paramètres
     const patterns = [
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/,
@@ -129,68 +241,68 @@ const CourseView = () => {
       // Nouveau pattern qui capture l'ID même avec des paramètres de requête
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view\?.*$/,
     ]
-    
+
     for (const pattern of patterns) {
       const match = url.match(pattern)
       if (match) return match[1]
     }
-    
+
     // Méthode alternative si les patterns ne fonctionnent pas
     // Diviser l'URL par parties et chercher l'ID entre /d/ et /view
     try {
-      if (url.includes('/file/d/') && url.includes('/view')) {
-        const parts = url.split('/file/d/')[1]
-        const id = parts.split('/view')[0]
+      if (url.includes("/file/d/") && url.includes("/view")) {
+        const parts = url.split("/file/d/")[1]
+        const id = parts.split("/view")[0]
         if (id) return id
       }
     } catch (error) {
       console.error("Erreur lors de l'extraction manuelle de l'ID:", error)
     }
-    
+
     console.log("⚠️ Impossible d'extraire l'ID Google Drive de l'URL:", url)
     return null
   }
 
   const generateDriveEmbedUrl = (driveUrl) => {
-  const fileId = extractDriveFileId(driveUrl)
-  if (!fileId) return "about:blank"
-  
-  // Paramètres supplémentaires pour renforcer la sécurité
-  // - rm=minimal: interface minimale
-  // - dscb=1: désactive certains contrôles
-  return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
-}
+    const fileId = extractDriveFileId(driveUrl)
+    if (!fileId) return "about:blank"
+
+    // Paramètres supplémentaires pour renforcer la sécurité
+    // - rm=minimal: interface minimale
+    // - dscb=1: désactive certains contrôles
+    return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
+  }
 
   // Détecte si l'URL correspond à un fichier WebM
   const isWebmVideo = (url) => {
     if (!url) return false
-    return url.toLowerCase().includes('.webm') || url.toLowerCase().includes('webm=true')
+    return url.toLowerCase().includes(".webm") || url.toLowerCase().includes("webm=true")
   }
-  
+
   // Génère une URL directe pour les fichiers WebM
   const generateWebmDirectUrl = (driveUrl) => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return null
-    
+
     // URL directe pour les fichiers WebM depuis Google Drive
     return `https://drive.google.com/uc?export=download&id=${fileId}`
   }
-  
+
   // Fonction pour générer l'URL d'affichage du PDF Google Drive
- const generatePdfEmbedUrl = (pdfUrl) => {
-  console.log("🔗 Transformation de l'URL PDF:", pdfUrl)
-  
-  const fileId = extractDriveFileId(pdfUrl)
-  console.log("📄 ID du fichier PDF extrait:", fileId)
-  
-  if (!fileId) {
-    console.warn("⚠️ Impossible d'extraire l'ID, utilisation de l'URL originale")
-    return pdfUrl
+  const generatePdfEmbedUrl = (pdfUrl) => {
+    console.log("🔗 Transformation de l'URL PDF:", pdfUrl)
+
+    const fileId = extractDriveFileId(pdfUrl)
+    console.log("📄 ID du fichier PDF extrait:", fileId)
+
+    if (!fileId) {
+      console.warn("⚠️ Impossible d'extraire l'ID, utilisation de l'URL originale")
+      return pdfUrl
+    }
+
+    // URL avec paramètres de sécurité renforcée
+    return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
   }
-  
-  // URL avec paramètres de sécurité renforcée
-  return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
-}
 
   // ✅ Fonction pour générer une vraie miniature de vidéo Google Drive
   const generateVideoThumbnail = (video) => {
@@ -214,7 +326,7 @@ const CourseView = () => {
     }
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
-    
+
     // Debug - affichons le contenu de la vidéo sélectionnée
     console.log("Vidéo sélectionnée:", video)
   }
@@ -251,7 +363,18 @@ const CourseView = () => {
 
   return (
     <StudentLayout>
-      <div className="course-view-container">
+      <div
+        className="course-view-container"
+        style={{
+          userSelect: "none",
+          webkitUserSelect: "none",
+          mozUserSelect: "none",
+          msUserSelect: "none",
+          webkitTouchCallout: "none",
+          webkitUserDrag: "none",
+          webkitTapHighlightColor: "transparent",
+        }}
+      >
         {/* Header du cours */}
         <div className="course-header">
           <button onClick={() => navigate("/student/dashboard")} className="back-btn">
@@ -392,10 +515,10 @@ const CourseView = () => {
                   </div>
                 </div>
 
-               <div className="video-player">
+                <div className="video-player">
                   {isWebmVideo(currentVideo.drive_url) ? (
                     // Lecteur vidéo HTML5 natif pour les fichiers WebM
-                    <video 
+                    <video
                       src={generateWebmDirectUrl(currentVideo.drive_url)}
                       title={currentVideo.title}
                       controls
@@ -406,17 +529,15 @@ const CourseView = () => {
                       playsInline
                       className="webm-video-player"
                       onError={(e) => {
-                        console.error("Erreur de lecture WebM:", e);
+                        console.error("Erreur de lecture WebM:", e)
                         // Si vous avez un élément pour afficher des erreurs, vous pouvez l'utiliser ici
-                        e.target.outerHTML = `
-                          <div class="video-error-message">
-                            <p>Erreur de lecture de la vidéo WebM.</p>
-                            <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
-                            <a href="${generateWebmDirectUrl(currentVideo.drive_url)}" target="_blank" rel="noopener noreferrer">
-                              Essayer d'ouvrir la vidéo dans un nouvel onglet
-                            </a>
-                          </div>
-                        `;
+                        e.target.outerHTML = `<div class="video-error-message">
+                          <p>Erreur de lecture de la vidéo WebM.</p>
+                          <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
+                          <a href="${generateWebmDirectUrl(currentVideo.drive_url)}" target="_blank" rel="noopener noreferrer">
+                            Essayer d'ouvrir la vidéo dans un nouvel onglet
+                          </a>
+                        </div>`
                       }}
                     >
                       Votre navigateur ne prend pas en charge les vidéos WebM.
@@ -438,7 +559,7 @@ const CourseView = () => {
                       sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                     />
                   )}
-              </div>
+                </div>
 
                 {/* Description de la vidéo */}
                 {currentVideo.description && (
@@ -447,20 +568,27 @@ const CourseView = () => {
                     <p>{currentVideo.description}</p>
                   </div>
                 )}
-                
+
                 {/* PDF associé à la vidéo */}
                 {currentVideo.pdf_url && (
                   <div className="video-pdf-container">
                     <div className="pdf-header-container">
                       <h3>Document du cours</h3>
                       <div className="pdf-button-container">
-                        <a 
-                          href={generatePdfEmbedUrl(currentVideo.pdf_url)} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
+                        <a
+                          href={generatePdfEmbedUrl(currentVideo.pdf_url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="pdf-view-button"
                         >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <path d="M14 2v6h6"></path>
                             <path d="M16 13H8"></path>
