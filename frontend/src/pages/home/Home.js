@@ -9,6 +9,7 @@ import ContactSection from "../../components/sections/ContactSection"
 import VideoSection from "../../components/sections/VideoSection"
 import Footer from "../../components/common/Footer"
 import ReseauxSection from "../../components/sections/ReseauxSection"
+import ScreenshotsSection from "../../components/sections/ScreenshotsSection"
 
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
       <Header />
       <HeroSection />
       <AnnonceSection />
+      <ScreenshotsSection />
       <WhyChooseUsSection />
       {/* <ServicesSection /> */}
       <TestimonialsSection />
