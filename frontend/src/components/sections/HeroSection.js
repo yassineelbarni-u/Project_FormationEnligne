@@ -8,8 +8,8 @@ const HeroSection = () => {
   // Fonction pour animer le compteur
   const animateCounter = (element) => {
     const target = parseInt(element.getAttribute('data-value'));
-    const duration = 2000; // 2 secondes
-    const step = target / (duration / 16); // 60 FPS
+    const duration = 2000;
+    const step = target / (duration / 16);
     let current = 0;
 
     const updateCounter = () => {
