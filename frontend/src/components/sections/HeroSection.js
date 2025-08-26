@@ -1,9 +1,50 @@
+import React, { useEffect } from 'react';
 import Button from "../common/Button"
 import imageHero from '../assets/hero.png.png';
 import '../styles/HeroSection.css';
 
 
 const HeroSection = () => {
+  // Fonction pour animer le compteur
+  const animateCounter = (element) => {
+    const target = parseInt(element.getAttribute('data-value'));
+    const duration = 2000; // 2 secondes
+    const step = target / (duration / 16); // 60 FPS
+    let current = 0;
+
+    const updateCounter = () => {
+      current += step;
+      if (current < target) {
+        element.textContent = Math.floor(current);
+        requestAnimationFrame(updateCounter);
+      } else {
+        element.textContent = target;
+      }
+    };
+
+    updateCounter();
+  };
+
+  // Observer pour détecter quand les stats sont visibles
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const numbers = entry.target.querySelectorAll('.stat-number');
+          numbers.forEach(animateCounter);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.hero-stats');
+    if (statsSection) {
+      observer.observe(statsSection);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="hero-section">
       {/* Éléments géométriques d'arrière-plan */}
@@ -30,19 +71,14 @@ const HeroSection = () => {
               des écoles d'ingénieurs ENSA, ENSAM, FST et FS au Maroc.
             </p>
             <div className="hero-stats">
-              <div className="stat-item">
-                <span className="stat-number">+4</span>
+              <div className="stat-item animate">
+                <span className="stat-number" data-value="4">0</span>
                 <span className="stat-label">Ans d'expérience</span>
               </div>
               <div className="stat-divider"></div>
-              <div className="stat-item">
-                <span className="stat-number">+500</span>
+              <div className="stat-item animate">
+                <span className="stat-number" data-value="500">0</span>
                 <span className="stat-label">Étudiants formés</span>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-item">
-                <span className="stat-number">95%</span>
-                <span className="stat-label">Taux de réussite</span>
               </div>
             </div>
             <div className="hero-buttons">
