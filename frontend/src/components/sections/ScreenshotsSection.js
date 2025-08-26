@@ -8,7 +8,7 @@ const ScreenshotsSection = () => {
       alt: 'Capture d\'écran de l\'interface'
     },
     {
-      image: '/images/screenshots/desktop-courses.png',
+      image: '/images/screenshots/screen2.png',
       alt: 'Capture d\'écran des cours'
     },
     {
