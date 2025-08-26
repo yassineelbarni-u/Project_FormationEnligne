@@ -60,7 +60,7 @@ const HeroSection = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-              Atteignez <span className="text-highlight">l'excellence</span>
+              Atteignez               <span className="text-highlight dynamic-excellence">l'excellence</span>
               <br />
               grâce à nos cours 
               <br />

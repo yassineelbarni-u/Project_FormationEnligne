@@ -186,6 +186,77 @@
   color: #0c4a6e; /* Bleu foncé pour un meilleur contraste */
 }
 
+/* Animation pour le mot "l'excellence" */
+.dynamic-excellence {
+  display: inline-block;
+  background-size: 300% 300%;
+  background-image: linear-gradient(
+    45deg,
+    #3b82f6 0%,    /* Bleu vif - Education */
+    #06b6d4 20%,   /* Cyan - Innovation */
+    #8b5cf6 40%,   /* Violet - Créativité */
+    #f59e0b 60%,   /* Orange - Énergie */
+    #10b981 80%,   /* Vert - Croissance */
+    #3b82f6 100%   /* Retour au bleu */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientFlow 8s ease infinite,
+             pulseScale 2s ease-in-out infinite;
+  position: relative;
+}
+
+/* Animation du dégradé qui bouge */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Animation légère de pulsation */
+@keyframes pulseScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Effet de brillance qui passe */
+.dynamic-excellence::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+  transform: skewX(-20deg);
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
 .text-highlight {
   color: #f97316; /* Orange pour les accents */
 }
