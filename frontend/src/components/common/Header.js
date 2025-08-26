@@ -34,8 +34,17 @@ const Header = () => {
   const schools = ["ENSA", "FST", "FS", "EST", "ENCG", "ENSAM"]
   const navMenuRef = useRef(null)
 
-  // Utiliser la couleur primaire
-  const schoolColor = "var(--primary-color, #2563eb)"
+  const getSchoolColor = (school) => {
+    const colors = {
+      ENSA: "#3b82f6",
+      FST: "#10b981",
+      FS: "#8b5cf6",
+      EST: "#e11d48",
+      ENCG: "#ea580c",
+      ENSAM: "#0ea5e9"
+    }
+    return colors[school] || "#2563eb"
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,17 +79,17 @@ const Header = () => {
       <div className="header-top">
         <div className="container">
           <div className="header-info">
-            <span>
-              Cours de soutien en ligne{" "}
-              <span
-                style={{
-                  color: schoolColor,
-                  fontWeight: "bold",
-                }}
-              >
+            <div className="header-content">
+              <span>Cours de soutien en ligne </span>
+              <span style={{ 
+                color: getSchoolColor(schools[schoolIndex]),
+                fontWeight: "bold",
+                fontSize: "1.1rem",
+                transition: "color 0.3s ease"
+              }}>
                 {schools[schoolIndex]}
               </span>
-            </span>
+            </div>
             <div className="contact-info">
               <span>📞 +212 648-263079</span>
               <div className="social-links">
