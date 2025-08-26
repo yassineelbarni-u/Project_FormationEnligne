@@ -36,7 +36,7 @@ const Header = () => {
 
   const getSchoolColor = (school) => {
     const colors = {
-      ENSA: "#3b82f6",
+      ENSA: "#de34d6ff",
       FST: "#10b981",
       FS: "#8b5cf6",
       EST: "#e11d48",
