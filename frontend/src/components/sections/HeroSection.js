@@ -29,6 +29,22 @@ const HeroSection = () => {
               Cours de soutien en ligne spécialisés en Sciences. Mathématiques, Physique-Chimie, Informatique pour les étudiants 
               des écoles d'ingénieurs ENSA, ENSAM, FST et FS au Maroc.
             </p>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <span className="stat-number">+4</span>
+                <span className="stat-label">Ans d'expérience</span>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <span className="stat-number">+500</span>
+                <span className="stat-label">Étudiants formés</span>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <span className="stat-number">95%</span>
+                <span className="stat-label">Taux de réussite</span>
+              </div>
+            </div>
             <div className="hero-buttons">
               <Button variant="primary" to="/courses">Découvrir nos cours</Button>
               <Button variant="outline" to="/student/login">Espace étudiant</Button>
