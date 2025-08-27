@@ -45,7 +45,6 @@ async def login_student(student_data: StudentLogin, db: Session = Depends(get_db
     if course_access:
         access_valid = True
     
-    # if student.password and verify_password(student_data.access_code, student.password):
     
     if not access_valid:
         raise HTTPException(
@@ -55,7 +54,7 @@ async def login_student(student_data: StudentLogin, db: Session = Depends(get_db
     
     # Créer le token JWT
     from datetime import timedelta
-    access_token_expires = timedelta(hours=24)  # Plus long pour les étudiants
+    access_token_expires = timedelta(hours=24) 
     access_token = create_access_token(
         data={"sub": student.email, "type": "student"}, 
         expires_delta=access_token_expires
