@@ -104,7 +104,7 @@
   font-size: 0.875rem;
 }
 
-/* Layout principal - MOBILE FIRST */
+/* Layout principal MOBILE FIRST */
 .course-layout {
   display: flex;
   flex-direction: column;
@@ -115,7 +115,7 @@
   padding: 0;
 }
 
-/* Section vidéo - PRIORITÉ SUR MOBILE */
+/* Section vidéo PRIORITÉ SUR MOBILE */
 .video-section {
   background: #f8fafc;
   display: flex;
@@ -123,7 +123,6 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
-  /* Sur mobile, prend 60% de l'écran */
   flex: 0 0 60vh;
   order: 1; 
 }
@@ -267,7 +266,6 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
-  /* Sur mobile, prend le reste de l'écran */
   flex: 1;
   border-top: 1px solid #e2e8f0;
   order: 2; 
@@ -374,7 +372,6 @@
   display: flex;
   gap: 0.75rem;
   align-items: flex-start;
-  /* ✅ Améliorer la visibilité cliquable */
   border-radius: 8px;
   margin: 0.25rem 0.5rem;
 }
@@ -604,19 +601,17 @@
     flex-direction: row;
   }
 
-  /* ✅ CONTENU À GAUCHE */
   .content-section {
     width: 450px;
     border-right: 1px solid #e2e8f0;
     border-top: none;
     flex: 0 0 450px;
-    order: 1; /* Premier élément */
+    order: 1;
   }
 
-  /* ✅ VIDÉO À DROITE */
   .video-section {
     flex: 1;
-    order: 2; /* Deuxième élément */
+    order: 2;
   }
 
   .content-header {

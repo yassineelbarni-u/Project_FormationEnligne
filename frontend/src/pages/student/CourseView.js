@@ -33,7 +33,7 @@ const CourseView = () => {
         return false
       }
 
-      // Empêcher Win+G (Xbox Game Bar)
+      // Empêcher Win+G
       if (e.key === "g" && e.metaKey) {
         e.preventDefault()
         showCaptureWarning()
@@ -47,7 +47,7 @@ const CourseView = () => {
         return false
       }
 
-      // Empêcher Ctrl+Shift+S (capture Firefox)
+      // Empêcher Ctrl+Shift+S
       if (e.key === "S" && e.ctrlKey && e.shiftKey) {
         e.preventDefault()
         showCaptureWarning()
@@ -181,7 +181,6 @@ const CourseView = () => {
     }
   }
 
-  // Lors du premier chargement, définir tous les modules comme étant développés
   useEffect(() => {
     if (videos.length > 0) {
       const modules = Object.keys(organizeVideosIntoModules(videos))
@@ -196,7 +195,6 @@ const CourseView = () => {
     fetchData()
   }, [courseId]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchCourseData = async () => {
     try {
       setIsLoading(true)
@@ -238,7 +236,6 @@ const CourseView = () => {
       /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view/,
-      // Nouveau pattern qui capture l'ID même avec des paramètres de requête
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view\?.*$/,
     ]
 
