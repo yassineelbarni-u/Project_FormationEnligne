@@ -1,4 +1,3 @@
-/* Vue du cours avec layout optimisé - MOBILE FIRST */
 .course-view-container {
   display: flex;
   flex-direction: column;
@@ -6,7 +5,7 @@
   background: #ffffff;
   margin: 0;
   padding: 0;
-  padding-bottom: 80px; /* Ajoute de l'espace en bas */
+  padding-bottom: 80px;
 }
 
 /* Header du cours */
@@ -126,7 +125,7 @@
   padding: 0;
   /* Sur mobile, prend 60% de l'écran */
   flex: 0 0 60vh;
-  order: 1; /* Premier sur mobile */
+  order: 1; 
 }
 
 .video-player-container {
@@ -271,7 +270,7 @@
   /* Sur mobile, prend le reste de l'écran */
   flex: 1;
   border-top: 1px solid #e2e8f0;
-  order: 2; /* Deuxième sur mobile */
+  order: 2; 
 }
 
 .content-header {
