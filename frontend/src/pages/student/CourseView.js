@@ -244,8 +244,7 @@ const CourseView = () => {
       if (match) return match[1]
     }
 
-    // Méthode alternative si les patterns ne fonctionnent pas
-    // Diviser l'URL par parties et chercher l'ID entre /d/ et /view
+   
     try {
       if (url.includes("/file/d/") && url.includes("/view")) {
         const parts = url.split("/file/d/")[1]
@@ -264,9 +263,7 @@ const CourseView = () => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return "about:blank"
 
-    // Paramètres supplémentaires pour renforcer la sécurité
-    // - rm=minimal: interface minimale
-    // - dscb=1: désactive certains contrôles
+    
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
   }
 
@@ -276,7 +273,6 @@ const CourseView = () => {
     return url.toLowerCase().includes(".webm") || url.toLowerCase().includes("webm=true")
   }
 
-  // Génère une URL directe pour les fichiers WebM
   const generateWebmDirectUrl = (driveUrl) => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return null
@@ -297,18 +293,15 @@ const CourseView = () => {
       return pdfUrl
     }
 
-    // URL avec paramètres de sécurité renforcée
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
   }
 
-  // ✅ Fonction pour générer une vraie miniature de vidéo Google Drive
+  // Fonction pour générer une vraie miniature de vidéo Google Drive
   const generateVideoThumbnail = (video) => {
     const fileId = extractDriveFileId(video.drive_url)
     if (fileId) {
-      // Utiliser l'API Google Drive pour obtenir la miniature réelle
       return `https://drive.google.com/thumbnail?id=${fileId}&sz=w320-h180`
     }
-    // Fallback avec une image de tableau/cours
     return `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 10))}`
   }
 
@@ -324,7 +317,6 @@ const CourseView = () => {
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
 
-    // Debug - affichons le contenu de la vidéo sélectionnée
     console.log("Vidéo sélectionnée:", video)
   }
 
@@ -429,7 +421,6 @@ const CourseView = () => {
                               src={generateVideoThumbnail(video) || "/placeholder.svg"}
                               alt={`Miniature de la vidéo ${video.title}`}
                               onError={(e) => {
-                                // Fallback si la miniature Google Drive ne fonctionne pas
                                 e.target.src = `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 8))}`
                               }}
                             />
