@@ -79,7 +79,7 @@ async def get_current_student_info(current_student: Student = Depends(get_curren
     """
     return current_student
 
-# ==================== COURS DE L'ÉTUDIANT ====================
+#COURS DE L'ÉTUDIANT 
 
 @router.get("/my-courses", response_model=List[CourseResponse])
 async def get_my_courses(
@@ -168,7 +168,7 @@ async def get_course_videos(
     
     return videos
 
-# ==================== ACCÈS PAR TOKEN/LIEN ====================
+#ACCÈS PAR TOKEN/LIEN
 
 @router.get("/access/{access_token}")
 async def access_course_by_token(access_token: str, db: Session = Depends(get_db)):
