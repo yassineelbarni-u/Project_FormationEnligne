@@ -113,6 +113,11 @@ async def delete_job_offer(
             detail="Offre d'emploi non trouvée"
         )
     
+    # Supprimer d'abord les candidatures associées
+    for application in job_offer.applications:
+        db.delete(application)
+    
+    # Puis supprimer l'offre
     db.delete(job_offer)
     db.commit()
     
