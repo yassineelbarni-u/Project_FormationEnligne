@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# URL de connexion MySQL pour XAMPP
+# connexion à la base de données
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://user:rootpassword@db:3306/database_ilyas_nahi"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
