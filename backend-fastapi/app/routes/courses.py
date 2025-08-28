@@ -60,10 +60,8 @@ async def create_course(
     db: Session = Depends(get_db)
 ):
     """Créer un nouveau cours"""
-    # Générer un code d'accès unique
     access_code = generate_access_code()
     
-    # Vérifier que le code d'accès est unique
     while db.query(Course).filter(Course.access_code == access_code).first():
         access_code = generate_access_code()
     
@@ -91,7 +89,7 @@ async def upload_course_image(
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
-    """Upload une image pour un cours"""
+    
     # Vérifier que le cours appartient à l'admin
     course = db.query(Course).filter(
         Course.id == course_id,
@@ -101,7 +99,7 @@ async def upload_course_image(
     if not course:
         raise HTTPException(status_code=404, detail="Cours non trouvé")
     
-    # Vérifier le type de fichier
+    # Verifier le type de fichier
     if not file.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail="Le fichier doit être une image")
     
@@ -109,7 +107,7 @@ async def upload_course_image(
     upload_dir = Path("backend/uploads/images/courses")
     upload_dir.mkdir(parents=True, exist_ok=True)
     
-    # Générer un nom de fichier unique
+    # Generer un nom de fichier unique
     file_extension = file.filename.split('.')[-1]
     filename = f"course_{course_id}.{file_extension}"
     file_path = upload_dir / filename
@@ -279,7 +277,6 @@ async def add_video_to_course(
     if not drive_file_id:
         raise HTTPException(status_code=400, detail="URL Google Drive invalide")
     
-    # Générer une URL de miniature par défaut (en pratique, il faudrait implémenter une solution pour extraire une vignette)
     # Pour l'instant, on utilise une image par défaut
     thumbnail_url = f"https://drive.google.com/thumbnail?id={drive_file_id}"
     
@@ -391,9 +388,8 @@ async def generate_course_access_link(
     from datetime import datetime, timedelta
     expires_at = datetime.utcnow() + timedelta(days=link_data.expires_days or 30)
     
-    # Créer l'accès générique (sans étudiant spécifique)
     db_access = CourseAccess(
-        student_id=None,  # Accès générique
+        student_id=None,
         course_id=course_id,
         access_type=link_data.access_type,
         access_token=access_token,
@@ -405,7 +401,7 @@ async def generate_course_access_link(
     db.refresh(db_access)
     
     # Générer l'URL d'accès
-    base_url = "http://localhost:3000"  # À adapter selon ton domaine
+    base_url = "http://localhost:3000"
     
     if link_data.access_type == "link":
         access_url = f"{base_url}/course/access/{access_token}"
