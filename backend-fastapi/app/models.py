@@ -21,7 +21,7 @@ class Admin(Base):
     name = Column(String(255))
     hashed_password = Column(String(255))
     is_active = Column(Boolean, default=True)
-    is_super_admin = Column(Boolean, default=False)  # 🆕 Nouveau champ pour différencier les types d'admin
+    is_super_admin = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     # Relations
@@ -36,11 +36,11 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), index=True)
     description = Column(Text)
-    subject = Column(String(100))  # Maths, Physique, Chimie...
-    level = Column(String(50))     # Débutant, Intermédiaire, Avancé
-    drive_folder_id = Column(String(255))  # ID du dossier Google Drive
-    access_code = Column(String(50), unique=True)  # Code d'accès unique
-    image_filename = Column(String(255), nullable=True)  # Nom du fichier image
+    subject = Column(String(100))
+    level = Column(String(50)) 
+    drive_folder_id = Column(String(255))
+    access_code = Column(String(50), unique=True)
+    image_filename = Column(String(255), nullable=True)
     is_active = Column(Boolean, default=True)
     admin_id = Column(Integer, ForeignKey("admins.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())

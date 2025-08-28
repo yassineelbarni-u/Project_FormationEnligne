@@ -4,7 +4,6 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional, List
 
-# Schémas de base existants
 class AdminLogin(BaseModel):
     email: EmailStr
     password: str
@@ -14,13 +13,12 @@ class AdminResponse(BaseModel):
     email: str
     name: str
     is_active: bool
-    is_super_admin: bool  # 🆕 Nouveau champ
+    is_super_admin: bool
     created_at: datetime
     
     class Config:
         from_attributes = True
 
-# 🆕 Nouveaux schémas pour la gestion des admins
 class AdminCreate(BaseModel):
     email: EmailStr
     name: str
@@ -42,7 +40,7 @@ class Token(BaseModel):
 
 class StudentLogin(BaseModel):
     email: EmailStr
-    access_code: str  # Code d'accès ou mot de passe
+    access_code: str
 
 class StudentResponse(BaseModel):
     id: int
@@ -63,7 +61,7 @@ class CourseBase(BaseModel):
     subject: str
     level: str
     drive_folder_id: Optional[str] = None
-    image_filename: Optional[str] = None  # Ajout du champ image_filename pour stocker le nom du fichier image
+    image_filename: Optional[str] = None
 
 class CourseCreate(CourseBase):
     pass
@@ -72,7 +70,7 @@ class CourseUpdate(CourseBase):
     title: Optional[str] = None
     subject: Optional[str] = None
     level: Optional[str] = None
-    image_filename: Optional[str] = None  # Ajout du champ image_filename dans CourseUpdate
+    image_filename: Optional[str] = None
 
 class CourseResponse(CourseBase):
     id: int
@@ -82,7 +80,7 @@ class CourseResponse(CourseBase):
     created_at: datetime
     video_count: Optional[int] = 0
     student_count: Optional[int] = 0
-    image_url: Optional[str] = None  # Ajout du champ image_url pour l'URL complète de l'image
+    image_url: Optional[str] = None
     
     class Config:
         from_attributes = True
@@ -92,7 +90,7 @@ class VideoBase(BaseModel):
     title: str
     description: Optional[str] = None
     drive_url: str
-    pdf_url: Optional[str] = None  # Lien vers le PDF du cours (optionnel)
+    pdf_url: Optional[str] = None
     order_in_course: int = 0
     is_free: bool = False
     module_name: Optional[str] = None
@@ -104,7 +102,7 @@ class VideoUpdate(VideoBase):
     title: Optional[str] = None
     drive_file_id: Optional[str] = None
     drive_url: Optional[str] = None
-    pdf_url: Optional[str] = None  # Lien vers le PDF du cours (optionnel)
+    pdf_url: Optional[str] = None
     course_id: Optional[int] = None
 
 class VideoResponse(VideoBase):
@@ -137,7 +135,7 @@ class StudentUpdate(StudentBase):
 class CourseAccessCreate(BaseModel):
     student_id: int
     course_id: int
-    access_type: str = "standard"  # "standard", "email", "link", "code"
+    access_type: str = "standard"
     duration_days: Optional[int] = 30
 
 class CourseAccessResponse(BaseModel):
@@ -150,7 +148,6 @@ class CourseAccessResponse(BaseModel):
     is_active: bool
     created_at: datetime
     
-    # Infos supplémentaires - ces champs doivent être remplis
     student_name: str
     student_email: str
     course_title: str
@@ -162,7 +159,7 @@ class CourseAccessResponse(BaseModel):
 class GenerateAccessLink(BaseModel):
     course_id: int
     expires_days: Optional[int] = 30
-    access_type: str = "link"  # "link" ou "code"
+    access_type: str = "link"
 
 # Statistiques du dashboard
 class DashboardStats(BaseModel):
@@ -256,7 +253,7 @@ class JobApplicationCreate(JobApplicationBase):
     job_offer_id: int
 
 class JobApplicationUpdate(BaseModel):
-    status: Optional[str] = None  # "pending", "reviewed", "accepted", "rejected"
+    status: Optional[str] = None
     admin_notes: Optional[str] = None
 
 class JobApplicationResponse(JobApplicationBase):

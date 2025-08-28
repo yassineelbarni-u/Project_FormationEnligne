@@ -21,7 +21,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # Contexte de hachage des mots de passe
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Schéma de sécurité
 security = HTTPBearer()
 
 def verify_password(plain_password, hashed_password):
