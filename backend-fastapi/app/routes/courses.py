@@ -30,9 +30,9 @@ def extract_drive_file_id(url):
     """Extraire l'ID de fichier Google Drive d'une URL"""
     # Gérer différents formats d'URL Google Drive
     patterns = [
-        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^\/\?]+)',  # Format /file/d/{id}
-        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)',     # Format ?id={id}
-        r'(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^\/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)', # Format ?id={id} pour uc
+        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^\/\?]+)',
+        r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)',
+        r'(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^\/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)',
         r'(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^\/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)'  
     ]
     
