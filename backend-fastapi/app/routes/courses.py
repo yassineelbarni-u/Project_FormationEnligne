@@ -287,7 +287,7 @@ async def add_video_to_course(
         title=video.title,
         description=video.description,
         drive_url=video.drive_url,
-        pdf_url=video.pdf_url,  # Ajout du champ pdf_url
+        pdf_url=video.pdf_url,  
         drive_file_id=drive_file_id,
         thumbnail_url=thumbnail_url,
         order_in_course=video.order_in_course,

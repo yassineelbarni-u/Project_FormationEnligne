@@ -51,7 +51,7 @@ async def get_dashboard_stats(
             "type": "video",
             "title": video.title,
             "date": video.created_at.strftime("%d/%m/%Y"),
-            "views": 0,  # YouTube analytics à implémenter plus tard
+            "views": 0,
             "course_id": video.course_id
         })
     

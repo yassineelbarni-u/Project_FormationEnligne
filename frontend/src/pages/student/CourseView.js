@@ -560,7 +560,7 @@ const CourseView = () => {
                 {/* PDF associé à la vidéo */}
                 {currentVideo.pdf_url && (
                   <div className="video-pdf-container">
-                    <div className="pdf-header-container">
+                    <div className="pdf-header)-ontainer">
                       <h3>Document du cours</h3>
                       <div className="pdf-button-container">
                         <a
