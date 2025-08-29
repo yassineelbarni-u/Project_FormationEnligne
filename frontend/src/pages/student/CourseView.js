@@ -33,7 +33,7 @@ const CourseView = () => {
         return false
       }
 
-      // Empêcher Win+G
+      // Empêcher Win+G (Xbox Game Bar)
       if (e.key === "g" && e.metaKey) {
         e.preventDefault()
         showCaptureWarning()
@@ -47,7 +47,7 @@ const CourseView = () => {
         return false
       }
 
-      // Empêcher Ctrl+Shift+S
+      // Empêcher Ctrl+Shift+S (capture Firefox)
       if (e.key === "S" && e.ctrlKey && e.shiftKey) {
         e.preventDefault()
         showCaptureWarning()
@@ -181,6 +181,7 @@ const CourseView = () => {
     }
   }
 
+  // Lors du premier chargement, définir tous les modules comme étant développés
   useEffect(() => {
     if (videos.length > 0) {
       const modules = Object.keys(organizeVideosIntoModules(videos))
@@ -195,6 +196,7 @@ const CourseView = () => {
     fetchData()
   }, [courseId]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchCourseData = async () => {
     try {
       setIsLoading(true)
@@ -236,6 +238,7 @@ const CourseView = () => {
       /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view/,
+      // Nouveau pattern qui capture l'ID même avec des paramètres de requête
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view\?.*$/,
     ]
 
@@ -244,7 +247,8 @@ const CourseView = () => {
       if (match) return match[1]
     }
 
-   
+    // Méthode alternative si les patterns ne fonctionnent pas
+    // Diviser l'URL par parties et chercher l'ID entre /d/ et /view
     try {
       if (url.includes("/file/d/") && url.includes("/view")) {
         const parts = url.split("/file/d/")[1]
@@ -263,7 +267,9 @@ const CourseView = () => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return "about:blank"
 
-    
+    // Paramètres supplémentaires pour renforcer la sécurité
+    // - rm=minimal: interface minimale
+    // - dscb=1: désactive certains contrôles
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
   }
 
@@ -273,12 +279,8 @@ const CourseView = () => {
     return url.toLowerCase().includes(".webm") || url.toLowerCase().includes("webm=true")
   }
 
-  const generateWebmDirectUrl = (driveUrl) => {
-    const fileId = extractDriveFileId(driveUrl)
-    if (!fileId) return null
-
-    // URL directe pour les fichiers WebM depuis Google Drive
-    return `https://drive.google.com/uc?export=download&id=${fileId}`
+  const generateWebmDirectUrl = (video) => {
+    return `/api/video-secure/stream/${video.id}`
   }
 
   // Fonction pour générer l'URL d'affichage du PDF Google Drive
@@ -293,16 +295,24 @@ const CourseView = () => {
       return pdfUrl
     }
 
+    // URL avec paramètres de sécurité renforcée
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
   }
 
-  // Fonction pour générer une vraie miniature de vidéo Google Drive
   const generateVideoThumbnail = (video) => {
-    const fileId = extractDriveFileId(video.drive_url)
-    if (fileId) {
-      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w320-h180`
-    }
-    return `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 10))}`
+    return `/api/video-secure/thumbnail/${video.id}`
+  }
+
+  const generateLocalPlaceholder = (text) => {
+    const svgContent = `
+      <svg width="320" height="180" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="180" fill="#1f2937"/>
+        <text x="160" y="95" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">
+          ${text.substring(0, 12)}
+        </text>
+      </svg>
+    `
+    return `data:image/svg+xml;base64,${btoa(svgContent)}`
   }
 
   const selectVideo = (video) => {
@@ -317,6 +327,7 @@ const CourseView = () => {
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
 
+    // Debug - affichons le contenu de la vidéo sélectionnée
     console.log("Vidéo sélectionnée:", video)
   }
 
@@ -418,10 +429,10 @@ const CourseView = () => {
                         >
                           <div className="lesson-thumbnail">
                             <img
-                              src={generateVideoThumbnail(video) || "/placeholder.svg"}
+                              src={generateVideoThumbnail(video) || generateLocalPlaceholder(video.title)}
                               alt={`Miniature de la vidéo ${video.title}`}
                               onError={(e) => {
-                                e.target.src = `https://via.placeholder.com/320x180/1f2937/ffffff?text=${encodeURIComponent(video.title.substring(0, 8))}`
+                                e.target.src = generateLocalPlaceholder(video.title)
                               }}
                             />
                             <div className="play-icon">
@@ -505,9 +516,8 @@ const CourseView = () => {
 
                 <div className="video-player">
                   {isWebmVideo(currentVideo.drive_url) ? (
-                    // Lecteur vidéo HTML5 natif pour les fichiers WebM
                     <video
-                      src={generateWebmDirectUrl(currentVideo.drive_url)}
+                      src={generateWebmDirectUrl(currentVideo)}
                       title={currentVideo.title}
                       controls
                       controlsList="nodownload"
@@ -518,20 +528,13 @@ const CourseView = () => {
                       className="webm-video-player"
                       onError={(e) => {
                         console.error("Erreur de lecture WebM:", e)
-                        // Si vous avez un élément pour afficher des erreurs, vous pouvez l'utiliser ici
                         e.target.outerHTML = `<div class="video-error-message">
                           <p>Erreur de lecture de la vidéo WebM.</p>
                           <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
-                          <a href="${generateWebmDirectUrl(currentVideo.drive_url)}" target="_blank" rel="noopener noreferrer">
-                            Essayer d'ouvrir la vidéo dans un nouvel onglet
-                          </a>
                         </div>`
                       }}
                     >
                       Votre navigateur ne prend pas en charge les vidéos WebM.
-                      <a href={generateWebmDirectUrl(currentVideo.drive_url)} target="_blank" rel="noopener noreferrer">
-                        Ouvrir la vidéo dans un nouvel onglet
-                      </a>
                     </video>
                   ) : (
                     // Iframe classique pour les autres formats de vidéo
@@ -545,6 +548,8 @@ const CourseView = () => {
                       height="100%"
                       // Ajouter sandbox pour limiter certaines fonctionnalités
                       sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   )}
                 </div>
@@ -557,36 +562,24 @@ const CourseView = () => {
                   </div>
                 )}
 
-                {/* PDF associé à la vidéo */}
                 {currentVideo.pdf_url && (
-                  <div className="video-pdf-container">
-                    <div className="pdf-header)-ontainer">
-                      <h3>Document du cours</h3>
-                      <div className="pdf-button-container">
-                        <a
-                          href={generatePdfEmbedUrl(currentVideo.pdf_url)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="pdf-view-button"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <path d="M14 2v6h6"></path>
-                            <path d="M16 13H8"></path>
-                            <path d="M16 17H8"></path>
-                            <path d="M10 9H8"></path>
-                          </svg>
-                          Voir le document PDF
-                        </a>
-                      </div>
-                    </div>
+                  <div className="document-section">
+                    <h3 className="document-title">Document du cours</h3>
+                    <a
+                      href={generatePdfEmbedUrl(currentVideo.pdf_url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pdf-button"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <path d="M14 2v6h6"></path>
+                        <path d="M16 13H8"></path>
+                        <path d="M16 17H8"></path>
+                        <path d="M10 9H8"></path>
+                      </svg>
+                      Voir le document PDF
+                    </a>
                   </div>
                 )}
               </div>

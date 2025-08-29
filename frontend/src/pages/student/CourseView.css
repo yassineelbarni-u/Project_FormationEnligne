@@ -6,6 +6,16 @@
   margin: 0;
   padding: 0;
   padding-bottom: 80px;
+  /* Added anti-screenshot protection styles */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  transition: filter 0.3s ease;
 }
 
 /* Header du cours */
@@ -124,7 +134,7 @@
   margin: 0;
   padding: 0;
   flex: 0 0 60vh;
-  order: 1; 
+  order: 1;
 }
 
 .video-player-container {
@@ -226,16 +236,95 @@
   position: relative;
   width: 100%;
   background: #000000;
-  aspect-ratio: 16/9;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  /* Added security styles for video player */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.video-player iframe {
+.fallback-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  width: 100%;
+}
+
+.video-wrapper iframe {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   border: none;
+  background: #000;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.video-player iframe,
+.video-player video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #000;
+  /* Added security styles for video elements */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.video-player video:not([src]),
+.video-player video[src=""] {
+  display: none;
+}
+
+.secure-video-player {
+  background: #000;
+}
+
+.fallback-video-player {
+  background: #000;
+  border: none !important;
+}
+
+.webm-video-player {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: auto;
 }
 
 .video-description {
@@ -269,7 +358,7 @@
   padding: 0;
   flex: 1;
   border-top: 1px solid #e2e8f0;
-  order: 2; 
+  order: 2;
 }
 
 .content-header {
@@ -586,6 +675,44 @@
   transform: translateY(-1px);
 }
 
+/* Style pour le document PDF */
+.document-section {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 1rem 0;
+}
+
+.document-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.pdf-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ef4444;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.pdf-button:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+}
+
 /* DESKTOP - Layout en colonnes */
 @media (min-width: 1024px) {
   .course-header {
@@ -714,44 +841,6 @@
   }
 }
 
-/* Style pour le document PDF */
-.document-section {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin: 1rem 0;
-}
-
-.document-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 1rem;
-}
-
-.pdf-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #ef4444;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-  border: none;
-  cursor: pointer;
-}
-
-.pdf-button:hover {
-  background: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
-}
-
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1023px) {
   .course-header {
@@ -783,4 +872,127 @@
   .video-lesson {
     min-height: 60px;
   }
+}
+
+/* Added comprehensive anti-screenshot protection styles */
+.course-view-container.content-protected {
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.course-view-container * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+.security-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+}
+
+.security-message {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  animation: securityPulse 2s infinite;
+}
+
+.security-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: securityRotate 3s linear infinite;
+}
+
+.security-message h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.security-message p {
+  margin: 0 0 1.5rem 0;
+  opacity: 0.9;
+}
+
+.security-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: securitySpin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes securityPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes securityRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes securitySpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empêcher l'impression */
+@media print {
+  .course-view-container {
+    display: none !important;
+  }
+
+  body::after {
+    content: "Impression interdite - Contenu protégé";
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 50px;
+  }
+}
+
+/* Protection contre les outils de développement */
+.course-view-container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: -1;
+  pointer-events: none;
 }

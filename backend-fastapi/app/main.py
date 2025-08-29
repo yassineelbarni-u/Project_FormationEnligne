@@ -8,11 +8,14 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 import os
 
+# Imports locaux
 from app.database import engine
 from app.models import Base
 from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses, admin_management, announcements
 from app.routes import recruitment, applications
+from app.routes import video_secure
 
+# Créer les tables
 Base.metadata.create_all(bind=engine)
 
 # Initialiser FastAPI
@@ -24,10 +27,10 @@ app = FastAPI(
 # Configuration CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000"],  # Origine spécifique du frontend React
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # Inclure les routes
@@ -48,6 +51,9 @@ app.include_router(applications.router, prefix="/api/applications", tags=["appli
 app.include_router(recruitment.router, prefix="/api/admin/recruitment", tags=["admin_recruitment"])
 app.include_router(applications.router, prefix="/api/admin/applications", tags=["admin_applications"])
 
+app.include_router(video_secure.router, prefix="/api/video-secure", tags=["video_secure"])
+
+# Créer le dossier pour les images d'annonces dans le backend
 announcements_images_dir = "backend/uploads/images/announcements"
 os.makedirs(announcements_images_dir, exist_ok=True)
 

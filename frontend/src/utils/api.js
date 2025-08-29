@@ -25,22 +25,22 @@ class ApiService {
   // Méthode générique pour les requêtes
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`
-    
+
     // Si custom headers est fourni, utilisez-les, sinon utilisez les headers par défaut
-    let headers = options.headers || this.getHeaders(options.auth !== false, options.isStudent);
-    
+    let headers = options.headers || this.getHeaders(options.auth !== false, options.isStudent)
+
     // Ne pas ajouter Content-Type pour FormData car le navigateur le définit automatiquement avec la boundary
     if (options.body instanceof FormData) {
       // Supprimez Content-Type pour FormData pour laisser le navigateur le définir
-      const { 'Content-Type': _, ...headersWithoutContentType } = headers;
-      headers = headersWithoutContentType;
+      const { "Content-Type": _, ...headersWithoutContentType } = headers
+      headers = headersWithoutContentType
     }
-    
+
     const config = {
       headers,
       ...options,
     }
-    
+
     try {
       const response = await fetch(url, config)
       if (!response.ok) {
@@ -178,35 +178,6 @@ class ApiService {
 
   async deleteAccess(accessId) {
     return this.request(`/api/admin/accesses/${accessId}`, {
-      method: "DELETE",
-    })
-  }
-
-  // Admin Management - Méthodes pour la gestion des administrateurs
-  async getAdmins() {
-    return this.request("/api/admin/management/")
-  }
-
-  async createAdmin(adminData) {
-    return this.request("/api/admin/management/", {
-      method: "POST",
-      body: JSON.stringify(adminData),
-    })
-  }
-
-  async getAdmin(adminId) {
-    return this.request(`/api/admin/management/${adminId}`)
-  }
-
-  async updateAdmin(adminId, adminData) {
-    return this.request(`/api/admin/management/${adminId}`, {
-      method: "PUT",
-      body: JSON.stringify(adminData),
-    })
-  }
-
-  async deleteAdmin(adminId) {
-    return this.request(`/api/admin/management/${adminId}`, {
       method: "DELETE",
     })
   }
@@ -444,6 +415,7 @@ class ApiService {
   async getRecruitmentStats() {
     return this.request("/api/admin/recruitment/stats")
   }
+
 }
 
 // Export d'une instance unique
