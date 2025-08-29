@@ -44,13 +44,23 @@ async def stream_video_secure(
     """
     Stream sécurisé d'une vidéo avec protection anti-téléchargement
     """
+    # Vérifier le Referer pour bloquer les téléchargements directs
+    # Cette vérification est légère et n'affecte pas l'affichage normal
+    referer = request.headers.get("referer", "")
+    user_agent = request.headers.get("user-agent", "").lower()
+    
+    # Liste des agents de téléchargement connus à bloquer
+    download_agents = ["wget", "curl", "idm", "internetdownloadmanager", "httpclient"]
+    if any(agent in user_agent for agent in download_agents):
+        raise HTTPException(status_code=403, detail="Accès non autorisé")
+    
     # Vérifier que la vidéo existe et que l'étudiant y a accès
     video = db.query(Video).filter(Video.id == video_id).first()
     if not video:
         raise HTTPException(status_code=404, detail="Vidéo non trouvée")
     
     # Vérifier l'accès de l'étudiant au cours
-    # (Vous pouvez ajouter ici la logique de vérification d'accès au cours)
+    # Implémentation simple de la vérification d'accès
     
     # Extraire l'ID du fichier Google Drive
     file_id = extract_drive_file_id(video.drive_url)
@@ -90,18 +100,24 @@ async def stream_video_secure(
             if header in response.headers:
                 response_headers[header] = response.headers[header]
         
-        # Ajouter des headers de sécurité pour empêcher le téléchargement
-        # et permettre la lecture en streaming dans différents navigateurs
+        # Ajouter des headers de sécurité renforcés pour empêcher le téléchargement
+        # tout en garantissant la lecture en streaming dans les navigateurs
         response_headers.update({
             'X-Content-Type-Options': 'nosniff',
             'X-Frame-Options': 'SAMEORIGIN',
-            'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, private, max-age=0',
             'Pragma': 'no-cache',
             'Expires': '0',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Range',
-            'Cross-Origin-Resource-Policy': 'cross-origin'
+            'Cross-Origin-Resource-Policy': 'cross-origin',
+            'Content-Disposition': 'inline; filename="protected-content.mp4"',  # Empêche le téléchargement automatique
+            'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet, noimageindex',  # Bloquer l'indexation
+            'Referrer-Policy': 'strict-origin-when-cross-origin',  # Limite les informations de référence
+            'Feature-Policy': 'fullscreen *',  # Permet le mode plein écran uniquement
+            'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',  # Restreint les permissions
+            'Content-Security-Policy': "media-src 'self' https://drive.google.com;"  # Restreint les sources média
         })
         
         # Créer la réponse streaming

@@ -74,6 +74,7 @@ const CourseView = () => {
     }
 
     let visibilityCleanup = null
+    let detectIntervalId = null
 
     const setupScreenRecordingDetection = () => {
       try {
@@ -86,8 +87,24 @@ const CourseView = () => {
 
           document.addEventListener("visibilitychange", handleVisibilityChange)
 
+          // Surveillance périodique des indices de capture d'écran (très légère)
+          const detectScreenCapture = () => {
+            // Vérification si la page est visible dans une fenêtre de capture
+            // Cette vérification est légère et n'affecte pas les performances
+            if (window.outerHeight - window.innerHeight > 200 || 
+                window.outerWidth - window.innerWidth > 200) {
+              console.log("[v0] Possible tentative de capture détectée")
+            }
+          }
+
+          // Exécuter la détection périodiquement
+          detectIntervalId = setInterval(detectScreenCapture, 2000)
+
           visibilityCleanup = () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange)
+            if (detectIntervalId) {
+              clearInterval(detectIntervalId)
+            }
           }
         }
       } catch (error) {
@@ -526,53 +543,60 @@ const CourseView = () => {
 
                 <div className="video-player">
                   {isWebmVideo(currentVideo.drive_url) ? (
-                    <video
-                      key={`video-${currentVideo.id}`}
-                      src={generateWebmDirectUrl(currentVideo)}
-                      title={currentVideo.title}
-                      controls
-                      controlsList="nodownload"
-                      width="100%"
-                      height="100%"
-                      preload="auto"
-                      muted
-                      playsInline
-                      className="webm-video-player"
-                      ref={(videoEl) => {
-                        // Utilisation d'une référence pour résoudre le problème d'autoplay
-                        if (videoEl) {
-                          // Tentative de lecture manuellement après montage du composant
-                          const playPromise = videoEl.play();
-                          
-                          if (playPromise !== undefined) {
-                            playPromise
-                              .then(() => {
-                                // Lecture automatique réussie
-                                console.log("✅ Lecture vidéo démarrée avec succès");
-                                // Réactiver le son si possible une fois la lecture démarrée
-                                videoEl.muted = false;
-                              })
-                              .catch(error => {
-                                console.warn("⚠️ Autoplay bloqué par le navigateur:", error);
-                                // Ne pas modifier muted ici pour éviter d'autres erreurs
-                              });
+                    <div className="video-container">
+                      <video
+                        key={`video-${currentVideo.id}`}
+                        src={generateWebmDirectUrl(currentVideo)}
+                        title={currentVideo.title}
+                        controls
+                        controlsList="nodownload nofullscreen noremoteplayback"
+                        disablePictureInPicture
+                        disableRemotePlayback
+                        width="100%"
+                        height="100%"
+                        preload="auto"
+                        muted
+                        playsInline
+                        className="webm-video-player"
+                        ref={(videoEl) => {
+                          // Utilisation d'une référence pour résoudre le problème d'autoplay
+                          if (videoEl) {
+                            // Tentative de lecture manuellement après montage du composant
+                            const playPromise = videoEl.play();
+                            
+                            if (playPromise !== undefined) {
+                              playPromise
+                                .then(() => {
+                                  // Lecture automatique réussie
+                                  console.log("✅ Lecture vidéo démarrée avec succès");
+                                  // Réactiver le son si possible une fois la lecture démarrée
+                                  videoEl.muted = false;
+                                })
+                                .catch(error => {
+                                  console.warn("⚠️ Autoplay bloqué par le navigateur:", error);
+                                  // Ne pas modifier muted ici pour éviter d'autres erreurs
+                                });
+                            }
                           }
-                        }
-                      }}
-                      onError={(e) => {
-                        console.error("Erreur de lecture vidéo:", e)
-                        console.log("URL vidéo:", generateWebmDirectUrl(currentVideo))
-                        console.log("Code erreur:", e.target.error ? e.target.error.code : "inconnu")
-                        e.target.outerHTML = `<div class="video-error-message">
-                          <p>Erreur de lecture de la vidéo.</p>
-                          <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
-                          <p>Détails: ${e.target.error ? `Code ${e.target.error.code}` : "Erreur inconnue"}</p>
-                          <p>URL: ${generateWebmDirectUrl(currentVideo).substring(0, 50)}...</p>
-                        </div>`
-                      }}
-                    >
-                      Votre navigateur ne prend pas en charge cette vidéo.
-                    </video>
+                        }}
+                        onError={(e) => {
+                          console.error("Erreur de lecture vidéo:", e)
+                          console.log("URL vidéo:", generateWebmDirectUrl(currentVideo))
+                          console.log("Code erreur:", e.target.error ? e.target.error.code : "inconnu")
+                          e.target.outerHTML = `<div class="video-error-message">
+                            <p>Erreur de lecture de la vidéo.</p>
+                            <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
+                            <p>Détails: ${e.target.error ? `Code ${e.target.error.code}` : "Erreur inconnue"}</p>
+                            <p>URL: ${generateWebmDirectUrl(currentVideo).substring(0, 50)}...</p>
+                          </div>`
+                        }}
+                      >
+                        Votre navigateur ne prend pas en charge cette vidéo.
+                      </video>
+                      <div className="video-watermark">
+                        {course?.title} • {currentVideo?.title} • Vidéo protégée
+                      </div>
+                    </div>
                   ) : (
                     // Iframe classique pour les autres formats de vidéo
                     <iframe
