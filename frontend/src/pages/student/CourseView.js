@@ -312,7 +312,6 @@ const CourseView = () => {
       return pdfUrl
     }
 
-    // URL avec paramètres de sécurité renforcée
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
   }
 
