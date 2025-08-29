@@ -285,7 +285,6 @@ const CourseView = () => {
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1&autoplay=1&start=0`
   }
 
-  // Détecte si l'URL correspond à un fichier WebM ou à un fichier à streamer directement via notre API
   const isWebmVideo = (url) => {
     if (!url) return false
     return url.toLowerCase().includes(".webm") || 
