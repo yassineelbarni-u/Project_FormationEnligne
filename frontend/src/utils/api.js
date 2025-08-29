@@ -276,7 +276,6 @@ class ApiService {
     return this.request(`/api/admin/announcements/${announcementId}`, {
       method: "PUT",
       body: formData,
-      // On ne définit pas les headers ici car la méthode request les gère automatiquement
     })
   }
 
