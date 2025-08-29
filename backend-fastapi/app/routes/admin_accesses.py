@@ -21,9 +21,7 @@ async def get_all_accesses(
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
-    """
-    Récupérer tous les accès accordés par l'admin
-    """
+    
     # Obtenir les accès aux cours de l'administrateur
     accesses = (
         db.query(CourseAccess)
