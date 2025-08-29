@@ -418,6 +418,5 @@ class ApiService {
 
 }
 
-// Export d'une instance unique
 const apiService = new ApiService()
 export default apiService
