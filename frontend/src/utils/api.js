@@ -187,6 +187,35 @@ class ApiService {
       method: "PUT",
     })
   }
+  
+  // Admin Management API METHODS - Méthodes pour la gestion des administrateurs
+  async getAdmins() {
+    return this.request("/api/admin/management/")
+  }
+  
+  async createAdmin(adminData) {
+    return this.request("/api/admin/management/", {
+      method: "POST",
+      body: JSON.stringify(adminData),
+    })
+  }
+  
+  async getAdmin(adminId) {
+    return this.request(`/api/admin/management/${adminId}`)
+  }
+  
+  async updateAdmin(adminId, adminData) {
+    return this.request(`/api/admin/management/${adminId}`, {
+      method: "PUT",
+      body: JSON.stringify(adminData),
+    })
+  }
+  
+  async deleteAdmin(adminId) {
+    return this.request(`/api/admin/management/${adminId}`, {
+      method: "DELETE",
+    })
+  }
 
   // STUDENT API METHODS - Nouvelles méthodes pour les étudiants
 
@@ -239,7 +268,6 @@ class ApiService {
     return this.request("/api/admin/announcements/", {
       method: "POST",
       body: formData,
-      // On ne définit pas les headers ici car la méthode request les gère automatiquement
     })
   }
 
