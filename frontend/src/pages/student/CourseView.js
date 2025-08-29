@@ -481,7 +481,7 @@ const CourseView = () => {
             </div>
           </div>
 
-          {/* Section vidéo - À DROITE sur desktop */}
+          {/* Section vidéo - À DROITE sur desktopp*/}
           <div className="video-section">
             {currentVideo ? (
               <div className="video-player-container">
