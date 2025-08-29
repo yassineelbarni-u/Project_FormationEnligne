@@ -260,7 +260,6 @@ const CourseView = () => {
       if (match) return match[1]
     }
 
-    // Méthode alternative si les patterns ne fonctionnent pas
     try {
       if (url.includes("/file/d/") && url.includes("/view")) {
         const parts = url.split("/file/d/")[1]
