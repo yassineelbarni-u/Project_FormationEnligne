@@ -411,7 +411,7 @@ class ApiService {
     return response.blob()
   }
 
-  // Obtenir les statistiques de recrutement (admin)
+  // Obtenir les statistiques de recrutement
   async getRecruitmentStats() {
     return this.request("/api/admin/recruitment/stats")
   }
