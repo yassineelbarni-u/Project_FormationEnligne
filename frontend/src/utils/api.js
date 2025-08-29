@@ -68,7 +68,6 @@ class ApiService {
     return this.request("/api/auth/verify")
   }
 
-  // Dashboard
   async getDashboardStats() {
     return this.request("/api/admin/dashboard/stats")
   }
