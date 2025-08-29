@@ -344,7 +344,6 @@ const CourseView = () => {
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
 
-    // Debug - affichons le contenu de la vidéo sélectionnée
     console.log("Vidéo sélectionnée:", video)
   }
 
