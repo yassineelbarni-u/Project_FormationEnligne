@@ -551,7 +551,6 @@ const CourseView = () => {
                         ref={(videoEl) => {
                           // Utilisation d'une référence pour résoudre le problème d'autoplay
                           if (videoEl) {
-                            // Tentative de lecture manuellement après montage du composant
                             const playPromise = videoEl.play();
                             
                             if (playPromise !== undefined) {

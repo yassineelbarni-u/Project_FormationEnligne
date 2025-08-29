@@ -12,7 +12,6 @@ class ApiService {
       "Content-Type": "application/json",
     }
     if (includeAuth) {
-      // Choisir le bon token selon le type d'utilisateur
       const tokenKey = isStudent ? "student_token" : "token"
       const token = localStorage.getItem(tokenKey)
       if (token) {
