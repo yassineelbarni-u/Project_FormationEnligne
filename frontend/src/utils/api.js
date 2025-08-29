@@ -55,7 +55,6 @@ class ApiService {
   }
 
   // Méthodes spécifiques
-  // Auth
   async login(credentials) {
     return this.request("/api/auth/login", {
       method: "POST",
