@@ -267,20 +267,30 @@ const CourseView = () => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return "about:blank"
 
-    // Paramètres supplémentaires pour renforcer la sécurité
+    console.log(`🔑 Utilisation de l'ID Google Drive: ${fileId} pour l'URL: ${driveUrl}`)
+
+    // Paramètres supplémentaires pour renforcer la sécurité et activer la lecture automatique
     // - rm=minimal: interface minimale
     // - dscb=1: désactive certains contrôles
-    return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1`
+    // - autoplay=1: tente de démarrer la lecture automatiquement
+    // - start=0: commence la vidéo depuis le début
+    return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1&autoplay=1&start=0`
   }
 
-  // Détecte si l'URL correspond à un fichier WebM
+  // Détecte si l'URL correspond à un fichier WebM ou à un fichier à streamer directement via notre API
   const isWebmVideo = (url) => {
     if (!url) return false
-    return url.toLowerCase().includes(".webm") || url.toLowerCase().includes("webm=true")
+    // Vérifier si c'est un fichier WebM ou si un paramètre force le streaming direct
+    return url.toLowerCase().includes(".webm") || 
+           url.toLowerCase().includes("webm=true") ||
+           url.toLowerCase().includes("direct_stream=true") ||
+           url.toLowerCase().includes("streaming=true")
   }
 
   const generateWebmDirectUrl = (video) => {
-    return `/api/video-secure/stream/${video.id}`
+    const url = `/api/video-secure/stream/${video.id}`
+    console.log(`🎬 Génération URL streaming pour vidéo ${video.id}: ${url}`)
+    return url
   }
 
   // Fonction pour générer l'URL d'affichage du PDF Google Drive
@@ -517,24 +527,51 @@ const CourseView = () => {
                 <div className="video-player">
                   {isWebmVideo(currentVideo.drive_url) ? (
                     <video
+                      key={`video-${currentVideo.id}`}
                       src={generateWebmDirectUrl(currentVideo)}
                       title={currentVideo.title}
                       controls
                       controlsList="nodownload"
                       width="100%"
                       height="100%"
-                      autoPlay
+                      preload="auto"
+                      muted
                       playsInline
                       className="webm-video-player"
+                      ref={(videoEl) => {
+                        // Utilisation d'une référence pour résoudre le problème d'autoplay
+                        if (videoEl) {
+                          // Tentative de lecture manuellement après montage du composant
+                          const playPromise = videoEl.play();
+                          
+                          if (playPromise !== undefined) {
+                            playPromise
+                              .then(() => {
+                                // Lecture automatique réussie
+                                console.log("✅ Lecture vidéo démarrée avec succès");
+                                // Réactiver le son si possible une fois la lecture démarrée
+                                videoEl.muted = false;
+                              })
+                              .catch(error => {
+                                console.warn("⚠️ Autoplay bloqué par le navigateur:", error);
+                                // Ne pas modifier muted ici pour éviter d'autres erreurs
+                              });
+                          }
+                        }
+                      }}
                       onError={(e) => {
-                        console.error("Erreur de lecture WebM:", e)
+                        console.error("Erreur de lecture vidéo:", e)
+                        console.log("URL vidéo:", generateWebmDirectUrl(currentVideo))
+                        console.log("Code erreur:", e.target.error ? e.target.error.code : "inconnu")
                         e.target.outerHTML = `<div class="video-error-message">
-                          <p>Erreur de lecture de la vidéo WebM.</p>
+                          <p>Erreur de lecture de la vidéo.</p>
                           <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
+                          <p>Détails: ${e.target.error ? `Code ${e.target.error.code}` : "Erreur inconnue"}</p>
+                          <p>URL: ${generateWebmDirectUrl(currentVideo).substring(0, 50)}...</p>
                         </div>`
                       }}
                     >
-                      Votre navigateur ne prend pas en charge les vidéos WebM.
+                      Votre navigateur ne prend pas en charge cette vidéo.
                     </video>
                   ) : (
                     // Iframe classique pour les autres formats de vidéo
@@ -542,7 +579,7 @@ const CourseView = () => {
                       src={generateDriveEmbedUrl(currentVideo.drive_url)}
                       title={currentVideo.title}
                       frameBorder="0"
-                      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       width="100%"
                       height="100%"
@@ -550,6 +587,7 @@ const CourseView = () => {
                       sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                       referrerPolicy="no-referrer"
                       loading="lazy"
+                      onLoad={() => console.log("✅ Iframe de vidéo chargée avec succès")}
                     />
                   )}
                 </div>

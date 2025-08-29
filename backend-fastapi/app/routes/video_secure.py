@@ -91,12 +91,17 @@ async def stream_video_secure(
                 response_headers[header] = response.headers[header]
         
         # Ajouter des headers de sécurité pour empêcher le téléchargement
+        # et permettre la lecture en streaming dans différents navigateurs
         response_headers.update({
             'X-Content-Type-Options': 'nosniff',
             'X-Frame-Options': 'SAMEORIGIN',
             'Cache-Control': 'no-store, no-cache, must-revalidate, private',
             'Pragma': 'no-cache',
-            'Expires': '0'
+            'Expires': '0',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Range',
+            'Cross-Origin-Resource-Policy': 'cross-origin'
         })
         
         # Créer la réponse streaming
@@ -105,11 +110,26 @@ async def stream_video_secure(
                 if chunk:
                     yield chunk
         
+        # Déterminer le type de contenu approprié basé sur l'URL
+        media_type = "video/*"  # Type générique par défaut
+        video_url = video.drive_url.lower()
+        
+        if ".webm" in video_url or "webm=true" in video_url:
+            media_type = "video/webm"
+        elif ".mp4" in video_url:
+            media_type = "video/mp4"
+        elif ".mkv" in video_url:
+            media_type = "video/x-matroska"
+        
+        # Utiliser content-type de Google Drive si disponible
+        if "content-type" in response.headers and "video" in response.headers["content-type"]:
+            media_type = response.headers["content-type"]
+        
         return Response(
             content=generate(),
             status_code=response.status_code,
             headers=response_headers,
-            media_type="video/mp4"
+            media_type=media_type
         )
         
     except requests.RequestException as e:
