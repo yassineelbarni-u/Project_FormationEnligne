@@ -217,7 +217,6 @@ class ApiService {
     })
   }
 
-  // STUDENT API METHODS - Nouvelles méthodes pour les étudiants
 
   // Connexion étudiant
   async studentLogin(credentials) {
@@ -228,7 +227,6 @@ class ApiService {
     })
   }
 
-  // Récupérer les cours de l'étudiant connecté
   async getStudentCourses() {
     return this.request("/api/student/my-courses", {
       isStudent: true,
