@@ -44,8 +44,6 @@ async def stream_video_secure(
     """
     Stream sécurisé d'une vidéo avec protection anti-téléchargement
     """
-    # Vérifier le Referer pour bloquer les téléchargements directs
-    # Cette vérification est légère et n'affecte pas l'affichage normal
     referer = request.headers.get("referer", "")
     user_agent = request.headers.get("user-agent", "").lower()
     
@@ -59,9 +57,7 @@ async def stream_video_secure(
     if not video:
         raise HTTPException(status_code=404, detail="Vidéo non trouvée")
     
-    # Vérifier l'accès de l'étudiant au cours
-    # Implémentation simple de la vérification d'accès
-    
+
     # Extraire l'ID du fichier Google Drive
     file_id = extract_drive_file_id(video.drive_url)
     if not file_id:
@@ -81,13 +77,11 @@ async def stream_video_secure(
         headers["Range"] = range_header
     
     try:
-        # Faire la requête vers Google Drive
         response = requests.get(drive_stream_url, headers=headers, stream=True)
         
         if response.status_code not in (200, 206):
             raise HTTPException(status_code=404, detail="Vidéo non accessible")
         
-        # Préparer les headers de réponse
         response_headers = {}
         
         # Copier les headers importants de Google Drive
@@ -100,7 +94,6 @@ async def stream_video_secure(
             if header in response.headers:
                 response_headers[header] = response.headers[header]
         
-        # Ajouter des headers de sécurité renforcés pour empêcher le téléchargement
         # tout en garantissant la lecture en streaming dans les navigateurs
         response_headers.update({
             'X-Content-Type-Options': 'nosniff',
@@ -112,12 +105,12 @@ async def stream_video_secure(
             'Access-Control-Allow-Methods': 'GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Range',
             'Cross-Origin-Resource-Policy': 'cross-origin',
-            'Content-Disposition': 'inline; filename="protected-content.mp4"',  # Empêche le téléchargement automatique
-            'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet, noimageindex',  # Bloquer l'indexation
-            'Referrer-Policy': 'strict-origin-when-cross-origin',  # Limite les informations de référence
-            'Feature-Policy': 'fullscreen *',  # Permet le mode plein écran uniquement
-            'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',  # Restreint les permissions
-            'Content-Security-Policy': "media-src 'self' https://drive.google.com;"  # Restreint les sources média
+            'Content-Disposition': 'inline; filename="protected-content.mp4"',
+            'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet, noimageindex',
+            'Referrer-Policy': 'strict-origin-when-cross-origin',
+            'Feature-Policy': 'fullscreen *',
+            'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+            'Content-Security-Policy': "media-src 'self' https://drive.google.com;"
         })
         
         # Créer la réponse streaming
@@ -127,7 +120,7 @@ async def stream_video_secure(
                     yield chunk
         
         # Déterminer le type de contenu approprié basé sur l'URL
-        media_type = "video/*"  # Type générique par défaut
+        media_type = "video/*"
         video_url = video.drive_url.lower()
         
         if ".webm" in video_url or "webm=true" in video_url:

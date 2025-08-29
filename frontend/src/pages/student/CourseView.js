@@ -87,10 +87,8 @@ const CourseView = () => {
 
           document.addEventListener("visibilitychange", handleVisibilityChange)
 
-          // Surveillance périodique des indices de capture d'écran (très légère)
+          // Surveillance périodique des indices de capture d'écran
           const detectScreenCapture = () => {
-            // Vérification si la page est visible dans une fenêtre de capture
-            // Cette vérification est légère et n'affecte pas les performances
             if (window.outerHeight - window.innerHeight > 200 || 
                 window.outerWidth - window.innerWidth > 200) {
               console.log("[v0] Possible tentative de capture détectée")
@@ -211,9 +209,8 @@ const CourseView = () => {
       await fetchCourseData()
     }
     fetchData()
-  }, [courseId]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [courseId])
 
-  // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchCourseData = async () => {
     try {
       setIsLoading(true)
@@ -255,7 +252,6 @@ const CourseView = () => {
       /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view/,
-      // Nouveau pattern qui capture l'ID même avec des paramètres de requête
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/]+)\/view\?.*$/,
     ]
 
@@ -265,7 +261,6 @@ const CourseView = () => {
     }
 
     // Méthode alternative si les patterns ne fonctionnent pas
-    // Diviser l'URL par parties et chercher l'ID entre /d/ et /view
     try {
       if (url.includes("/file/d/") && url.includes("/view")) {
         const parts = url.split("/file/d/")[1]
@@ -286,18 +281,13 @@ const CourseView = () => {
 
     console.log(`🔑 Utilisation de l'ID Google Drive: ${fileId} pour l'URL: ${driveUrl}`)
 
-    // Paramètres supplémentaires pour renforcer la sécurité et activer la lecture automatique
-    // - rm=minimal: interface minimale
-    // - dscb=1: désactive certains contrôles
-    // - autoplay=1: tente de démarrer la lecture automatiquement
-    // - start=0: commence la vidéo depuis le début
+
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1&autoplay=1&start=0`
   }
 
   // Détecte si l'URL correspond à un fichier WebM ou à un fichier à streamer directement via notre API
   const isWebmVideo = (url) => {
     if (!url) return false
-    // Vérifier si c'est un fichier WebM ou si un paramètre force le streaming direct
     return url.toLowerCase().includes(".webm") || 
            url.toLowerCase().includes("webm=true") ||
            url.toLowerCase().includes("direct_stream=true") ||
@@ -567,14 +557,11 @@ const CourseView = () => {
                             if (playPromise !== undefined) {
                               playPromise
                                 .then(() => {
-                                  // Lecture automatique réussie
                                   console.log("✅ Lecture vidéo démarrée avec succès");
-                                  // Réactiver le son si possible une fois la lecture démarrée
                                   videoEl.muted = false;
                                 })
                                 .catch(error => {
                                   console.warn("⚠️ Autoplay bloqué par le navigateur:", error);
-                                  // Ne pas modifier muted ici pour éviter d'autres erreurs
                                 });
                             }
                           }
@@ -607,7 +594,6 @@ const CourseView = () => {
                       allowFullScreen
                       width="100%"
                       height="100%"
-                      // Ajouter sandbox pour limiter certaines fonctionnalités
                       sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                       referrerPolicy="no-referrer"
                       loading="lazy"
