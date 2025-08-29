@@ -256,7 +256,6 @@ class ApiService {
     })
   }
 
-  // ANNOUNCEMENTS API METHODS - Méthodes pour la gestion des annonces
 
   // Récupérer toutes les annonces (admin)
   async getAnnouncements() {
