@@ -274,6 +274,7 @@ const CourseView = () => {
     return null
   }
 
+// génération de l'URL d'intégration Google Drive
   const generateDriveEmbedUrl = (driveUrl) => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return "about:blank"
