@@ -245,7 +245,7 @@ const CourseView = () => {
   const extractDriveFileId = (url) => {
     if (!url) return null
 
-    // Ajout d'un pattern pour le format avec view?usp=drive_link et autres paramètres
+    // Ajout d'un pattern pour le format view
     const patterns = [
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([^/?]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/open\?id=([^&]+)/,
