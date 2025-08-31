@@ -17,8 +17,8 @@ const CoursGratuits = () => {
   const fetchCours = async () => {
     try {
       setLoading(true)
-      const response = await getCoursGratuits()
-      setCours(Array.isArray(response?.data) ? response.data : [])
+  const response = await getCoursGratuits()
+  setCours(Array.isArray(response) ? response : [])
     } catch (error) {
       console.error("Erreur lors du chargement des cours:", error)
       setCours([])

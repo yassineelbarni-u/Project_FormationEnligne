@@ -1,6 +1,6 @@
 .cours-gratuits-page {
   min-height: 100vh;
-  background-color: var(--background-light);
+  background: #fff;
 }
 
 .cours-gratuits-page .hero-section {
@@ -211,6 +211,7 @@
     flex-direction: column;
     gap: 15px;
     align-items: stretch;
+    /* align-items: center; */
   }
 
   .access-btn {

@@ -1,3 +1,8 @@
+.video-section {
+  padding: 60px 0;
+  background: transparent;
+}
+
 .video-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -12,6 +17,25 @@
   margin: 0 auto;
 }
 
+.video-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.video-description {
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  color: #555;
+}
+
+.video-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: transparent;
+}
+
 .objective-video {
   width: 100%;
   height: auto;
@@ -20,10 +44,10 @@
   display: block;
   border-radius: 20px;
   transition: transform 0.3s ease;
-  /* Ajout d'une bordure et ombre pour rendre le cadre visible */
+  object-fit: cover; /* ✅ évite les bandes noires */
   border: 2px solid #e0e0e0;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  background: #000;
+  background-color: transparent; /* ✅ supprime le fond noir */
 }
 
 .objective-video:hover {
@@ -45,6 +69,7 @@
     font-size: 2rem;
     margin-bottom: 15px;
   }
+
   .video-description {
     font-size: 1rem;
     margin-bottom: 30px;
@@ -58,7 +83,7 @@
     border-radius: 15px;
     max-height: 700px;
     min-height: 400px;
-    /* Bordure et ombre adaptées pour tablette */
+    object-fit: cover;
     border: 1px solid #e0e0e0;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   }
@@ -68,6 +93,7 @@
   .video-title {
     font-size: 1.7rem;
   }
+
   .video-description {
     font-size: 0.95rem;
     padding: 0 10px;
@@ -81,7 +107,7 @@
     border-radius: 12px;
     max-height: 600px;
     min-height: 350px;
-    /* Bordure et ombre adaptées pour mobile */
+    object-fit: cover;
     border: 1px solid #e0e0e0;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }

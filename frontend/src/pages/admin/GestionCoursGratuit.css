@@ -80,14 +80,61 @@
   color: white;
 }
 
+
+
 .btn-edit,
 .btn-delete {
-  padding: 6px 12px;
+  padding: 6px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-right: 8px;
-  font-size: 0.85rem;
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.icon-action {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  transition: transform 0.2s, color 0.2s;
+}
+.icon-edit {
+  color: var(--info-color);
+}
+.btn-edit:hover .icon-edit {
+  color: var(--info-hover);
+  transform: scale(1.2);
+}
+.icon-delete {
+  color: var(--danger-color);
+}
+.btn-delete:hover .icon-delete {
+  color: var(--danger-hover);
+  transform: scale(1.2);
+}
+
+.icon-action {
+  font-size: 1.5rem;
+  vertical-align: middle;
+  transition: transform 0.2s, color 0.2s;
+}
+.icon-edit {
+  color: var(--info-color);
+}
+.btn-edit:hover .icon-edit {
+  color: var(--info-hover);
+  transform: scale(1.2);
+}
+.icon-delete {
+  color: var(--danger-color);
+}
+.btn-delete:hover .icon-delete {
+  color: var(--danger-hover);
+  transform: scale(1.2);
 }
 
 .btn-edit {
