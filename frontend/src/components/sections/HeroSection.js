@@ -60,16 +60,15 @@ const HeroSection = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-              Atteignez               <span className="text-highlight dynamic-excellence">l'excellence</span>
+              Atteignez <span className="text-highlight dynamic-excellence">l'excellence</span>
               <br />
-              grâce à nos cours 
-              <br />
+              avec nos cours <br />
               <span className="text-primary">de soutien universitaire</span>
             </h1>
             <p>
-              Cours de soutien en ligne spécialisés en Sciences. Mathématiques, Physique-Chimie, Informatique pour les étudiants 
-              des écoles d'ingénieurs ENSA, ENSAM, FST et FS au Maroc.
+              Préparez-vous efficacement aux concours et réussissez dans les grandes écoles et universités du Maroc.
             </p>
+            {/* Statistiques et boutons conservés */}
             <div className="hero-stats">
               <div className="stat-item animate">
                 <span className="stat-number" data-value="5">0</span>
