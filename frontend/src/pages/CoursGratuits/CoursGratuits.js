@@ -42,10 +42,6 @@ const CoursGratuits = () => {
       <Header />
       <main className="main-content">
         <div className="container">
-          <div className="page-header">
-            <h1>Cours et Concours Gratuits</h1>
-            <p>Découvrez notre collection de ressources éducatives gratuites</p>
-          </div>
           <div className="filters-section">
             <div className="search-bar">
               <input
@@ -84,7 +80,6 @@ const CoursGratuits = () => {
                   </div>
                   {coursItem.description && <p className="cours-description">{coursItem.description}</p>}
                   <div className="cours-footer">
-                    <span className="cours-date">Ajouté le {new Date(coursItem.created_at).toLocaleDateString()}</span>
                     <a href={coursItem.url} target="_blank" rel="noopener noreferrer" className="access-btn">Accéder au contenu</a>
                   </div>
                 </div>
