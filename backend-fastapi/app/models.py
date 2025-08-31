@@ -29,6 +29,7 @@ class Admin(Base):
     videos = relationship("Video", back_populates="admin")
     job_offers = relationship("JobOffer", back_populates="admin")
     announcements = relationship("Announcement", back_populates="admin")
+    gratuit_courses = relationship("GratuitCourse", back_populates="admin")
 
 class Course(Base):
     __tablename__ = "courses"
@@ -161,3 +162,19 @@ class JobApplication(Base):
     
     # Relations
     job_offer = relationship("JobOffer", back_populates="applications")
+
+
+class GratuitCourse(Base):
+    __tablename__ = "gratuit_courses"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    url = Column(String(500), nullable=False)
+    description = Column(Text, nullable=True)
+    category = Column(String(100), default="cours")  # "cours" ou "concours"
+    admin_id = Column(Integer, ForeignKey("admins.id"))
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    
+    # Relations
+    admin = relationship("Admin", back_populates="gratuit_courses")

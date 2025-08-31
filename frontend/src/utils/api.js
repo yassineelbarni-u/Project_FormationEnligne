@@ -434,7 +434,118 @@ class ApiService {
     return this.request("/api/admin/recruitment/stats")
   }
 
+  // COURS GRATUITS API METHODS - Méthodes pour la gestion des cours gratuits
+  
+  // Récupérer tous les cours gratuits (public)
+  async getCoursGratuits() {
+    return this.request("/api/cours-gratuits/", {
+      auth: false,
+    })
+  }
+  
+  // Récupérer tous les cours gratuits (admin)
+  async getCoursGratuitsAdmin() {
+    return this.request("/api/admin/cours-gratuits/")
+  }
+  
+  // Créer un nouveau cours gratuit (admin)
+  async createCoursGratuit(coursData) {
+    return this.request("/api/admin/cours-gratuits/", {
+      method: "POST",
+      body: JSON.stringify(coursData),
+    })
+  }
+  
+  // Modifier un cours gratuit (admin)
+  async updateCoursGratuit(coursId, coursData) {
+    return this.request(`/api/admin/cours-gratuits/${coursId}`, {
+      method: "PUT",
+      body: JSON.stringify(coursData),
+    })
+  }
+  
+  // Supprimer un cours gratuit (admin)
+  async deleteCoursGratuit(coursId) {
+    return this.request(`/api/admin/cours-gratuits/${coursId}`, {
+      method: "DELETE",
+    })
+  }
+
 }
 
 const apiService = new ApiService()
+
+// Exporter l'instance par défaut et les méthodes individuelles pour un accès plus facile
 export default apiService
+
+// Méthodes d'authentification
+export const login = apiService.login.bind(apiService)
+export const verifyToken = apiService.verifyToken.bind(apiService)
+
+// Méthodes pour les cours
+export const getCourses = apiService.getCourses.bind(apiService)
+export const createCourse = apiService.createCourse.bind(apiService)
+export const getCourse = apiService.getCourse.bind(apiService)
+export const updateCourse = apiService.updateCourse.bind(apiService)
+export const deleteCourse = apiService.deleteCourse.bind(apiService)
+
+// Méthodes pour les vidéos
+export const getVideos = apiService.getVideos.bind(apiService)
+export const getCourseVideos = apiService.getCourseVideos.bind(apiService)
+export const addVideoToCourse = apiService.addVideoToCourse.bind(apiService)
+export const deleteVideo = apiService.deleteVideo.bind(apiService)
+
+// Méthodes pour les étudiants
+export const getStudents = apiService.getStudents.bind(apiService)
+export const createStudent = apiService.createStudent.bind(apiService)
+export const getStudent = apiService.getStudent.bind(apiService)
+export const updateStudent = apiService.updateStudent.bind(apiService)
+export const deleteStudent = apiService.deleteStudent.bind(apiService)
+
+// Méthodes pour les accès
+export const getAccesses = apiService.getAccesses.bind(apiService)
+export const createAccess = apiService.createAccess.bind(apiService)
+export const getAccess = apiService.getAccess.bind(apiService)
+export const updateAccess = apiService.updateAccess.bind(apiService)
+export const deleteAccess = apiService.deleteAccess.bind(apiService)
+
+// Méthodes pour les annonces
+export const getAnnouncements = apiService.getAnnouncements.bind(apiService)
+export const createAnnouncement = apiService.createAnnouncement.bind(apiService)
+export const updateAnnouncement = apiService.updateAnnouncement.bind(apiService)
+export const deleteAnnouncement = apiService.deleteAnnouncement.bind(apiService)
+export const toggleAnnouncementStatus = apiService.toggleAnnouncementStatus.bind(apiService)
+export const getActiveAnnouncements = apiService.getActiveAnnouncements.bind(apiService)
+
+// Méthodes pour les étudiants (côté étudiant)
+export const studentLogin = apiService.studentLogin.bind(apiService)
+export const getStudentCourses = apiService.getStudentCourses.bind(apiService)
+export const getStudentCourse = apiService.getStudentCourse.bind(apiService)
+export const getStudentCourseVideos = apiService.getStudentCourseVideos.bind(apiService)
+export const verifyStudentToken = apiService.verifyStudentToken.bind(apiService)
+
+// Méthodes pour les offres d'emploi
+export const getJobOffers = apiService.getJobOffers.bind(apiService)
+export const getJobOffer = apiService.getJobOffer.bind(apiService)
+export const createJobOffer = apiService.createJobOffer.bind(apiService)
+export const updateJobOffer = apiService.updateJobOffer.bind(apiService)
+export const deleteJobOffer = apiService.deleteJobOffer.bind(apiService)
+export const toggleJobOfferStatus = apiService.toggleJobOfferStatus.bind(apiService)
+export const getAdminJobOffers = apiService.getAdminJobOffers.bind(apiService)
+
+// Méthodes pour les candidatures
+export const createJobApplication = apiService.createJobApplication.bind(apiService)
+export const getJobApplications = apiService.getJobApplications.bind(apiService)
+export const getJobApplication = apiService.getJobApplication.bind(apiService)
+export const updateJobApplication = apiService.updateJobApplication.bind(apiService)
+export const deleteJobApplication = apiService.deleteJobApplication.bind(apiService)
+export const downloadCV = apiService.downloadCV.bind(apiService)
+export const exportApplicationsCSV = apiService.exportApplicationsCSV.bind(apiService)
+export const getRecruitmentStats = apiService.getRecruitmentStats.bind(apiService)
+
+// Méthodes pour les cours gratuits
+export const getCoursGratuits = apiService.getCoursGratuits.bind(apiService)
+export const getCoursGratuitsAdmin = apiService.getCoursGratuitsAdmin.bind(apiService)
+export const createCoursGratuit = apiService.createCoursGratuit.bind(apiService)
+export const updateCoursGratuit = apiService.updateCoursGratuit.bind(apiService)
+export const deleteCoursGratuit = apiService.deleteCoursGratuit.bind(apiService)

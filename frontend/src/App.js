@@ -21,6 +21,8 @@ import AccessNew from "./pages/admin/AccessNew"
 import AccessForm from "./pages/admin/AccessForm"
 import AdminManagement from "./pages/admin/AdminManagement"
 import AnnouncementManagement from "./pages/admin/AnnouncementManagement"
+import CoursGratuits from "./pages/CoursGratuits/CoursGratuits"
+import GestionCoursGratuit from "./pages/admin/GestionCoursGratuit"
 
 import RecruitmentManagement from "./pages/admin/RecruitmentManagement"
 import ApplicationsManagement from "./pages/admin/ApplicationsManagement"
@@ -72,6 +74,7 @@ function App() {
           {/* Routes publiques */}
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<AnnonceCoursePage />} />
+          <Route path="/cours-gratuits" element={<CoursGratuits />} />
           <Route path="/login" element={<Login />} />
 
           <Route path="/recruitment" element={<JobOffers />} />
@@ -119,6 +122,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <CourseVideos />
+              </ProtectedRoute>
+            }
+          />
+          
+          {/* Gestion des cours gratuits */}
+          <Route
+            path="/admin/cours-gratuits"
+            element={
+              <ProtectedRoute>
+                <GestionCoursGratuit />
               </ProtectedRoute>
             }
           />

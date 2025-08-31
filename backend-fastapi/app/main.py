@@ -13,7 +13,7 @@ from app.database import engine
 from app.models import Base
 from app.routes import auth, admin, courses, videos, students, admin_students, admin_accesses, admin_management, announcements
 from app.routes import recruitment, applications
-from app.routes import video_secure
+from app.routes import video_secure, admin_cours_gratuit
 
 # Créer les tables
 Base.metadata.create_all(bind=engine)
@@ -52,6 +52,8 @@ app.include_router(recruitment.router, prefix="/api/admin/recruitment", tags=["a
 app.include_router(applications.router, prefix="/api/admin/applications", tags=["admin_applications"])
 
 app.include_router(video_secure.router, prefix="/api/video-secure", tags=["video_secure"])
+app.include_router(admin_cours_gratuit.router, prefix="/api/admin/cours-gratuits", tags=["admin_cours_gratuits"])
+app.include_router(admin_cours_gratuit.router, prefix="/api/cours-gratuits", tags=["cours_gratuits_public"])
 
 # Créer le dossier pour les images d'annonces dans le backend
 announcements_images_dir = "backend/uploads/images/announcements"

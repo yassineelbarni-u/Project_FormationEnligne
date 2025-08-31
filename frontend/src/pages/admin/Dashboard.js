@@ -12,6 +12,7 @@ const Dashboard = () => {
     totalVideos: 0,
     totalStudents: 0,
     totalAccesses: 0,
+    totalFreeCourses: 0,
     recentActivity: [],
   })
   const [isLoading, setIsLoading] = useState(true)
@@ -29,6 +30,7 @@ const Dashboard = () => {
         totalVideos: data.total_videos,
         totalStudents: data.total_students,
         totalAccesses: data.total_accesses,
+        totalFreeCourses: data.total_free_courses || 0,
         recentActivity: data.recent_activity,
       })
     } catch (error) {
@@ -59,6 +61,13 @@ const Dashboard = () => {
       icon: "🔑",
       borderColor: "border-left-purple",
       href: "/admin/accesses",
+    },
+    {
+      title: "Cours Gratuits",
+      value: stats.totalFreeCourses,
+      icon: "🎓",
+      borderColor: "border-left-orange",
+      href: "/admin/cours-gratuits",
     },
   ]
 
@@ -129,6 +138,11 @@ const Dashboard = () => {
                 <button className="action-btn-modern" onClick={() => navigate("/admin/accesses")}>
                   <div className="action-icon access">🔑</div>
                   Gestion Accès
+                </button>
+
+                <button className="action-btn-modern" onClick={() => navigate("/admin/cours-gratuits")}>
+                  <div className="action-icon free-courses">🎓</div>
+                  Cours Gratuits
                 </button>
               </div>
             </div>

@@ -143,6 +143,10 @@ const Header = () => {
             <Link to="/recruitment" className="nav-link recruitment-link" onClick={closeMenu}>
               Recrutement
             </Link>
+            <Link to="/cours-gratuits" className="nav-link" onClick={closeMenu}>
+              Cours et Concours Gratuit
+            </Link>
+
             <button
               className="nav-link"
               onClick={(e) => {

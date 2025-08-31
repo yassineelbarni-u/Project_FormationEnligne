@@ -57,6 +57,12 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       label: "Gestion Admins",
       access: "superadmin", // Réservé aux super admins
     },
+    {
+      path: "/admin/cours-gratuits",
+      icon: "book",
+      label: "Cours Gratuits",
+      access: "all", // Accessible à tous les admins (modifiez en "superadmin" si vous voulez le restreindre)
+    },
   ]
 
   const filteredItems = menuItems.filter((item) => {

@@ -1,0 +1,219 @@
+.cours-gratuits-page {
+  min-height: 100vh;
+  background-color: var(--background-light);
+}
+
+.cours-gratuits-page .hero-section {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.cours-gratuits-page .hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.cours-gratuits-page .hero-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cours-gratuits-page .filters-section {
+  background: white;
+  padding: 30px 20px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.cours-gratuits-page .search-bar input {
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+  width: 300px;
+  font-size: 16px;
+  outline: none;
+  transition: var(--transition-normal);
+}
+
+.cours-gratuits-page .search-bar input:focus {
+  border-color: var(--primary-color);
+}
+
+.category-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.category-filters button {
+  padding: 10px 20px;
+  border: 2px solid var(--primary-color);
+  background: white;
+  color: var(--primary-color);
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.category-filters button:hover,
+.category-filters button.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.cours-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.cours-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cours-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.cours-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.cours-header h3 {
+  color: var(--text-color);
+  font-size: 1.3rem;
+  margin: 0;
+  flex: 1;
+  margin-right: 15px;
+}
+
+.category-tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.category-tag.cours {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.category-tag.concours {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.cours-description {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.cours-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cours-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.access-btn {
+  background: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.access-btn:hover {
+  background: var(--primary-hover);
+  text-decoration: none;
+  color: white;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 80px 20px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .filters-section {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .cours-grid {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .cours-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cours-header h3 {
+    margin-right: 0;
+  }
+
+  .cours-footer {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .access-btn {
+    text-align: center;
+  }
+}

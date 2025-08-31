@@ -272,3 +272,31 @@ class JobApplicationResponse(JobApplicationBase):
     
     class Config:
         from_attributes = True
+
+
+
+# ==================== SCHÉMAS COURS GRATUITS ====================
+
+class GratuitCourseBase(BaseModel):
+    title: str
+    url: str
+    description: Optional[str] = None
+    category: str = "cours"  # "cours" ou "concours"
+
+class GratuitCourseCreate(GratuitCourseBase):
+    pass
+
+class GratuitCourseUpdate(BaseModel):
+    title: Optional[str] = None
+    url: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+
+class GratuitCourseResponse(GratuitCourseBase):
+    id: int
+    admin_id: int
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
