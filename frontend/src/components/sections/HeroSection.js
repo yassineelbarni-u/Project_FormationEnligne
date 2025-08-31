@@ -72,12 +72,12 @@ const HeroSection = () => {
             </p>
             <div className="hero-stats">
               <div className="stat-item animate">
-                <span className="stat-number" data-value="4">0</span>
+                <span className="stat-number" data-value="5">0</span>
                 <span className="stat-label">Ans d'expérience</span>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item animate">
-                <span className="stat-number" data-value="500">0</span>
+                <span className="stat-number" data-value="1000">0</span>
                 <span className="stat-label">Étudiants formés</span>
               </div>
             </div>

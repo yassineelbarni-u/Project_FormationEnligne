@@ -12,11 +12,11 @@ const ScreenshotsSection = () => {
       alt: 'Capture d\'écran des cours'
     },
     {
-      image: '/images/screenshots/mobile-home.png',
+      image: '/images/screenshots/screen3.png',
       alt: 'Capture d\'écran de l\'accueil'
     },
     {
-      image: '/images/screenshots/mobile-courses.png',
+      image: '/images/screenshots/screen4.png',
       alt: 'Capture d\'écran du contenu'
     }
   ];
