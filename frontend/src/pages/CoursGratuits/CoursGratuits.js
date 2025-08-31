@@ -30,6 +30,7 @@ const CoursGratuits = () => {
     }
   }
 
+  // Filtrer les cours en fonction de la catégorie et de la recherche
   const filteredCours = cours.filter((coursItem) => {
     const matchesCategory = selectedCategory === "all" || coursItem.category === selectedCategory;
     const matchesSearch =
