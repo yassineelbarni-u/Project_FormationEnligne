@@ -16,6 +16,7 @@ const CoursGratuits = () => {
     fetchCours()
   }, [])
 
+  // Fonction pour récupérer les cours gratuits
   const fetchCours = async () => {
     try {
       setLoading(true)
