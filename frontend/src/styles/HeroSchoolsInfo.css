@@ -1,0 +1,48 @@
+.hero-schools-info {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s, transform 0.8s;
+  padding: 32px 0 24px 0;
+  text-align: center;
+  background: #e3f6fd;
+  margin-top: 0;
+}
+.hero-schools-info.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.schools-list p {
+  font-size: 1.1rem;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+.schools-animation {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: scroll-schools 12s linear infinite;
+  font-size: 1.1rem;
+  color: #0284c7;
+}
+@keyframes scroll-schools {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.school-name {
+  margin-right: 8px;
+  font-weight: 600;
+}
+.prep-animation {
+  margin-top: 18px;
+}
+.prep-text {
+  display: inline-block;
+  font-size: 1.05rem;
+  color: #0c4a6e;
+  font-weight: 500;
+  animation: fadeInPrep 2s ease-in;
+}
+@keyframes fadeInPrep {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

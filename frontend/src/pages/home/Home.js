@@ -1,5 +1,6 @@
 import Header from "../../components/common/Header"
 import HeroSection from "../../components/sections/HeroSection"
+import HeroSchoolsInfo from "../../components/sections/HeroSchoolsInfo"
 import AnnonceSection from "../../components/sections/AnnonceSection"
 import WhyChooseUsSection from "../../components/sections/WhyChooseUsSection"
 // import ServicesSection from "../../components/sections/ServicesSection"
@@ -17,6 +18,7 @@ const Home = () => {
     <div className="home">
       <Header />
       <HeroSection />
+      <HeroSchoolsInfo />
       <AnnonceSection />
       <ScreenshotsSection />
       <WhyChooseUsSection />
