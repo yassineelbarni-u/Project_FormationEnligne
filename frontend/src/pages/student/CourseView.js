@@ -418,46 +418,48 @@ const CourseView = () => {
 
             <div className="modules-list">
               {Object.entries(organizeVideosIntoModules(videos)).map(([moduleName, moduleVideos]) => (
-                <div key={moduleName} className="module-section">
-                  <div className="module-header" onClick={() => toggleModule(moduleName)}>
-                    <div className="module-info">
-                      <div className="module-details">
-                        <h3 className="module-title">{moduleName}</h3>
-                        <span className="module-count">{moduleVideos.length} vidéos</span>
+                <div key={moduleName} className="playlist-section">
+                  <div className="module-section">
+                    <div className="module-header" onClick={() => toggleModule(moduleName)}>
+                      <div className="module-info">
+                        <div className="module-details">
+                          <h3 className="module-title">{moduleName}</h3>
+                          <span className="module-count">{moduleVideos.length} vidéos</span>
+                        </div>
+                      </div>
+                      <div className={`module-toggle ${expandedModules.includes(moduleName) ? "expanded" : ""}`}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="6,9 12,15 18,9" />
+                        </svg>
                       </div>
                     </div>
-                    <div className={`module-toggle ${expandedModules.includes(moduleName) ? "expanded" : ""}`}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="6,9 12,15 18,9" />
-                      </svg>
-                    </div>
+
+                    {expandedModules.includes(moduleName) && (
+                      <div className="module-videos">
+                        {moduleVideos.map((video, index) => (
+                          <div
+                            key={video.id}
+                            className={`video-lesson ${currentVideo?.id === video.id ? "active" : ""}`}
+                            onClick={() => selectVideo(video)}
+                          >
+                            <div className="video-icon-only">
+                              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2">
+                                <rect x="3" y="5" width="18" height="14" rx="3" />
+                                <polygon points="10,9 16,12 10,15" fill="#6366f1" />
+                              </svg>
+                              {video.is_free && <div className="free-label">Gratuit</div>}
+                            </div>
+
+                            <div className="lesson-info">
+                              <div className="lesson-number">séance {index + 1}</div>
+                              <h4 className="lesson-title">{video.title}</h4>
+                              {video.description && <p className="lesson-description">{video.description}</p>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-
-                  {expandedModules.includes(moduleName) && (
-                    <div className="module-videos">
-                      {moduleVideos.map((video, index) => (
-                        <div
-                          key={video.id}
-                          className={`video-lesson ${currentVideo?.id === video.id ? "active" : ""}`}
-                          onClick={() => selectVideo(video)}
-                        >
-                          <div className="video-icon-only">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2">
-                              <rect x="3" y="5" width="18" height="14" rx="3" />
-                              <polygon points="10,9 16,12 10,15" fill="#6366f1" />
-                            </svg>
-                            {video.is_free && <div className="free-label">Gratuit</div>}
-                          </div>
-
-                          <div className="lesson-info">
-                            <div className="lesson-number">séance {index + 1}</div>
-                            <h4 className="lesson-title">{video.title}</h4>
-                            {video.description && <p className="lesson-description">{video.description}</p>}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>

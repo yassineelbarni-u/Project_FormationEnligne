@@ -389,6 +389,10 @@
 .modules-list {
   flex: 1;
   overflow-y: auto;
+  max-height: 420px;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #e5e7eb;
 }
 
 /* Modules */
@@ -454,27 +458,30 @@
 }
 
 .video-lesson {
-  padding: 0.875rem;
-  border-bottom: 1px solid #f3f4f6;
-  cursor: pointer;
-  transition: all 0.2s ease;
   display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  border-radius: 8px;
-  margin: 0.25rem 0.5rem;
-}
-
-.video-lesson:hover {
-  background: #f9fafb;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.06);
+  padding: 12px 18px;
+  margin-bottom: 12px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
 }
 
 .video-lesson.active {
-  background: #eff6ff;
-  border-left: 3px solid #4f46e5;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+  border-color: #6366f1;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+}
+
+.video-lesson:hover {
+  border-color: #6366f1;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.10);
+}
+
+.lesson-info {
+  flex: 1;
 }
 
 .lesson-thumbnail {
@@ -988,4 +995,19 @@
   background: transparent;
   z-index: -1;
   pointer-events: none;
+}
+
+.playlist-section {
+  background: #f7f8fa;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.05);
+  margin-bottom: 18px;
+  padding: 18px 22px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.playlist-section:hover {
+  border-color: #6366f1;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.10);
 }
