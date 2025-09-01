@@ -441,31 +441,16 @@ const CourseView = () => {
                           className={`video-lesson ${currentVideo?.id === video.id ? "active" : ""}`}
                           onClick={() => selectVideo(video)}
                         >
-                          <div className="lesson-thumbnail">
-                            <img
-                              src={generateVideoThumbnail(video) || generateLocalPlaceholder(video.title)}
-                              alt={`Miniature de la vidéo ${video.title}`}
-                              onError={(e) => {
-                                e.target.src = generateLocalPlaceholder(video.title)
-                              }}
-                            />
-                            <div className="play-icon">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                              >
-                                <polygon points="5,3 19,12 5,21" />
-                              </svg>
-                            </div>
+                          <div className="video-icon-only">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2">
+                              <rect x="3" y="5" width="18" height="14" rx="3" />
+                              <polygon points="10,9 16,12 10,15" fill="#6366f1" />
+                            </svg>
                             {video.is_free && <div className="free-label">Gratuit</div>}
                           </div>
 
                           <div className="lesson-info">
-                            <div className="lesson-number">LEÇON {index + 1}</div>
+                            <div className="lesson-number">séance {index + 1}</div>
                             <h4 className="lesson-title">{video.title}</h4>
                             {video.description && <p className="lesson-description">{video.description}</p>}
                           </div>

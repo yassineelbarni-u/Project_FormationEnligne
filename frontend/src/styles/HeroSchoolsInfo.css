@@ -46,3 +46,20 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+.hero-schools-info.animate-pop {
+  animation: popIn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(40px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
