@@ -167,51 +167,32 @@
 
 /* Section vidéo PRIORITÉ SUR MOBILE */
 .video-section {
+  flex: 1 1 auto;
   background: #f8fafc;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   margin: 0;
   padding: 0;
-  flex: 0 0 60vh;
   order: 1;
 }
 
 .video-player-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-  margin: 0.75rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-  border: 1px solid #e2e8f0;
-  overflow: hidden;
+  margin: 0.5rem;
 }
 
 .video-title-bar {
-  padding: 1rem;
-  border-bottom: 1px solid #e2e8f0;
-  background: #f8fafc;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.video-title-bar h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0;
-  line-height: 1.3;
+  padding: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .video-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .free-badge {
@@ -441,7 +422,7 @@
 }
 
 .module-header {
-  padding: 0.4rem 0.6rem;
+  padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -757,8 +738,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 12px;
-  margin: 18px 0 0 0;
+  gap: 8px;
+  margin: 8px 0 0 0;
 }
 
 .pdf-btn {
@@ -766,8 +747,8 @@
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 1rem;
+  padding: 6px 10px;
+  font-size: 0.9rem;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -1080,8 +1061,8 @@
   border: 1.5px solid #e5e7eb;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(99, 102, 241, 0.05);
-  margin-bottom: 6px;
-  padding: 6px 10px;
+  margin-bottom: 0;
+  padding: 0 1px;
   transition: box-shadow 0.2s, border-color 0.2s;
 }
 
