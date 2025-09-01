@@ -390,18 +390,13 @@ const CourseView = () => {
         }}
       >
         {/* Header du cours */}
-        <div className="course-header compact-header">
+        <div className="course-header compact-header" style={{justifyContent: 'center'}}>
           <button onClick={() => navigate("/student/dashboard")} className="back-btn small-btn" title="Retour">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="m15 18-6-6 6-6" />
             </svg>
           </button>
-          <div className="course-title-small">{course.title}</div>
-          <div className="course-meta compact-meta">
-            <span className="course-subject">{course.subject}</span>
-            <span className="course-level">{course.level}</span>
-            <span className="video-count">{videos.length} vidéos</span>
-          </div>
+          <div className="course-title-small" style={{flex: 1, textAlign: 'center'}}>{course.title}</div>
         </div>
 
         {/* Layout responsive */}
@@ -552,7 +547,7 @@ const CourseView = () => {
                           console.log("Code erreur:", e.target.error ? e.target.error.code : "inconnu")
                           e.target.outerHTML = `<div class="video-error-message">
                             <p>Erreur de lecture de la vidéo.</p>
-                            <p>Causes possibles: format non supporté par le navigateur ou problème d'accès.</p>
+                            <p>Causes possibles: format non supporté par le navigateur ou problème d' accès.</p>
                             <p>Détails: ${e.target.error ? `Code ${e.target.error.code}` : "Erreur inconnue"}</p>
                             <p>URL: ${generateWebmDirectUrl(currentVideo).substring(0, 50)}...</p>
                           </div>`
@@ -590,24 +585,18 @@ const CourseView = () => {
                   </div>
                 )}
 
-                {currentVideo.pdf_url && (
-                  <div className="document-section">
-                    <h3 className="document-title">Document du cours</h3>
-                    <a
-                      href={generatePdfEmbedUrl(currentVideo.pdf_url)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pdf-button"
+                {currentVideo?.pdf_url && (
+                  <div className="pdf-row">
+                    <button
+                      className="pdf-btn"
+                      onClick={() => window.open(generatePdfEmbedUrl(currentVideo.pdf_url), "_blank")}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <path d="M14 2v6h6"></path>
-                        <path d="M16 13H8"></path>
-                        <path d="M16 17H8"></path>
-                        <path d="M10 9H8"></path>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" style={{marginRight: '6px'}}>
+                        <rect x="3" y="5" width="18" height="14" rx="3" />
+                        <path d="M8 9h8M8 13h8" />
                       </svg>
                       Voir le document PDF
-                    </a>
+                    </button>
                   </div>
                 )}
               </div>

@@ -753,6 +753,45 @@
   box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
 }
 
+.pdf-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: 18px 0 0 0;
+}
+
+.pdf-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pdf-btn:hover {
+  background: #dc2626;
+}
+
+@media (max-width: 700px) {
+  .pdf-row {
+    margin: 12px 0 0 0;
+    gap: 8px;
+  }
+
+  .pdf-btn {
+    padding: 7px 12px;
+    font-size: 0.95rem;
+  }
+}
+
 /* DESKTOP - Layout en colonnes */
 @media (min-width: 1024px) {
   .course-header {
