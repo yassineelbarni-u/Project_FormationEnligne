@@ -20,7 +20,6 @@ const StudentDashboard = () => {
     fetchMyCourses()
   }, [])
 
-  // ✅ Utilisation d'apiService au lieu d'appels directs
   const fetchMyCourses = async () => {
     try {
       setIsLoading(true)
