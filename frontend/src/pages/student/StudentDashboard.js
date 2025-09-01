@@ -131,11 +131,6 @@ const StudentDashboard = () => {
 
         {/* Section des cours */}
         <div className="courses-section">
-          <div className="section-header">
-            <h2>Mes Cours</h2>
-            <p>Accédez à tous vos cours et continuez votre progression</p>
-          </div>
-
           {isLoading ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
