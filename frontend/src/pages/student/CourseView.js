@@ -401,7 +401,6 @@ const CourseView = () => {
 
         {/* Layout responsive */}
         <div className="course-layout">
-          {/* Section contenu - À GAUCHE sur desktop */}
           <div className="content-section">
             <div className="content-header">
               <h2>Contenu du cours</h2>
