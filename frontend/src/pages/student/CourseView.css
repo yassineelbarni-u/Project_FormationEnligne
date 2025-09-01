@@ -31,6 +31,15 @@
   margin: 0;
 }
 
+.compact-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 0 0;
+  background: none;
+  box-shadow: none;
+}
+
 .back-btn {
   display: flex;
   align-items: center;
@@ -45,6 +54,20 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
+}
+
+.small-btn {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 4px 6px;
+  font-size: 0;
+  border-radius: 8px;
+  background: #eef2ff;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
 }
 
 .back-btn:hover {
@@ -69,11 +92,28 @@
   white-space: nowrap;
 }
 
+.course-title-small {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #18181b;
+  margin-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .course-meta {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+.compact-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.95rem;
+  align-items: center;
 }
 
 .course-subject {

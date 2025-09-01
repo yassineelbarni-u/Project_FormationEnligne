@@ -390,20 +390,17 @@ const CourseView = () => {
         }}
       >
         {/* Header du cours */}
-        <div className="course-header">
-          <button onClick={() => navigate("/student/dashboard")} className="back-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <div className="course-header compact-header">
+          <button onClick={() => navigate("/student/dashboard")} className="back-btn small-btn" title="Retour">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="m15 18-6-6 6-6" />
             </svg>
-            Retour aux cours
           </button>
-          <div className="course-info">
-            <h1>{course.title}</h1>
-            <div className="course-meta">
-              <span className="course-subject">{course.subject}</span>
-              <span className="course-level">{course.level}</span>
-              <span className="video-count">{videos.length} vidéos</span>
-            </div>
+          <div className="course-title-small">{course.title}</div>
+          <div className="course-meta compact-meta">
+            <span className="course-subject">{course.subject}</span>
+            <span className="course-level">{course.level}</span>
+            <span className="video-count">{videos.length} vidéos</span>
           </div>
         </div>
 
