@@ -57,6 +57,9 @@ async def create_job_offer(
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     """Créer une nouvelle offre d'emploi (admin seulement)"""
     job_offer = JobOffer(
         **job_offer_data.dict(),
@@ -77,6 +80,9 @@ async def update_job_offer(
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     """Mettre à jour une offre d'emploi (admin seulement)"""
     job_offer = db.query(JobOffer).filter(JobOffer.id == job_offer_id).first()
     
@@ -104,6 +110,9 @@ async def delete_job_offer(
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     """Supprimer une offre d'emploi (admin seulement)"""
     job_offer = db.query(JobOffer).filter(JobOffer.id == job_offer_id).first()
     
@@ -129,6 +138,9 @@ async def toggle_job_offer_status(
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     """Activer/désactiver une offre d'emploi"""
     job_offer = db.query(JobOffer).filter(JobOffer.id == job_offer_id).first()
     

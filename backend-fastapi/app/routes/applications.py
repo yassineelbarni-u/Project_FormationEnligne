@@ -105,6 +105,9 @@ async def get_job_applications(
     db: Session = Depends(get_db)
 ):
     """Récupérer toutes les candidatures (admin seulement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     query = db.query(JobApplication).join(JobOffer)
     
     if job_offer_id:
@@ -129,6 +132,9 @@ async def get_job_application(
     db: Session = Depends(get_db)
 ):
     """Récupérer une candidature spécifique (admin seulement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     application = db.query(JobApplication).filter(
         JobApplication.id == application_id
     ).first()
@@ -152,6 +158,9 @@ async def update_job_application(
     db: Session = Depends(get_db)
 ):
     """Mettre à jour une candidature (admin seulement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     application = db.query(JobApplication).filter(
         JobApplication.id == application_id
     ).first()
@@ -183,6 +192,9 @@ async def delete_job_application(
     db: Session = Depends(get_db)
 ):
     """Supprimer une candidature (admin seulement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
+    
     application = db.query(JobApplication).filter(
         JobApplication.id == application_id
     ).first()

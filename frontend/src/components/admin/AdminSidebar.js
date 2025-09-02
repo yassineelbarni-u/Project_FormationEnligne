@@ -61,7 +61,7 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       path: "/admin/cours-gratuits",
       icon: "book",
       label: "Cours Gratuits",
-      access: "all", // Accessible à tous les admins (modifiez en "superadmin" si vous voulez le restreindre)
+      access: "superadmin", // Accessible à tous les admins (modifiez en "superadmin" si vous voulez le restreindre)
     },
   ]
 

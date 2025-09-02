@@ -45,7 +45,7 @@ class ApiService {
       }
       return await response.json()
     } catch (error) {
-      console.error(`API Error (${endpoint}):`, error)
+      // console.error(`API Error (${endpoint}):`, error)
       throw error
     }
   }
@@ -433,9 +433,7 @@ class ApiService {
   async getRecruitmentStats() {
     return this.request("/api/admin/recruitment/stats")
   }
-
-  // COURS GRATUITS API METHODS - Méthodes pour la gestion des cours gratuits
-  
+    
   // Récupérer tous les cours gratuits (public)
   async getCoursGratuits() {
     return this.request("/api/cours-gratuits/", {

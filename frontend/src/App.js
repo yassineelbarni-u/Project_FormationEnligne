@@ -126,13 +126,13 @@ function App() {
             }
           />
           
-          {/* Gestion des cours gratuits */}
+          {/* Gestion des cours gratuits - Réservé aux super admins */}
           <Route
             path="/admin/cours-gratuits"
             element={
-              <ProtectedRoute>
+              <SuperAdminRoute>
                 <GestionCoursGratuit />
-              </ProtectedRoute>
+              </SuperAdminRoute>
             }
           />
 
@@ -219,9 +219,9 @@ function App() {
           <Route
             path="/admin/announcements"
             element={
-              <ProtectedRoute>
+              <SuperAdminRoute>
                 <AnnouncementManagement />
-              </ProtectedRoute>
+              </SuperAdminRoute>
             }
           />
 

@@ -27,7 +27,6 @@ const AdminLayout = ({ children }) => {
       try {
         const parsedUser = JSON.parse(userData)
         setUser(parsedUser)
-        console.log("User data:", parsedUser) // Pour debug
       } catch (error) {
         console.error("Erreur parsing user data:", error)
         handleLogout()

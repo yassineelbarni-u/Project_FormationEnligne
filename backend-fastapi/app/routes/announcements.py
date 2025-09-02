@@ -35,7 +35,12 @@ async def get_admin_announcements(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
-    """Récupérer toutes les annonces pour l'admin"""
+    """Récupérer toutes les annonces pour le super admin uniquement"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(
+            status_code=403,
+            detail="Accès réservé aux super admins"
+        )
     announcements = db.query(Announcement).order_by(Announcement.created_at.desc()).all()
     return announcements
 
@@ -49,7 +54,9 @@ async def create_announcement(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
-    """Créer une nouvelle annonce"""
+    """Créer une nouvelle annonce (super admin uniquement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
     
     # Vérifier le type de fichier
     if not image.content_type.startswith("image/"):
@@ -97,7 +104,9 @@ async def update_announcement(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
-    """Mettre à jour une annonce"""
+    """Mettre à jour une annonce (super admin uniquement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
     
     db_announcement = db.query(Announcement).filter(Announcement.id == announcement_id).first()
     if not db_announcement:
@@ -157,7 +166,9 @@ async def delete_announcement(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
-    """Supprimer une annonce"""
+    """Supprimer une annonce (super admin uniquement)"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
     
     db_announcement = db.query(Announcement).filter(Announcement.id == announcement_id).first()
     if not db_announcement:

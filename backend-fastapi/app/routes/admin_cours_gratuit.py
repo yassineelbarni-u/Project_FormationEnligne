@@ -57,7 +57,11 @@ async def get_admin_cours_gratuits(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
-    """Récupérer tous les cours gratuits pour l'admin"""
+    if not current_admin.is_super_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Accès réservé aux super admins"
+        )
     cours = db.query(GratuitCourse).offset(skip).limit(limit).all()
     return cours
 
@@ -67,6 +71,8 @@ async def create_cours_gratuit(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
     """Créer un nouveau cours gratuit"""
     db_cours = GratuitCourse(
         title=cours_data.title,
@@ -88,6 +94,8 @@ async def update_cours_gratuit(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
     """Mettre à jour un cours gratuit"""
     db_cours = db.query(GratuitCourse).filter(GratuitCourse.id == cours_id).first()
     
@@ -111,6 +119,8 @@ async def delete_cours_gratuit(
     db: Session = Depends(get_db),
     current_admin: Admin = Depends(get_current_admin)
 ):
+    if not current_admin.is_super_admin:
+        raise HTTPException(status_code=403, detail="Accès réservé aux super admins")
     """Supprimer un cours gratuit"""
     db_cours = db.query(GratuitCourse).filter(GratuitCourse.id == cours_id).first()
     
