@@ -4,7 +4,7 @@ import HeroSchoolsInfo from "../../components/sections/HeroSchoolsInfo"
 import AnnonceSection from "../../components/sections/AnnonceSection"
 import WhyChooseUsSection from "../../components/sections/WhyChooseUsSection"
 // import ServicesSection from "../../components/sections/ServicesSection"
-import TestimonialsSection from "../../components/sections/TestimonialsSection"
+import FeedbackGallery from "../../components/sections/FeedbackGallery"
 import FAQSection from "../../components/sections/FAQSection"
 import ContactSection from "../../components/sections/ContactSection"
 import VideoSection from "../../components/sections/VideoSection"
@@ -22,8 +22,8 @@ const Home = () => {
       <AnnonceSection />
       <ScreenshotsSection />
       <WhyChooseUsSection />
+      <FeedbackGallery />
       {/* <ServicesSection /> */}
-      <TestimonialsSection />
       <VideoSection />
       <ReseauxSection />
       <FAQSection />
