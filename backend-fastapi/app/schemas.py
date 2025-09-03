@@ -266,7 +266,6 @@ class JobApplicationResponse(JobApplicationBase):
     created_at: datetime
     updated_at: datetime
     
-    # Informations supplémentaires
     job_title: Optional[str] = None
     company_name: Optional[str] = None
     
