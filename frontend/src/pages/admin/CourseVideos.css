@@ -1,3 +1,101 @@
+/* Modale édition vidéo - styles uniques, pas de conflit */
+.video-edit-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4vh;
+}
+.video-edit-modal {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  padding: 2rem 1.5rem;
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.video-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.video-edit-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-color, #2563eb);
+}
+.video-edit-close {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.7rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #475569;
+  padding: 0.3rem 0.7rem;
+}
+.video-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.video-edit-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.video-edit-group label {
+  font-weight: 500;
+  color: var(--text-primary, #1e293b);
+}
+.video-edit-group input,
+.video-edit-group textarea,
+.video-edit-group select {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  font-size: 1rem;
+  background: var(--background-light, #f8fafc);
+  box-sizing: border-box;
+}
+.video-edit-group textarea {
+  min-height: 60px;
+  max-height: 120px;
+  resize: vertical;
+}
+.video-edit-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+.video-edit-cancel {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.7rem;
+  padding: 0.7rem 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.video-edit-save {
+  background: var(--primary-color, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.7rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
 /* Page de gestion des vidéos d'un cours */
 .course-videos-page {
   padding: 2rem;

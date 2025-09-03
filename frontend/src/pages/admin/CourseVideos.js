@@ -8,6 +8,39 @@ import "./CourseVideos.css"
 import "./module-styles.css"
 
 const CourseVideos = () => {
+  // Hooks et fonctions pour la modale d'édition vidéo
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editVideo, setEditVideo] = useState(null)
+
+  const openEditModal = (video) => {
+    setEditVideo({ ...video })
+    setShowEditModal(true)
+  }
+
+  const closeEditModal = () => {
+    setShowEditModal(false)
+    setEditVideo(null)
+  }
+
+  const handleEditChange = (e) => {
+    setEditVideo({ ...editVideo, [e.target.name]: e.target.value })
+  }
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault()
+    if (!editVideo.title || !editVideo.drive_url) {
+      alert("Titre et URL Drive requis")
+      return
+    }
+    try {
+      const updated = await apiService.updateVideo(editVideo.id, editVideo)
+      setVideos(videos.map((v) => (v.id === editVideo.id ? updated : v)))
+      closeEditModal()
+      alert("Vidéo modifiée !")
+    } catch (error) {
+      alert("Erreur lors de la modification")
+    }
+  }
   const { courseId } = useParams()
   const navigate = useNavigate()
   const [course, setCourse] = useState(null)
@@ -18,7 +51,7 @@ const CourseVideos = () => {
     title: "",
     description: "",
     drive_url: "",
-    pdf_url: "",  // Nouveau champ pour le lien PDF
+    pdf_url: "", 
     order_in_course: 0,
     is_free: false,
     module_name: "",
@@ -321,8 +354,11 @@ const CourseVideos = () => {
                             {video.description && <p className="video-description">{video.description}</p>}
                             <div className="video-actions">
                               <a href={video.drive_url} target="_blank" rel="noopener noreferrer" className="btn-watch">
-                                ▶️ Voir sur Drive
+                                ▶️
                               </a>
+                              <button className="btn-edit" onClick={() => openEditModal(video)}>
+                                ✏️ Modifier
+                              </button>
                               <button className="btn-delete" onClick={() => deleteVideo(video.id)}>
                                 🗑️
                               </button>
@@ -337,6 +373,59 @@ const CourseVideos = () => {
             </div>
           )}
         </div>
+      {/* Modale édition vidéo, styles uniques */}
+      {showEditModal && editVideo && (
+        <div className="video-edit-modal-overlay">
+          <div className="video-edit-modal">
+            <div className="video-edit-header">
+              <h2>✏️ Modifier la vidéo</h2>
+              <button className="video-edit-close" onClick={closeEditModal}>✕</button>
+            </div>
+            <form className="video-edit-form" onSubmit={handleEditSubmit}>
+              <div className="video-edit-group">
+                <label htmlFor="title">Titre *</label>
+                <input type="text" name="title" id="title" value={editVideo.title} onChange={handleEditChange} required />
+              </div>
+              <div className="video-edit-group">
+                <label htmlFor="drive_url">URL Google Drive *</label>
+                <input type="url" name="drive_url" id="drive_url" value={editVideo.drive_url} onChange={handleEditChange} required />
+              </div>
+              <div className="video-edit-group">
+                <label htmlFor="pdf_url">URL PDF (optionnel)</label>
+                <input type="url" name="pdf_url" id="pdf_url" value={editVideo.pdf_url || ""} onChange={handleEditChange} />
+              </div>
+              <div className="video-edit-group">
+                <label htmlFor="module_name">Module/Playlist</label>
+                <select name="module_name" id="module_name" value={editVideo.module_name} onChange={handleEditChange}>
+                  <option value="">Sélectionner un module</option>
+                  {moduleNames.map((name, idx) => (
+                    <option key={idx} value={name}>{name}</option>
+                  ))}
+                </select>
+                <input type="text" name="module_name" value={editVideo.module_name} onChange={handleEditChange} placeholder="Nom du module/playlist" />
+              </div>
+              <div className="video-edit-group">
+                <label htmlFor="description">Description</label>
+                <textarea name="description" id="description" value={editVideo.description} onChange={handleEditChange} rows={3} />
+              </div>
+              <div className="video-edit-group">
+                <label htmlFor="order_in_course">Ordre dans le cours</label>
+                <input type="number" name="order_in_course" id="order_in_course" value={editVideo.order_in_course} onChange={handleEditChange} min={0} />
+              </div>
+              <div className="video-edit-group">
+                <label>
+                  <input type="checkbox" name="is_free" checked={!!editVideo.is_free} onChange={e => setEditVideo({ ...editVideo, is_free: e.target.checked })} />
+                  Vidéo gratuite
+                </label>
+              </div>
+              <div className="video-edit-actions">
+                <button type="button" className="video-edit-cancel" onClick={closeEditModal}>Annuler</button>
+                <button type="submit" className="video-edit-save">Enregistrer</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       </div>
     </AdminLayout>
   )

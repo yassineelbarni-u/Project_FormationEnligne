@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Admin, Video, Course
-from app.schemas import VideoResponse
+from app.schemas import VideoResponse, VideoUpdate
 from app.security import get_current_admin
 
 router = APIRouter()
@@ -45,3 +45,20 @@ async def delete_video(
     db.commit()
     
     return {"message": "Vidéo supprimée avec succès"}
+
+@router.put("/{video_id}", response_model=VideoResponse)
+async def update_video(
+    video_id: int,
+    video_data: VideoUpdate,
+    current_admin: Admin = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
+    """Modifier une vidéo"""
+    video = db.query(Video).filter(Video.id == video_id, Video.admin_id == current_admin.id).first()
+    if not video:
+        raise HTTPException(status_code=404, detail="Vidéo non trouvée")
+    for field, value in video_data.dict(exclude_unset=True).items():
+        setattr(video, field, value)
+    db.commit()
+    db.refresh(video)
+    return video

@@ -118,6 +118,13 @@ class ApiService {
     })
   }
 
+  async updateVideo(videoId, videoData) {
+    return this.request(`/api/admin/videos/${videoId}`, {
+      method: "PUT",
+      body: JSON.stringify(videoData),
+    })
+  }
+
   // Students - Méthodes complètes
   async getStudents() {
     return this.request("/api/admin/students/")
@@ -492,6 +499,7 @@ export const getVideos = apiService.getVideos.bind(apiService)
 export const getCourseVideos = apiService.getCourseVideos.bind(apiService)
 export const addVideoToCourse = apiService.addVideoToCourse.bind(apiService)
 export const deleteVideo = apiService.deleteVideo.bind(apiService)
+export const updateVideo = apiService.updateVideo.bind(apiService)
 
 // Méthodes pour les étudiants
 export const getStudents = apiService.getStudents.bind(apiService)
