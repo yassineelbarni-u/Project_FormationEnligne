@@ -150,7 +150,7 @@ const StudentDashboard = () => {
                 <div key={course.id} className="course-card">
                   <div className="course-header">
                     {getSubjectIcon(course.subject)}
-                    <div className={`course-level ${getLevelBadgeClass(course.level)}`}>{course.level}</div>
+                    {/* Niveau/metier supprimé */}
                   </div>
                   
                   {/* Affichage de l'image du cours */}
