@@ -1,114 +1,180 @@
+/* Styles pour la section vidéo */
 .video-section {
-  padding: 60px 0;
-  background: transparent;
+  width: 100%;
+  padding: 4rem 0;
+  background: white;
+  position: relative;
 }
 
-.video-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+
+.video-content {
   position: relative;
   z-index: 1;
 }
 
-.video-content {
+.video-header {
   text-align: center;
-  max-width: 1000px;
-  margin: 0 auto;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.video-title {
+.video-section .section-title {
   font-size: 2.5rem;
-  margin-bottom: 20px;
-  font-weight: bold;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .video-description {
-  font-size: 1.1rem;
-  margin-bottom: 40px;
-  color: #555;
+  font-size: 1.125rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
 }
 
 .video-wrapper {
   position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-  background: transparent;
-}
-
-.objective-video {
   width: 100%;
-  height: auto;
-  max-height: 900px;
-  min-height: 500px;
-  display: block;
-  border-radius: 20px;
-  transition: transform 0.3s ease;
-  object-fit: cover; /* ✅ évite les bandes noires */
-  border: 2px solid #e0e0e0;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  background-color: transparent; /* ✅ supprime le fond noir */
+  max-width: 900px;
+  height: 0;
+  padding-bottom: 56.25%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: white !important;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s, border-color 0.3s;
 }
 
-.objective-video:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+.video-wrapper:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.2), 0 8px 12px -2px rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white !important;
+  object-fit: fill;
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .video-section {
+    padding: 3rem 0;
+  }
+
+  .video-section .section-title {
+    font-size: 2.25rem;
+  }
+
+  .video-wrapper {
+    max-width: 800px;
+  }
+}
+
 @media (max-width: 768px) {
   .video-section {
-    padding: 40px 0;
+    padding: 2.5rem 0;
   }
 
-  .video-container {
-    padding: 0 15px;
+  .video-header {
+    margin-bottom: 2rem;
   }
 
-  .video-title {
+  .video-section .section-title {
     font-size: 2rem;
-    margin-bottom: 15px;
   }
 
   .video-description {
     font-size: 1rem;
-    margin-bottom: 30px;
   }
 
   .video-wrapper {
-    border-radius: 15px;
+    border-radius: 1rem;
+    max-width: 100%;
   }
 
-  .objective-video {
-    border-radius: 15px;
-    max-height: 700px;
-    min-height: 400px;
-    object-fit: cover;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  .video-wrapper iframe {
+    border-radius: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
-  .video-title {
-    font-size: 1.7rem;
+  .video-section {
+    padding: 2rem 0;
   }
 
-  .video-description {
-    font-size: 0.95rem;
-    padding: 0 10px;
+  .video-section .section-title {
+    font-size: 1.75rem;
   }
 
   .video-wrapper {
-    border-radius: 12px;
+    border-radius: 0.75rem;
   }
 
-  .objective-video {
-    border-radius: 12px;
-    max-height: 600px;
-    min-height: 350px;
-    object-fit: cover;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  .video-wrapper iframe {
+    border-radius: 0.55rem;
   }
+
+  .video-container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Animation d'entrée */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.video-header {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.video-wrapper {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+/* Add pseudo-element to ensure white background behind video */
+.video-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: -1;
+}
+
+.video-wrapper iframe[src*="youtube.com"],
+.video-wrapper iframe[src*="youtu.be"] {
+  background: white !important;
+}
+
+.video-wrapper iframe::before,
+.video-wrapper iframe::after {
+  display: none !important;
 }
