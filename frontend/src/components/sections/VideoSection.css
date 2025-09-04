@@ -70,8 +70,9 @@
   height: 100%;
   border: none;
   background: white !important;
-  object-fit: fill;
+  object-fit: cover; /* <-- change ici */
 }
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -157,7 +158,6 @@
   animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
-/* Add pseudo-element to ensure white background behind video */
 .video-wrapper::before {
   content: "";
   position: absolute;

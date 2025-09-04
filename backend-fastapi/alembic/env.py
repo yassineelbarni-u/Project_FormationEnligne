@@ -35,8 +35,8 @@ def run_migrations_online():
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            compare_type=True,          # <-- Option utile pour détecter les changements de type
-            compare_server_default=True  # <-- Détecte les changements de valeurs par défaut
+            compare_type=True,
+            compare_server_default=True
         )
         with context.begin_transaction():
             context.run_migrations()
