@@ -29,18 +29,15 @@ const StudentLogin = () => {
 
     try {
 
-      //Utilisation d'apiService au lieu d'appels directs
       const data = await apiService.studentLogin(formData)
 
-      // Stocker le token et les infos utilisateur
       localStorage.setItem("student_token", data.access_token)
       localStorage.setItem("student_user", JSON.stringify(data.user))
 
-      // Rediriger vers l'espace étudiant
       navigate("/student/dashboard")
     } catch (error) {
       if (error.message.includes("Failed to fetch")) {
-        setError(`❌ Impossible de se connecter au serveur`)
+        setError(`Impossible de se connecter au serveur`)
       } else {
         setError(error.message || "Email ou code d'accès incorrect")
       }

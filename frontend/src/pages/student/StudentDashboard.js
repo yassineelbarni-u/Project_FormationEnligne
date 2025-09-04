@@ -150,7 +150,6 @@ const StudentDashboard = () => {
                 <div key={course.id} className="course-card">
                   <div className="course-header">
                     {getSubjectIcon(course.subject)}
-                    {/* Niveau/metier supprimé */}
                   </div>
                   
                   {/* Affichage de l'image du cours */}
@@ -168,10 +167,8 @@ const StudentDashboard = () => {
                   </div>
 
                   <div className="course-content">
-                    <div className="course-subject">{course.subject}</div>
                     <h3 className="course-title">{course.title}</h3>
                     {course.description && <p className="course-description">{course.description}</p>}
-
                     <div className="course-stats">
                       <div className="stat-item">
                         <svg
