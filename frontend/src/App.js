@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
-// Importer d'abord les styles globaux pour que les styles spécifiques aux composants puissent les surcharger
 import "./styles/globals.css"
 // import "./styles/recruitment.css"
 

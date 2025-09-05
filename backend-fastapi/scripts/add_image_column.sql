@@ -1,1 +1,0 @@
-ALTER TABLE courses ADD COLUMN image_filename VARCHAR(255) NULL;
