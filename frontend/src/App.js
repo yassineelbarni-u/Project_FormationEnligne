@@ -29,7 +29,6 @@ import JobOffers from "./pages/recruitment/JobOffers"
 import JobApplication from "./pages/recruitment/JobApplication"
 import JobApplicationSuccess from "./pages/recruitment/JobApplicationSuccess"
 
-// Import pages étudiantes
 import StudentLogin from "./pages/student/StudentLogin"
 import StudentDashboard from "./pages/student/StudentDashboard"
 import CourseView from "./pages/student/CourseView"

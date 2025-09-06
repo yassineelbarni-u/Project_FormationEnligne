@@ -34,12 +34,16 @@
   background-color: var(--primary-hover);
 }
 
+/* Ajout scroll horizontal pour la table */
 .cours-table-container {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
+  width: 100%;
 }
+
 
 .cours-table {
   width: 100%;
@@ -146,13 +150,19 @@
   background-color: var(--info-hover);
 }
 
+
 .btn-delete {
   background-color: var(--danger-color);
-  color: white;
+  color: #e53935; /* Rouge vif, toujours visible */
+  font-weight: bold;
+  border: none;
+  box-shadow: none;
 }
+
 
 .btn-delete:hover {
   background-color: var(--danger-hover);
+  color: #b71c1c; /* Rouge plus foncé au hover */
 }
 
 .no-data {
