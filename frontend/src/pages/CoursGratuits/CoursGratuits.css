@@ -80,23 +80,27 @@
 }
 
 .cours-card {
-  background: #e3f0ff; /* bleu clair */
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  transition: transform 0.3s cubic-bezier(.4,2,.3,1), box-shadow 0.3s cubic-bezier(.4,2,.3,1), background 0.3s;
+  background: #fff; /* blanc pur */
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+  padding: 30px;
+  transition: transform 0.4s cubic-bezier(.4,2,.3,1), box-shadow 0.4s cubic-bezier(.4,2,.3,1), background 0.3s;
   opacity: 0;
-  animation: fadeInCard 0.7s forwards;
+  animation: popInCard 0.8s forwards;
 }
 
-@keyframes fadeInCard {
-  from {
+@keyframes popInCard {
+  0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.98);
+    transform: scale(0.95) translateY(40px);
   }
-  to {
+  60% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1.03) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -113,7 +117,7 @@
 }
 
 .cours-header h3 {
-  color: var(--text-color);
+  color: #222; /* texte foncé */
   font-size: 1.3rem;
   margin: 0;
   flex: 1;
@@ -135,12 +139,14 @@
 }
 
 .category-tag.concours {
-  background-color: var(--warning-color);
-  color: white;
+  background-color: #ff9800; /* orange vif */
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.15);
 }
 
 .cours-description {
-  color: var(--text-muted);
+  color: #444;
+  font-size: 1.08rem;
   line-height: 1.6;
   margin-bottom: 20px;
 }
@@ -159,19 +165,21 @@
 }
 
 .access-btn {
-  background: var(--primary-color);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
+  background: #2563eb; /* bleu moderne */
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.10);
   text-decoration: none;
-  font-weight: 500;
   transition: background-color 0.3s ease;
 }
 
 .access-btn:hover {
-  background: var(--primary-hover);
+  background: #1e40af;
+  color: #fff;
   text-decoration: none;
-  color: white;
 }
 
 .no-results {
