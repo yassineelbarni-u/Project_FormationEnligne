@@ -6,13 +6,13 @@
 .cours-gratuits-page .hero-section {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
-  padding: 80px 20px;
+  padding: 10px 0px;
   text-align: center;
 }
 
 .cours-gratuits-page .hero-content h1 {
   font-size: 3rem;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   font-weight: 700;
 }
 
@@ -25,7 +25,7 @@
 
 .cours-gratuits-page .filters-section {
   background: white;
-  padding: 30px 20px;
+  padding: 20px 20px;
   box-shadow: var(--shadow-md);
   display: flex;
   justify-content: center;
