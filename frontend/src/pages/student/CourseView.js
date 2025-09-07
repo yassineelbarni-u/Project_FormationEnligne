@@ -279,9 +279,6 @@ const CourseView = () => {
     const fileId = extractDriveFileId(driveUrl)
     if (!fileId) return "about:blank"
 
-    console.log(`🔑 Utilisation de l'ID Google Drive: ${fileId} pour l'URL: ${driveUrl}`)
-
-
     return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal&dscb=1&autoplay=1&start=0`
   }
 
@@ -333,16 +330,8 @@ const CourseView = () => {
   const selectVideo = (video) => {
     const allVideos = getAllVideosInOrder()
     const index = allVideos.findIndex((v) => v.id === video.id)
-    console.log("📄 Vidéo sélectionnée:", video)
-    console.log("PDF URL:", video.pdf_url)
-    if (video.pdf_url) {
-      console.log("PDF ID extrait:", extractDriveFileId(video.pdf_url))
-      console.log("PDF URL transformée:", generatePdfEmbedUrl(video.pdf_url))
-    }
     setCurrentVideo(video)
     setCurrentVideoIndex(index)
-
-    console.log("Vidéo sélectionnée:", video)
   }
 
   if (isLoading) {
@@ -542,8 +531,6 @@ const CourseView = () => {
                         }}
                         onError={(e) => {
                           console.error("Erreur de lecture vidéo:", e)
-                          console.log("URL vidéo:", generateWebmDirectUrl(currentVideo))
-                          console.log("Code erreur:", e.target.error ? e.target.error.code : "inconnu")
                           e.target.outerHTML = `<div class="video-error-message">
                             <p>Erreur de lecture de la vidéo.</p>
                             <p>Causes possibles: format non supporté par le navigateur ou problème d' accès.</p>
@@ -561,17 +548,16 @@ const CourseView = () => {
                   ) : (
                     // Iframe classique pour les autres formats de vidéo
                     <iframe
-                      src={generateDriveEmbedUrl(currentVideo.drive_url)}
+                      src={generateDriveEmbedUrl(currentVideo.drive_url) + "?rm=minimal"}
                       title={currentVideo.title}
                       frameBorder="0"
                       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       width="100%"
                       height="100%"
-                      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                      sandbox="allow-scripts allow-same-origin"
                       referrerPolicy="no-referrer"
                       loading="lazy"
-                      onLoad={() => console.log("✅ Iframe de vidéo chargée avec succès")}
                     />
                   )}
                 </div>
