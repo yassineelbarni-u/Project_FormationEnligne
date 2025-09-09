@@ -11,6 +11,8 @@ import ContactSection from "../../components/sections/ContactSection"
 import Footer from "../../components/common/Footer"
 import ReseauxSection from "../../components/sections/ReseauxSection"
 import ScreenshotsSection from "../../components/sections/ScreenshotsSection"
+
+import PymntCompteCIH from "../../components/sections/PymntCompteCIH"
 import PymentSection from "../../components/sections/PymentSection"
 
 
@@ -29,8 +31,9 @@ const Home = () => {
       <ReseauxSection />
       <VideoSection />
       <FAQSection />
-      <ContactSection />
-      <PymentSection />
+      <ContactSection />  
+     <PymentSection />
+     <PymntCompteCIH />
       <Footer />
     </div>
   )
