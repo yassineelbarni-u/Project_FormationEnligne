@@ -14,6 +14,7 @@ import ScreenshotsSection from "../../components/sections/ScreenshotsSection"
 
 import PymntCompteCIH from "../../components/sections/PymntCompteCIH"
 import PymentSection from "../../components/sections/PymentSection"
+import TestimonialsStudentSection from "../../components/sections/TestimonialsStudentSection"
 
 
 const Home = () => {
@@ -26,6 +27,7 @@ const Home = () => {
       <ScreenshotsSection />
       <WhyChooseUsSection />
       <FeedbackGallery />
+      <TestimonialsStudentSection />
   
       {/* <ServicesSection /> */}
       <ReseauxSection />
