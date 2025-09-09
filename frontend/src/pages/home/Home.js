@@ -21,7 +21,6 @@ const Home = () => {
       <HeroSection />
       <HeroSchoolsInfo />
       <AnnonceSection />
-      <PymentSection />
       <ScreenshotsSection />
       <WhyChooseUsSection />
       <FeedbackGallery />
@@ -31,7 +30,7 @@ const Home = () => {
       <VideoSection />
       <FAQSection />
       <ContactSection />
-    
+      <PymentSection />
       <Footer />
     </div>
   )
