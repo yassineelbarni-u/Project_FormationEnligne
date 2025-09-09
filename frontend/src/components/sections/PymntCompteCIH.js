@@ -1,7 +1,8 @@
 import React from "react";
 import "../../styles/PymntCompteCIH.css";
 
-// Remplacez par le chemin de votre scan QR code CIH
+
+//chemin de Scan QR
 const scanImage = "/images/scanComptes.png";
 
 const PymntCompteCIH = () => {
