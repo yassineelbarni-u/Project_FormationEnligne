@@ -39,7 +39,6 @@ const ProtectedRoute = ({ children }) => {
   return token ? children : <Navigate to="/login" />
 }
 
-// Composant de protection pour les super admins uniquement
 const SuperAdminRoute = ({ children }) => {
   const token = localStorage.getItem("token")
   const userData = localStorage.getItem("user")
@@ -58,7 +57,6 @@ const SuperAdminRoute = ({ children }) => {
   return children
 }
 
-// Composant de protection des routes étudiantes (séparé de l'admin)
 const ProtectedStudentRoute = ({ children }) => {
   const studentToken = localStorage.getItem("student_token")
   return studentToken ? children : <Navigate to="/student/login" />
@@ -196,7 +194,7 @@ function App() {
             }
           />
 
-          {/* Gestion des admins - Réservé aux super admins */}
+          {/* Gestion des admins aux super admins */}
           <Route
             path="/admin/manage-admins"
             element={

@@ -11,6 +11,7 @@ import ContactSection from "../../components/sections/ContactSection"
 import Footer from "../../components/common/Footer"
 import ReseauxSection from "../../components/sections/ReseauxSection"
 import ScreenshotsSection from "../../components/sections/ScreenshotsSection"
+import PymentSection from "../../components/sections/PymentSection"
 
 
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
       <HeroSection />
       <HeroSchoolsInfo />
       <AnnonceSection />
+      <PymentSection />
       <ScreenshotsSection />
       <WhyChooseUsSection />
       <FeedbackGallery />

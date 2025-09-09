@@ -24,6 +24,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
 def verify_password(plain_password, hashed_password):
+    
     """Vérifier un mot de passe"""
     return pwd_context.verify(plain_password, hashed_password)
 
