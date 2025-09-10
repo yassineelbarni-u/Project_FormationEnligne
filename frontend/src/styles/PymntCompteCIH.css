@@ -235,19 +235,16 @@
 }
 
 .scan-instruction-cih::before {
-  content: '📱 ';
   margin-right: 8px;
   font-size: 1.2rem;
 }
 
 /* Icônes pour chaque type d'information */
 .cih-details p[data-type="name"]::before {
-  content: '👤 ';
   margin-right: 8px;
 }
 
 .cih-details p[data-type="account"]::before {
-  content: '💳 ';
   margin-right: 8px;
 }
 

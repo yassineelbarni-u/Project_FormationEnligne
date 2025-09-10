@@ -144,7 +144,6 @@
 }
 
 .pyment-info h2::before {
-  content: '💳';
   margin-right: 12px;
   font-size: 1.5rem;
 }
@@ -212,7 +211,6 @@
 }
 
 .scan-instruction::before {
-  content: '📱 ';
   margin-right: 8px;
   font-size: 1.2rem;
 }
@@ -260,22 +258,18 @@
 
 /* Icônes pour chaque type d'information */
 .pyment-details p[data-type="name"]::before {
-  content: '👤 ';
   margin-right: 8px;
 }
 
 .pyment-details p[data-type="rib"]::before {
-  content: '🏦 ';
   margin-right: 8px;
 }
 
 .pyment-details p[data-type="iban"]::before {
-  content: '🌍 ';
   margin-right: 8px;
 }
 
 .pyment-details p[data-type="swift"]::before {
-  content: '⚡ ';
   margin-right: 8px;
 }
 
