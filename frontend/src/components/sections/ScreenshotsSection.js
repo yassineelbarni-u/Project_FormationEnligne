@@ -4,11 +4,11 @@ import '../../styles/ScreenshotsSection.css';
 const ScreenshotsSection = () => {
   const screenshots = [
     {
-      image: '/images/screenshots/screen1.png',
+      image: '/images/screenshots/screenPlatform.png',
       alt: 'Capture d\'écran de l\'interface'
     },
     {
-      image: '/images/screenshots/screen2.png',
+      image: '/images/screenshots/ScreenPlatform1.png',
       alt: 'Capture d\'écran des cours'
     },
     {

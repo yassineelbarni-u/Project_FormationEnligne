@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import "./ContactSection.css"
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -28,20 +29,18 @@ const ContactSection = () => {
   return (
     <section className="contact-section" id="contact">
       <div className="container">
+        {/* Titre principal en haut et en couleur principale */}
+        <h2 className="contact-section-title">Contactez-nous pour toute question</h2>
+        
         <div className="contact-content">
           <div className="contact-info">
-            <h2>Contactez-nous pour toute question</h2>
-            <p>
-              Notre équipe pédagogique est à votre disposition pour répondre à toutes vos questions concernant nos cours
-              de soutien et notre accompagnement personnalisé.
-            </p>
-
             <div className="contact-details">
+              {/* Ordre corrigé: Téléphone, Email, Horaires */}
               <div className="contact-item">
-                <div className="contact-icon">🕒</div>
+                <div className="contact-icon">📞</div>
                 <div>
-                  <h4>Horaires</h4>
-                  <p>Du lundi au vendredi, de 9h à 18h</p>
+                  <h4>Téléphone</h4>
+                  <p>+212 6 57883241</p>
                 </div>
               </div>
 
@@ -54,10 +53,10 @@ const ContactSection = () => {
               </div>
 
               <div className="contact-item">
-                <div className="contact-icon">📞</div>
+                <div className="contact-icon">🕒</div>
                 <div>
-                  <h4>Téléphone</h4>
-                  <p>+212 6 57883241</p>
+                  <h4>Horaires</h4>
+                  <p>7j/24</p>
                 </div>
               </div>
             </div>
@@ -116,7 +115,7 @@ const ContactSection = () => {
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn-primary submit-btn">
+              <button type="submit" className="submit-btn">
                 Envoyer via WhatsApp 📤
               </button>
             </form>

@@ -1,61 +1,405 @@
 .cih-section {
-  background: #fff;
-  padding: 40px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: #fafbfc;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
 }
 
+.cih-section .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Titre de la section */
+.cih-section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3498db;
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.2;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.cih-section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #5dade2);
+  border-radius: 2px;
+  margin: 20px auto 50px;
+  transform: scaleX(0);
+  animation: scaleIn 0.8s ease forwards;
+  animation-delay: 1s;
+}
+
+.cih-section-subtitle {
+  font-size: 1.1rem;
+  color: #5a6c7d;
+  text-align: center;
+  margin-bottom: 50px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+}
+
+/* Conteneur principal */
 .cih-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 40px;
   max-width: 900px;
-  background: #f7f7f7;
-  border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-  padding: 32px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  position: relative;
+  border: 2px solid transparent;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.6s;
 }
 
+.cih-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #5dade2, #3498db);
+  background-size: 200% 100%;
+  border-radius: 24px 24px 0 0;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+.cih-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(52, 152, 219, 0.2);
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+/* Section image */
 .cih-image-wrapper {
-  flex: 1 1 220px;
+  flex: 1 1 280px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding: 20px;
 }
 
 .cih-scan-image {
-  max-width: 180px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  max-width: 220px;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(52, 152, 219, 0.15);
+  transition: all 0.4s ease;
+  border: 3px solid transparent;
+  background: white;
+  padding: 10px;
 }
 
+.cih-scan-image:hover {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 12px 40px rgba(52, 152, 219, 0.25);
+  border-color: #3498db;
+}
+
+/* Badge CIH */
+.cih-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #3498db, #5dade2);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* Section informations */
 .cih-info {
-  flex: 2 1 320px;
+  flex: 2 1 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.cih-info h2 {
-  color: #e67e22;
-  margin-bottom: 18px;
-  font-size: 2rem;
+/* Header avec logo CIH */
+.cih-header {
+  display: flex;
+  alignItems: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
+.cih-header h2 {
+  color: #3498db;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  position: relative;
+}
+
+.cih-header h2::before {
+  content: '🏦';
+  margin-right: 12px;
+  font-size: 1.5rem;
+}
+
+.cih-logo {
+  height: 45px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.cih-logo:hover {
+  transform: scale(1.1);
+  border-color: #3498db;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.25);
+}
+
+/* Détails CIH */
 .cih-details {
   font-size: 1.1rem;
-  color: #333;
-  background: #fff;
-  border-radius: 8px;
-  padding: 18px 22px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  color: #2c3e50;
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #3498db;
+  position: relative;
+}
+
+.cih-details::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #3498db, transparent, #5dade2);
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cih-details:hover::before {
+  opacity: 1;
 }
 
 .cih-details p {
-  margin: 8px 0;
+  margin: 12px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.cih-details p:hover {
+  background: white;
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
 }
 
 .cih-details strong {
-  color: #e67e22;
+  color: #3498db;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+/* Message d'instruction */
+.scan-instruction-cih {
+  background: linear-gradient(135deg, #3498db, #5dade2);
+  padding: 16px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-align: center;
+  margin-top: 16px;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.scan-instruction-cih::before {
+  content: '📱 ';
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+/* Icônes pour chaque type d'information */
+.cih-details p[data-type="name"]::before {
+  content: '👤 ';
+  margin-right: 8px;
+}
+
+.cih-details p[data-type="account"]::before {
+  content: '💳 ';
+  margin-right: 8px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-5px); }
+  60% { transform: translateY(-3px); }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(52, 152, 219, 0.5);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .cih-section-title {
+    font-size: 2.2rem;
+  }
+  
+  .cih-container {
+    gap: 30px;
+    padding: 32px;
+  }
+  
+  .cih-scan-image {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cih-section {
+    padding: 60px 16px;
+  }
+  
+  .cih-section-title {
+    font-size: 2rem;
+  }
+  
+  .cih-container {
+    flex-direction: column;
+    gap: 30px;
+    padding: 24px;
+    text-align: center;
+  }
+  
+  .cih-image-wrapper {
+    order: -1;
+  }
+  
+  .cih-header {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .cih-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .cih-details {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .cih-section {
+    padding: 40px 12px;
+  }
+  
+  .cih-section-title {
+    font-size: 1.8rem;
+  }
+  
+  .cih-container {
+    padding: 20px;
+  }
+  
+  .cih-scan-image {
+    max-width: 180px;
+  }
+  
+  .cih-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .cih-logo {
+    height: 35px;
+  }
+  
+  .cih-details {
+    padding: 20px;
+    font-size: 1rem;
+  }
+  
+  .cih-details p {
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  .cih-section-title {
+    font-size: 1.6rem;
+  }
+  
+  .cih-scan-image {
+    max-width: 160px;
+  }
+  
+  .cih-logo {
+    height: 30px;
+  }
+}
+
+/* Accessibilité et focus */
+.cih-container:focus-within {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+/* Performance */
+.cih-container,
+.cih-scan-image,
+.cih-logo {
+  will-change: transform, box-shadow;
 }
