@@ -44,7 +44,7 @@ const Footer = () => {
 
           <div className="footer-section">
             <h4>Contact</h4>
-            <p>📞 +212 6 57883241</p>
+            <p>📞 +212 631-262790</p>
             <p>✉️ email@gmail.com</p>
             <ul>
               <li>

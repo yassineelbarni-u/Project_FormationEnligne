@@ -72,10 +72,6 @@ const JobOffers = () => {
 
       <main className="job-offers-page">
         <div className="container">
-          <div className="page-header">
-            <h1>Offres d'Emploi</h1>
-            <p>Découvrez les opportunités de carrière dans le domaine de l'éducation et de la technologie</p>
-          </div>
 
           {error && (
             <div className="error-message">

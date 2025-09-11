@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
+import '../../styles/Header.css'
 
 const Header = () => {
   const location = useLocation()
@@ -94,14 +95,12 @@ const Header = () => {
               </span>
             </div>
             <div className="contact-info">
-              <span>📞 +212 648-263079</span>
+              <span>📞 +212 631-262790</span>
               <div className="social-links">
-                <a href="https://wa.me/212648263079" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                <a href="https://wa.me/212631262790" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                   📱
                 </a>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                  📘
-                </a>
+               
               </div>
             </div>
           </div>
