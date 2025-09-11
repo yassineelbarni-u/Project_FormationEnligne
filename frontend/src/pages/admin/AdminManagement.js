@@ -115,11 +115,10 @@ const AdminManagement = () => {
         {/* Header */}
         <div className="page-header">
           <div className="header-content">
-            <h1>👨‍💼 Gestion des Administrateurs</h1>
-            <p>Gérez les comptes administrateurs de la plateforme</p>
+            <h1>Gestion des Administrateurs</h1>
           </div>
           <button className="btn-primary" onClick={() => setShowCreateForm(true)}>
-            ➕ Nouvel Admin
+             Nouvel Admin
           </button>
         </div>
 

@@ -121,7 +121,6 @@ const ApplicationsManagement = () => {
         <div className="page-header">
           <div className="header-content">
             <h1>Gestion des Candidatures</h1>
-            <p>Suivez et gérez toutes les candidatures reçues</p>
           </div>
         </div>
 

@@ -30,15 +30,13 @@ const Login = () => {
     setError("")
 
     try {
-      // Utilisation de apiService pour le login
       const data = await apiService.login(formData)
       
-      // Stocker le token
       localStorage.setItem("token", data.access_token)
       
       // Récupérer les informations de l'utilisateur avec le token
       const userData = await apiService.request("/api/auth/me", {
-        auth: true // Active l'authentification via token
+        auth: true 
       })
       
       localStorage.setItem("user", JSON.stringify(userData))

@@ -111,7 +111,6 @@ const RecruitmentManagement = () => {
         <div className="page-header">
           <div className="header-content">
             <h1>Gestion du Recrutement</h1>
-            <p>Gérez les offres d'emploi et suivez les candidatures</p>
           </div>
           <button onClick={handleCreateOffer} className="create-btn">
             + Nouvelle offre
