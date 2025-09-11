@@ -65,9 +65,6 @@ const HeroSection = () => {
               avec nos cours <br />
               <span className="text-primary">de soutien universitaire</span>
             </h1>
-            <p>
-              Préparez-vous efficacement aux concours et réussissez dans les grandes écoles et universités du Maroc.
-            </p>
             {/* Statistiques et boutons conservés */}
             <div className="hero-stats">
               <div className="stat-item animate">

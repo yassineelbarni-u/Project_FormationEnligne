@@ -12,25 +12,8 @@ const JobApplicationSuccess = () => {
         <div className="container">
           <div className="success-content">
             <div className="success-icon">✅</div>
-
             <h1>Candidature envoyée avec succès !</h1>
-
-            <div className="success-message">
-              <p>
-                Merci pour votre candidature. Nous avons bien reçu votre dossier et nous vous contacterons dans les plus
-                brefs délais si votre profil correspond à nos attentes.
-              </p>
-
-              <div className="next-steps">
-                <h3>Prochaines étapes :</h3>
-                <ul>
-                  <li>Nous examinerons votre candidature dans les 48h</li>
-                  <li>Si votre profil nous intéresse, nous vous contacterons par email</li>
-                  <li>Un entretien pourra être organisé selon le poste</li>
-                </ul>
-              </div>
-            </div>
-
+            
             <div className="success-actions">
               <Link to="/recruitment" className="btn-primary">
                 Voir d'autres offres
