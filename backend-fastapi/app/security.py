@@ -2,6 +2,7 @@
 Sécurité et authentification
 """
 
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import Depends, HTTPException, status
@@ -13,8 +14,8 @@ from jose import JWTError, jwt
 from app.database import get_db
 from app.models import Admin, Student
 
-# Configuration
-SECRET_KEY = "votre-clé-secrète-très-sécurisée"
+# Configuration sécurisée
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback-key-for-development-only")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

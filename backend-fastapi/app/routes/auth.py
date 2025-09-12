@@ -22,7 +22,7 @@ security = HTTPBearer()
 # Configuration Google
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
-# ✅ Modèles pour Google OAuth
+# Modèles pour Google OAuth
 class GoogleLoginRequest(BaseModel):
     credential: str
 
@@ -31,7 +31,7 @@ class StudentLoginResponse(BaseModel):
     token_type: str
     user: dict
 
-# ========== ROUTES ADMIN (existantes) ==========
+# ========== ROUTES ADMIN ==========
 
 @router.post("/login", response_model=Token)
 async def login_admin(admin_data: AdminLogin, db: Session = Depends(get_db)):
