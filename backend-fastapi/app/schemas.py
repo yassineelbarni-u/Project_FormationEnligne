@@ -42,6 +42,11 @@ class StudentLogin(BaseModel):
     email: EmailStr
     access_code: str
 
+class StudentLoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: dict
+
 class StudentResponse(BaseModel):
     id: int
     name: str

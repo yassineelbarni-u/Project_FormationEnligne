@@ -313,6 +313,63 @@
   transform: none;
 }
 
+/* Séparateur */
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  text-align: center;
+  opacity: 0;
+  animation: separatorFade 0.4s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #cbd5e1, transparent);
+}
+
+.separator span {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0 1rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes separatorFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Section Google */
+.googleSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: googleSlide 0.4s ease forwards;
+  animation-delay: 0.35s;
+}
+
+@keyframes googleSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Section d'aide améliorée */
 .helpSection {
   margin-top: 2rem;

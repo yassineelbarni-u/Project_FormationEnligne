@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import "./styles/globals.css"
 // import "./styles/recruitment.css"
 
@@ -64,14 +65,15 @@ const ProtectedStudentRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          {/* Routes publiques */}
-          <Route path="/" element={<Home />} />
-          <Route path="/courses" element={<AnnonceCoursePage />} />
-          <Route path="/cours-gratuits" element={<CoursGratuits />} />
-          <Route path="/login" element={<Login />} />
+    <GoogleOAuthProvider clientId="293729859360-8ngho0jc2i0c2bnomus1b6pfrectl157.apps.googleusercontent.com">
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Routes publiques */}
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<AnnonceCoursePage />} />
+            <Route path="/cours-gratuits" element={<CoursGratuits />} />
+            <Route path="/login" element={<Login />} />
 
           <Route path="/recruitment" element={<JobOffers />} />
           <Route path="/recruitment/offer/:jobId" element={<JobOffers />} />
@@ -262,6 +264,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </GoogleOAuthProvider>
   )
 }
 

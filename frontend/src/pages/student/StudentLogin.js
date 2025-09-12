@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { GoogleLogin } from '@react-oauth/google'
 import apiService from "../../utils/api"
 import styles from "./StudentLogin.module.css" 
 
@@ -22,13 +23,53 @@ const StudentLogin = () => {
     setError("")
   }
 
+  // ✅ CORRIGÉ : Gestion du succès Google
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setIsLoading(true)
+    setError("")
+
+    try {
+      console.log("🔍 Credential reçu:", credentialResponse.credential?.substring(0, 50) + "...")
+      
+      // ✅ Envoi vers l'API corrigée
+      const data = await apiService.studentGoogleLogin(credentialResponse.credential)
+      
+      console.log("✅ Réponse API:", data)
+      
+      localStorage.setItem("student_token", data.access_token)
+      localStorage.setItem("student_user", JSON.stringify(data.user))
+
+      console.log("✅ Redirection vers dashboard...")
+      navigate("/student/dashboard")
+      
+    } catch (error) {
+      console.error("❌ Erreur Google Login:", error)
+      
+      if (error.message.includes("Failed to fetch")) {
+        setError("❌ Impossible de se connecter au serveur. Vérifiez que le backend est démarré.")
+      } else if (error.message.includes("Email non autorisé")) {
+        setError("❌ Votre email n'est pas autorisé. Contactez votre formateur.")
+      } else if (error.message.includes("Aucun cours accessible")) {
+        setError("❌ Vous n'avez accès à aucun cours. Contactez votre formateur.")
+      } else {
+        setError(error.message || "❌ Erreur lors de la connexion Google")
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleGoogleError = () => {
+    console.error("❌ Erreur Google OAuth")
+    setError("❌ Échec de la connexion Google. Veuillez réessayer.")
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
 
     try {
-
       const data = await apiService.studentLogin(formData)
 
       localStorage.setItem("student_token", data.access_token)
@@ -37,9 +78,9 @@ const StudentLogin = () => {
       navigate("/student/dashboard")
     } catch (error) {
       if (error.message.includes("Failed to fetch")) {
-        setError(`Impossible de se connecter au serveur`)
+        setError("❌ Impossible de se connecter au serveur")
       } else {
-        setError(error.message || "Email ou code d'accès incorrect")
+        setError(error.message || "❌ Email ou code d'accès incorrect")
       }
     } finally {
       setIsLoading(false)
@@ -94,6 +135,32 @@ const StudentLogin = () => {
               {isLoading ? "Connexion..." : "Se Connecter"}
             </button>
           </form>
+
+          {/* Séparateur */}
+          <div className={styles.separator}>
+            <span>ou</span>
+          </div>
+
+          {/* ✅ Bouton Google Sign-In avec gestion d'erreur */}
+          <div className={styles.googleSection}>
+            {isLoading ? (
+              <div className={styles.loadingGoogle}>
+                <span>Connexion Google en cours...</span>
+              </div>
+            ) : (
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                text="continue_with"
+                shape="rectangular"
+                theme="outline"
+                size="large"
+                locale="fr"
+                useOneTap={false}
+                auto_select={false}
+              />
+            )}
+          </div>
 
           <div className={styles.helpSection}>
             <div className={styles.helpCard}>

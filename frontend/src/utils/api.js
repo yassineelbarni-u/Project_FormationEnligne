@@ -217,16 +217,27 @@ class ApiService {
       method: "DELETE",
     })
   }
+ 
 
-
-  // Connexion étudiant
+  // Connexion étudiant classique
   async studentLogin(credentials) {
+    console.log("🔍 Student Login:", credentials.email)
     return this.request("/api/student/login", {
       method: "POST",
       body: JSON.stringify(credentials),
       auth: false,
     })
   }
+
+  // Connexion étudiant via Google
+    async studentGoogleLogin(credential) {
+      console.log("🔍 Student Google Login:", credential)
+      return this.request("/api/auth/google-login", {
+        method: "POST",
+        body: JSON.stringify({ credential }),
+        auth: false,
+      })
+    }
 
   async getStudentCourses() {
     return this.request("/api/student/my-courses", {
@@ -480,7 +491,6 @@ class ApiService {
 
 const apiService = new ApiService()
 
-// Exporter l'instance par défaut et les méthodes individuelles pour un accès plus facile
 export default apiService
 
 // Méthodes d'authentification
@@ -555,3 +565,7 @@ export const getCoursGratuitsAdmin = apiService.getCoursGratuitsAdmin.bind(apiSe
 export const createCoursGratuit = apiService.createCoursGratuit.bind(apiService)
 export const updateCoursGratuit = apiService.updateCoursGratuit.bind(apiService)
 export const deleteCoursGratuit = apiService.deleteCoursGratuit.bind(apiService)
+
+// Méthode pour Google Login étudiant
+export const studentGoogleLogin = apiService.studentGoogleLogin.bind(apiService)
+

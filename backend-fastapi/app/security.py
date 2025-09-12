@@ -84,16 +84,17 @@ async def get_current_student(
     
     try:
         payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
+        student_id: str = payload.get("sub")
+        email: str = payload.get("email")
         user_type: str = payload.get("type", "admin")
         
-        if email is None or user_type != "student":
+        if student_id is None or user_type != "student":
             raise credentials_exception
             
     except JWTError:
         raise credentials_exception
     
-    student = db.query(Student).filter(Student.email == email).first()
+    student = db.query(Student).filter(Student.id == int(student_id)).first()
     if student is None:
         raise credentials_exception
     
