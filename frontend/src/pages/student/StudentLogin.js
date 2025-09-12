@@ -150,7 +150,7 @@ const StudentLogin = () => {
             <span>ou</span>
           </div>
 
-          {/* ✅ Bouton Google Sign-In avec gestion d'erreur */}
+          {/*Bouton Google Sign-In avec gestion d'erreur */}
           <div className={styles.googleSection}>
             {isLoading ? (
               <div className={styles.loadingGoogle}>

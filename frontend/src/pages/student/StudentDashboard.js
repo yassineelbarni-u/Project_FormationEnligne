@@ -101,7 +101,7 @@ const StudentDashboard = () => {
 
   const getEstimatedTime = () => {
     const totalVideos = getTotalVideos()
-    return Math.ceil(totalVideos * 15) // 15 min par vidéo en moyenne
+    return Math.ceil(totalVideos * 15)
   }
 
   return (

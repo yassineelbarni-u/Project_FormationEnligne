@@ -19,10 +19,8 @@ from app.security import verify_password, create_access_token, get_current_admin
 router = APIRouter()
 security = HTTPBearer()
 
-# Configuration Google
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
-# Modèles pour Google OAuth
 class GoogleLoginRequest(BaseModel):
     credential: str
 

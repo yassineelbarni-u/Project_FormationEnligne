@@ -103,22 +103,18 @@ async def upload_course_image(
     if not file.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail="Le fichier doit être une image")
     
-    # Créer le dossier s'il n'existe pas
     upload_dir = Path("backend/uploads/images/courses")
     upload_dir.mkdir(parents=True, exist_ok=True)
     
-    # Generer un nom de fichier unique
     file_extension = file.filename.split('.')[-1]
     filename = f"course_{course_id}.{file_extension}"
     file_path = upload_dir / filename
     
-    # Supprimer l'ancienne image si elle existe
     if course.image_filename:
         old_file_path = upload_dir / course.image_filename
         if old_file_path.exists():
             old_file_path.unlink()
     
-    # Sauvegarder le nouveau fichier
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
