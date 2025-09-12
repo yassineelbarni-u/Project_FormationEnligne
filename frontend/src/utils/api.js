@@ -221,7 +221,9 @@ class ApiService {
 
   // Connexion étudiant classique
   async studentLogin(credentials) {
-    console.log("🔍 Student Login:", credentials.email)
+    if (process.env.NODE_ENV === 'development') {
+      console.log("🔍 Student Login pour:", credentials.email)
+    }
     return this.request("/api/student/login", {
       method: "POST",
       body: JSON.stringify(credentials),
@@ -231,7 +233,9 @@ class ApiService {
 
   // Connexion étudiant via Google
     async studentGoogleLogin(credential) {
-      console.log("🔍 Student Google Login:", credential)
+      if (process.env.NODE_ENV === 'development') {
+        console.log("🔍 Connexion Google OAuth en cours...")
+      }
       return this.request("/api/auth/google-login", {
         method: "POST",
         body: JSON.stringify({ credential }),
