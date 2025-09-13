@@ -219,9 +219,9 @@ function App() {
           <Route
             path="/admin/testimonials"
             element={
-              <ProtectedRoute>
+              <SuperAdminRoute>
                 <AdminTestimonials />
-              </ProtectedRoute>
+              </SuperAdminRoute>
             }
           />
 

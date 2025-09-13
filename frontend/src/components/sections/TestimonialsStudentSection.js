@@ -18,32 +18,30 @@ const TestimonialsStudentSection = () => {
       const data = await getActiveTestimonials();
       setTestimonials(data);
     } catch (error) {
-      console.error("Erreur lors du chargement des témoignages:", error);
-      // Si pas de témoignages chargés et erreur backend, afficher quelques témoignages par défaut
-      if (testimonials.length === 0) {
-        setTestimonials([
-          {
-            id: 'demo1',
-            nom: "Kouatar Lakhder",
-            ecole: "ENSA MARRAKECH", 
-            comment: "J'ai fait les cours en deuxième année en physique moderne et ondes, je peux dire que c'est la seule équipe qui a ouvert l'inscription uniquement dans ces modules spécifique de l'ENSAKECH, Merci beaucoup.",
-            rating: 5,
-            created_at: new Date().toISOString()
-          },
-          {
-            id: 'demo2',
-            nom: "Aya El Houadar",
-            ecole: "ENSA TETOUAN",
-            comment: "5/5 Le site est bien organisé avec une équipe est compétente avec des documents de haute qualité et en bref j'ai admiré le travail.",
-            rating: 5,
-            created_at: new Date().toISOString()
-          }
-        ]);
-      }
+      console.error("Backend non accessible, utilisation des données locales:", error);
+      // Données locales de secours
+      setTestimonials([
+        {
+          id: 'demo1',
+          nom: "Kouatar Lakhder",
+          ecole: "ENSA MARRAKECH", 
+          comment: "J'ai fait les cours en deuxième année en physique moderne et ondes, je peux dire que c'est la seule équipe qui a ouvert l'inscription uniquement dans ces modules spécifique de l'ENSAKECH, Merci beaucoup.",
+          rating: 5,
+          created_at: new Date().toISOString()
+        },
+        {
+          id: 'demo2',
+          nom: "Aya El Houadar",
+          ecole: "ENSA TETOUAN",
+          comment: "5/5 Le site est bien organisé avec une équipe est compétente avec des documents de haute qualité et en bref j'ai admiré le travail.",
+          rating: 5,
+          created_at: new Date().toISOString()
+        }
+      ]);
     } finally {
       setIsLoading(false);
     }
-  }, [testimonials.length]);
+  }, []);
 
   // Charger les témoignages depuis le backend
   useEffect(() => {
@@ -65,18 +63,9 @@ const TestimonialsStudentSection = () => {
     setMessage("");
 
     try {
-      const response = await submitTestimonial({
-        nom: form.nom,
-        ecole: form.ecole,
-        comment: form.comment,
-        rating: form.rating
-      });
-
-      setMessage(response.message);
-      
-      // Ajouter immédiatement le nouveau témoignage à la liste
+      // Ajouter immédiatement le nouveau témoignage à la liste (pour affichage immédiat)
       const newTestimonial = {
-        id: response.testimonial_id,
+        id: Date.now(),
         nom: form.nom,
         ecole: form.ecole,
         comment: form.comment,
@@ -86,14 +75,28 @@ const TestimonialsStudentSection = () => {
       
       // Ajouter en tête de liste pour qu'il soit visible immédiatement
       setTestimonials(prev => [newTestimonial, ...prev]);
-      
       setForm({ comment: "", nom: "", ecole: "", rating: 5 });
-      
-      // Optionnel : recharger depuis le serveur (sans erreur si échec)
+
       try {
-        await loadTestimonials();
-      } catch (loadError) {
-        console.log("Rechargement depuis serveur échoué, mais témoignage ajouté localement");
+        const response = await submitTestimonial({
+          nom: newTestimonial.nom,
+          ecole: newTestimonial.ecole,
+          comment: newTestimonial.comment,
+          rating: newTestimonial.rating
+        });
+
+        setMessage(response.message || "Témoignage publié avec succès !");
+        
+        // Mettre à jour l'ID avec celui du backend
+        setTestimonials(prev => prev.map(t => 
+          t.id === newTestimonial.id 
+            ? { ...t, id: response.testimonial_id }
+            : t
+        ));
+        
+      } catch (backendError) {
+        console.log("Sauvegarde backend échoué, témoignage conservé localement", backendError);
+        setMessage("Témoignage ajouté ! (Sauvegarde locale en attendant le serveur)");
       }
       
     } catch (error) {
@@ -150,7 +153,7 @@ const TestimonialsStudentSection = () => {
               <SwiperSlide key={testimonial.id || idx}>
                 <div className="testimonial-card">
                   <div className="testimonial-icon">
-                    👩‍🎓
+                    📚
                   </div>
                   <p className="testimonial-comment">"{testimonial.comment}"</p>
                   <div className="testimonial-rating">

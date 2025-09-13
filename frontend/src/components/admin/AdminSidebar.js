@@ -61,7 +61,7 @@ const AdminSidebar = ({ isOpen, onClose, currentPath, user, onLogout }) => {
       path: "/admin/testimonials",
       icon: "forum",
       label: "Témoignages",
-      access: "all", // Accessible à tous les admins
+      access: "superadmin", // Réservé aux super admins
     },
     {
       path: "/admin/cours-gratuits",
