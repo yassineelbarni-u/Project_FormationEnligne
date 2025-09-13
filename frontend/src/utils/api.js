@@ -243,6 +243,63 @@ class ApiService {
       })
     }
 
+  // ========== TÉMOIGNAGES ==========
+  // Méthodes publiques (sans authentification)
+  async getActiveTestimonials() {
+    return await this.request("/api/testimonials/active", {
+      method: "GET",
+      auth: false,
+    })
+  }
+
+  async getFeaturedTestimonials(limit = 10) {
+    return await this.request(`/api/testimonials/featured?limit=${limit}`, {
+      method: "GET",
+      auth: false,
+    })
+  }
+
+  async submitTestimonial(testimonialData) {
+    return await this.request("/api/testimonials/submit", {
+      method: "POST",
+      body: JSON.stringify(testimonialData),
+      auth: false,
+    })
+  }
+
+  // Méthodes admin (avec authentification)
+  async getAllTestimonials(params = {}) {
+    const queryParams = new URLSearchParams(params).toString()
+    return await this.request(`/api/admin/testimonials/?${queryParams}`, {
+      method: "GET",
+    })
+  }
+
+  async updateTestimonial(testimonialId, testimonialData) {
+    return await this.request(`/api/admin/testimonials/${testimonialId}`, {
+      method: "PUT",
+      body: JSON.stringify(testimonialData),
+    })
+  }
+
+  async deleteTestimonial(testimonialId) {
+    return await this.request(`/api/admin/testimonials/${testimonialId}`, {
+      method: "DELETE",
+    })
+  }
+
+  async toggleTestimonialStatus(testimonialId) {
+    return await this.request(`/api/admin/testimonials/${testimonialId}/toggle-status`, {
+      method: "PUT",
+    })
+  }
+
+  async getTestimonialStats() {
+    return await this.request("/api/admin/testimonials/stats", {
+      method: "GET",
+    })
+  }
+
   async getStudentCourses() {
     return this.request("/api/student/my-courses", {
       isStudent: true,
@@ -572,4 +629,14 @@ export const deleteCoursGratuit = apiService.deleteCoursGratuit.bind(apiService)
 
 // Méthode pour Google Login étudiant
 export const studentGoogleLogin = apiService.studentGoogleLogin.bind(apiService)
+
+// Exports pour les témoignages
+export const getActiveTestimonials = apiService.getActiveTestimonials.bind(apiService)
+export const getFeaturedTestimonials = apiService.getFeaturedTestimonials.bind(apiService)
+export const submitTestimonial = apiService.submitTestimonial.bind(apiService)
+export const getAllTestimonials = apiService.getAllTestimonials.bind(apiService)
+export const updateTestimonial = apiService.updateTestimonial.bind(apiService)
+export const deleteTestimonial = apiService.deleteTestimonial.bind(apiService)
+export const toggleTestimonialStatus = apiService.toggleTestimonialStatus.bind(apiService)
+export const getTestimonialStats = apiService.getTestimonialStats.bind(apiService)
 

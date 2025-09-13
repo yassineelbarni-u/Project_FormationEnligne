@@ -30,6 +30,7 @@ class Admin(Base):
     job_offers = relationship("JobOffer", back_populates="admin")
     announcements = relationship("Announcement", back_populates="admin")
     gratuit_courses = relationship("GratuitCourse", back_populates="admin")
+    testimonials = relationship("Testimonial", back_populates="admin")
 
 class Course(Base):
     __tablename__ = "courses"
@@ -178,3 +179,19 @@ class GratuitCourse(Base):
     
     # Relations
     admin = relationship("Admin", back_populates="gratuit_courses")
+
+class Testimonial(Base):
+    __tablename__ = "testimonials"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    nom = Column(String(255), nullable=False)  # Nom de l'étudiant
+    ecole = Column(String(255), nullable=False)  # École de l'étudiant
+    comment = Column(Text, nullable=False)  # Commentaire/témoignage
+    rating = Column(Integer, default=5)  # Note sur 5 (optionnel)
+    is_active = Column(Boolean, default=True)  # Publié ou non
+    admin_id = Column(Integer, ForeignKey("admins.id"))  # Qui a ajouté
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    
+    # Relations
+    admin = relationship("Admin", back_populates="testimonials")

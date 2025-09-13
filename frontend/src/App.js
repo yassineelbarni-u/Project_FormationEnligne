@@ -20,6 +20,7 @@ import Accesses from "./pages/admin/Accesses"
 import AccessNew from "./pages/admin/AccessNew"
 import AccessForm from "./pages/admin/AccessForm"
 import AdminManagement from "./pages/admin/AdminManagement"
+import AdminTestimonials from "./pages/admin/AdminTestimonials"
 import AnnouncementManagement from "./pages/admin/AnnouncementManagement"
 import CoursGratuits from "./pages/CoursGratuits/CoursGratuits"
 import GestionCoursGratuit from "./pages/admin/GestionCoursGratuit"
@@ -211,6 +212,16 @@ function App() {
               <SuperAdminRoute>
                 <AdminManagement />
               </SuperAdminRoute>
+            }
+          />
+
+          {/* Gestion des témoignages */}
+          <Route
+            path="/admin/testimonials"
+            element={
+              <ProtectedRoute>
+                <AdminTestimonials />
+              </ProtectedRoute>
             }
           />
 
