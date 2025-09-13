@@ -1,107 +1,135 @@
+/* Styles pour la section feedback images, avec animations et couleur principale */
 .feedback-gallery-section {
-  background: #fafbfc;
-  padding: 80px 20px;
+  width: 100%;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #fafbfc 100%);
   position: relative;
+  overflow: hidden;
 }
 
-.feedback-gallery-section .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+/* Particules d'arrière-plan subtiles */
+.feedback-gallery-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(52, 152, 219, 0.05) 2px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(52, 152, 219, 0.03) 1px, transparent 1px);
+  background-size: 150px 150px, 200px 200px;
+  animation: particlesFloat 20s ease-in-out infinite;
+  z-index: 0;
+  opacity: 0.6;
 }
 
-/* Titre de la section */
-.feedback-section-title {
+@keyframes particlesFloat {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translateY(-10px) scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Titre avec couleur principale et animations */
+.section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #3498db;
   text-align: center;
-  margin-bottom: 16px;
-  line-height: 1.2;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  
+  /* État initial pour animation */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.feedback-section-title::after {
+/* Animation du titre au scroll */
+.section-title.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ligne décorative sous le titre */
+.section-title::after {
   content: '';
-  display: block;
-  width: 80px;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
   height: 4px;
   background: linear-gradient(90deg, #3498db, #5dade2);
   border-radius: 2px;
-  margin: 20px auto 50px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
 }
 
-.feedback-section-subtitle {
-  font-size: 1.1rem;
-  color: #5a6c7d;
-  text-align: center;
-  margin-bottom: 50px;
-  line-height: 1.6;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+.section-title.animate-in::after {
+  width: 100px;
 }
 
-/* Conteneur de la galerie - Grid flexible */
+/* Conteneur des cartes - garde la disposition exacte */
 .feedback-gallery-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  justify-items: center;
-  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-/* Cartes d'images feedback - HAUTEUR FLEXIBLE */
+/* Cartes avec animations et couleurs */
 .feedback-image-card {
-  background: white;
-  border-radius: 20px;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 20px rgba(52, 152, 219, 0.1);
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  position: relative;
-  width: 100%;
-  max-width: 250px;
-  border: 2px solid transparent;
-  /* SUPPRESSION DE LA HAUTEUR FIXE */
-  min-height: 120px; /* Hauteur minimum seulement */
-}
-
-.feedback-image-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: rgba(52, 152, 219, 0.3);
-}
-
-/* Wrapper d'image - HAUTEUR AUTOMATIQUE */
-.feedback-image-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 18px;
-  margin: 10px;
+  width: 260px;
+  height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  border: 2px solid transparent;
+  
+  /* État initial pour animation au scroll */
+  opacity: 0;
+  transform: translateY(50px) scale(0.9);
+  transition: 
+    all 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* IMAGE - AFFICHAGE COMPLET SANS RECADRAGE */
-.feedback-image-card img {
-  width: calc(100% - 20px);
-  height: auto; /* HAUTEUR AUTOMATIQUE */
-  max-width: calc(100% - 20px);
-  object-fit: contain; /* CHANGÉ DE 'cover' À 'contain' */
-  border-radius: 15px;
-  margin: 10px;
-  transition: all 0.4s ease;
-  filter: brightness(0.95);
-  display: block;
+/* Animation d'entrée au scroll */
+.feedback-image-card.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.feedback-image-card:hover img {
-  transform: scale(1.02); /* Zoom réduit pour éviter le débordement */
-  filter: brightness(1);
+/* Effet au survol avec couleur principale */
+.feedback-image-card:hover {
+  transform: scale(1.04) translateY(-6px);
+  box-shadow: 
+    0 20px 40px rgba(52, 152, 219, 0.15),
+    0 10px 20px rgba(52, 152, 219, 0.1);
+  border-color: rgba(52, 152, 219, 0.3);
 }
 
-/* Overlay avec effet */
+/* Overlay avec couleur principale */
 .feedback-image-card::before {
   content: '';
   position: absolute;
@@ -109,10 +137,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(52, 152, 219, 0.1) 100%);
+  background: linear-gradient(
+    135deg, 
+    transparent 0%, 
+    rgba(52, 152, 219, 0.05) 50%,
+    rgba(52, 152, 219, 0.1) 100%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 20px;
+  border-radius: 1.2rem;
   pointer-events: none;
 }
 
@@ -120,26 +153,7 @@
   opacity: 1;
 }
 
-/* Badge numéroté */
-.feedback-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, #3498db, #5dade2);
-  color: white;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 700;
-  z-index: 2;
-  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-}
-
-/* Effet de brillance au hover */
+/* Effet shimmer avec couleur principale */
 .feedback-image-card::after {
   content: '';
   position: absolute;
@@ -147,9 +161,13 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(52, 152, 219, 0.2), 
+    transparent
+  );
   transition: left 0.6s ease;
-  z-index: 1;
   pointer-events: none;
 }
 
@@ -157,128 +175,86 @@
   left: 100%;
 }
 
-/* Animations d'entrée - RENOMMÉES POUR ÉVITER LES CONFLITS */
-.feedback-section-title {
-  opacity: 0;
-  animation: feedbackFadeIn 0.8s ease forwards;
-  animation-delay: 0.1s;
+/* Images - tailles exactement comme avant */
+.feedback-image-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: brightness(0.95) saturate(1.1);
 }
 
-.feedback-section-subtitle {
-  opacity: 0;
-  animation: feedbackFadeIn 0.8s ease forwards;
-  animation-delay: 0.2s;
+.feedback-image-card img:hover {
+  transform: scale(1.08);
+  filter: brightness(1) saturate(1.2);
 }
 
-.feedback-image-card {
-  opacity: 0;
-  animation: feedbackFadeIn 0.6s ease forwards;
-}
-
-.feedback-image-card:nth-child(1) { animation-delay: 0.3s; }
-.feedback-image-card:nth-child(2) { animation-delay: 0.4s; }
-.feedback-image-card:nth-child(3) { animation-delay: 0.5s; }
-.feedback-image-card:nth-child(4) { animation-delay: 0.6s; }
-.feedback-image-card:nth-child(5) { animation-delay: 0.7s; }
-.feedback-image-card:nth-child(6) { animation-delay: 0.8s; }
-.feedback-image-card:nth-child(7) { animation-delay: 0.9s; }
-
-/* ANIMATION RENOMMÉE POUR ÉVITER LE CONFLIT AVEC LE HERO */
-@keyframes feedbackFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* Responsive exact - tailles préservées */
+@media (max-width: 900px) {
   .feedback-gallery-container {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    gap: 1rem;
+  }
+  .feedback-image-card {
+    width: 180px;
+    height: 220px;
   }
   
-  .feedback-section-title {
+  .section-title {
     font-size: 2.2rem;
   }
 }
 
-@media (max-width: 768px) {
-  .feedback-gallery-section {
-    padding: 60px 16px;
-  }
-  
+@media (max-width: 600px) {
   .feedback-gallery-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 0.5rem;
+  }
+  .feedback-image-card {
+    width: 120px;
+    height: 140px;
   }
   
-  .feedback-section-title {
-    font-size: 2rem;
-  }
-  
-  .feedback-badge {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
-    top: 12px;
-    right: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .feedback-gallery-section {
-    padding: 40px 12px;
-  }
-  
-  .feedback-gallery-container {
-    grid-template-columns: 1fr; /* Une seule colonne sur très petit écran */
-    gap: 15px;
-  }
-  
-  .feedback-section-title {
+  .section-title {
     font-size: 1.8rem;
   }
   
-  .feedback-section-subtitle {
-    font-size: 1rem;
-    margin-bottom: 30px;
+  .feedback-gallery-section {
+    padding: 3rem 0;
+  }
+}
+
+/* Accessibilité - respect des préférences utilisateur */
+@media (prefers-reduced-motion: reduce) {
+  .feedback-image-card,
+  .section-title,
+  .feedback-gallery-section::before {
+    animation: none !important;
+    transition: none !important;
   }
   
-  .feedback-image-card img {
-    margin: 8px;
-    width: calc(100% - 16px);
+  .feedback-image-card.animate-in,
+  .section-title.animate-in {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
-@media (max-width: 320px) {
-  .feedback-section-title {
-    font-size: 1.6rem;
+/* Animation de pulsation subtile pour attirer l'attention */
+@keyframes subtlePulse {
+  0%, 100% { 
+    box-shadow: 0 4px 20px rgba(52, 152, 219, 0.1);
+  }
+  50% { 
+    box-shadow: 0 8px 30px rgba(52, 152, 219, 0.15);
   }
 }
 
-/* Effet de loading pour les images */
-.feedback-image-card img {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
+.feedback-image-card.animate-in {
+  animation: subtlePulse 3s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
-.feedback-image-card img[src] {
-  background: none;
-}
-
-/* Style pour les images manquantes */
-.feedback-image-card img[alt]:empty::before {
-  content: '📷';
-  font-size: 3rem;
-  color: #3498db;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  background: #f8f9fa;
+.feedback-image-card:hover {
+  animation: none; /* Désactiver la pulsation au survol */
 }
