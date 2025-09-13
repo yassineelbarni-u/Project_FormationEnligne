@@ -62,7 +62,7 @@
   max-width: 250px;
   border: 2px solid transparent;
   /* SUPPRESSION DE LA HAUTEUR FIXE */
-  min-height: 120px;; /* Hauteur minimum seulement */
+  min-height: 120px; /* Hauteur minimum seulement */
 }
 
 .feedback-image-card:hover {
@@ -157,22 +157,22 @@
   left: 100%;
 }
 
-/* Animations d'entrée */
+/* Animations d'entrée - RENOMMÉES POUR ÉVITER LES CONFLITS */
 .feedback-section-title {
   opacity: 0;
-  animation: fadeInUp 0.8s ease forwards;
+  animation: feedbackFadeIn 0.8s ease forwards;
   animation-delay: 0.1s;
 }
 
 .feedback-section-subtitle {
   opacity: 0;
-  animation: fadeInUp 0.8s ease forwards;
+  animation: feedbackFadeIn 0.8s ease forwards;
   animation-delay: 0.2s;
 }
 
 .feedback-image-card {
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
+  animation: feedbackFadeIn 0.6s ease forwards;
 }
 
 .feedback-image-card:nth-child(1) { animation-delay: 0.3s; }
@@ -183,7 +183,8 @@
 .feedback-image-card:nth-child(6) { animation-delay: 0.8s; }
 .feedback-image-card:nth-child(7) { animation-delay: 0.9s; }
 
-@keyframes fadeInUp {
+/* ANIMATION RENOMMÉE POUR ÉVITER LE CONFLIT AVEC LE HERO */
+@keyframes feedbackFadeIn {
   from {
     opacity: 0;
     transform: translateY(30px);
