@@ -1,11 +1,10 @@
 /* Variables CSS centralisées */
 :root {
-  /* Couleurs principales */
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
+  /* Couleurs principales - MISES À JOUR avec votre couleur */
+  --primary-color: #3498db;      /* VOTRE couleur bleue principale */
+  --primary-hover: #2980b9;      /* Bleu foncé pour le hover */
   --primary-light: #dbeafe;
   
-
   /* Couleurs secondaires */
   --secondary-color: #64748b;
 

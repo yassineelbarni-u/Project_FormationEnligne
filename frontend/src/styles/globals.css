@@ -4,7 +4,7 @@
 */
 
 body {
-  color: #333; /* On ne conserve que la couleur spécifique */
+  color: #333;
 }
 
 .container {
@@ -13,7 +13,7 @@ body {
   padding: 0 20px;
 }
 
-/* Button Styles */
+/* Button Styles - CLASSE DE BASE SEULEMENT */
 .btn {
   padding: 12px 24px;
   border: none;
@@ -26,15 +26,8 @@ body {
   text-align: center;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, #3498db, #2980b9);
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-}
+/* SUPPRIMÉ: Toutes les définitions .btn-primary */
+/* SUPPRIMÉ: .btn-primary:hover */
 
 .btn-secondary {
   background: linear-gradient(135deg, #5dade2, #3498db);

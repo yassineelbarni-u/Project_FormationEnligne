@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import "./styles/variables.css" 
 import "./styles/globals.css"
-// import "./styles/recruitment.css"
-
+import "./styles/buttons.css"    
 import "./App.css"
 
 // Ensuite importer les composants
