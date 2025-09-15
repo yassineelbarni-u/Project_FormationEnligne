@@ -27,28 +27,8 @@
   margin: 0;
 }
 
-/* Bouton principal */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #4f46e5;
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.btn-primary:hover {
-  background-color: #4338ca;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
+/* SUPPRIMÉ : .btn-primary et .btn-primary:hover */
+/* Les styles viennent maintenant de buttons.css */
 
 /* Loading */
 .loading-container {
@@ -342,19 +322,15 @@
   .students-container {
     padding: 1.5rem;
   }
-
   .page-header {
     padding: 1.25rem 1.5rem;
   }
-
   .page-header h1 {
     font-size: 1.75rem;
   }
-
   .stats-header {
     padding: 1.25rem 1.5rem;
   }
-
   .students-table th,
   .students-table td {
     padding: 0.875rem 1.25rem;
@@ -366,7 +342,6 @@
   .students-container {
     padding: 1rem;
   }
-
   .page-header {
     flex-direction: column;
     align-items: stretch;
@@ -374,58 +349,47 @@
     padding: 1.5rem;
     text-align: center;
   }
-
   .page-header h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
   }
-
   .btn-primary {
     width: 100%;
     justify-content: center;
     padding: 1rem 1.5rem;
     font-size: 1rem;
   }
-
   .stats-header {
     padding: 1rem 1.5rem;
     text-align: center;
   }
-
   .student-count {
     font-size: 1.75rem;
   }
-
   .students-table {
     font-size: 0.8125rem;
   }
-
   .students-table th,
   .students-table td {
     padding: 0.75rem 1rem;
   }
-
   .students-table th {
     font-size: 0.6875rem;
   }
-
   .action-buttons {
     flex-direction: column;
     gap: 0.375rem;
   }
-
   .btn-icon {
     padding: 0.5rem 0.75rem;
     font-size: 0.6875rem;
     justify-content: center;
   }
-
   .student-avatar {
     width: 28px;
     height: 28px;
     font-size: 0.75rem;
   }
-
   .level-badge {
     font-size: 0.6875rem;
     padding: 0.25rem 0.5rem;
@@ -437,28 +401,22 @@
   .students-container {
     padding: 0.75rem;
   }
-
   .page-header {
     border-radius: 8px;
     padding: 1rem;
   }
-
   .page-header h1 {
     font-size: 1.375rem;
   }
-
   .students-list {
     border-radius: 8px;
   }
-
   .stats-header {
     padding: 1rem;
   }
-
   .student-count {
     font-size: 1.5rem;
   }
-
   .student-count-label {
     font-size: 0.8125rem;
   }
@@ -472,60 +430,48 @@
   .students-table td:nth-child(5) {
     display: none;
   }
-
   .students-table th,
   .students-table td {
     padding: 0.75rem 0.5rem;
   }
-
   .student-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-
   .student-avatar {
     width: 24px;
     height: 24px;
     font-size: 0.6875rem;
   }
-
   .student-name {
     font-size: 0.875rem;
   }
-
   .email-text {
     font-size: 0.8125rem;
     word-break: break-all;
   }
-
   .btn-icon {
     padding: 0.375rem 0.5rem;
     font-size: 0.625rem;
     gap: 0.25rem;
   }
-
   .loading-container {
     padding: 2rem 1rem;
   }
-
   .loading-spinner {
     width: 32px;
     height: 32px;
   }
-
   .empty-state {
     padding: 2rem 1rem;
   }
-
   .empty-icon {
     font-size: 2.5rem;
   }
-
   .empty-state h3 {
     font-size: 1rem;
   }
-
   .empty-state p {
     font-size: 0.875rem;
   }
@@ -536,58 +482,45 @@
   .students-container {
     padding: 0.5rem;
   }
-
   .page-header {
     padding: 0.75rem;
   }
-
   .page-header h1 {
     font-size: 1.25rem;
   }
-
   .btn-primary {
     padding: 0.875rem 1rem;
     font-size: 0.875rem;
   }
-
   .stats-header {
     padding: 0.75rem;
   }
-
   .student-count {
     font-size: 1.375rem;
   }
-
   .students-table th,
   .students-table td {
     padding: 0.5rem 0.375rem;
   }
-
   .students-table {
     font-size: 0.75rem;
   }
-
   .students-table th {
     font-size: 0.625rem;
   }
-
   .student-info {
     gap: 0.375rem;
   }
-
   .student-name {
     font-size: 0.8125rem;
   }
-
   .email-text {
     font-size: 0.75rem;
   }
-
   .btn-icon {
     padding: 0.25rem 0.375rem;
     font-size: 0.5625rem;
   }
-
   .action-buttons {
     gap: 0.25rem;
   }
@@ -600,12 +533,10 @@
     align-items: center;
     text-align: left;
   }
-
   .btn-primary {
     width: auto;
     min-width: 200px;
   }
-
   .students-table th:nth-child(3),
   .students-table td:nth-child(3) {
     display: table-cell;
@@ -617,9 +548,8 @@
   .btn-icon,
   .btn-primary,
   .btn-secondary {
-    min-height: 44px; /* Taille minimale recommandée pour le tactile */
+    min-height: 44px;
   }
-
   .student-avatar {
     min-width: 28px;
     min-height: 28px;

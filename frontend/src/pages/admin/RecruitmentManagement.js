@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
@@ -49,7 +48,6 @@ const RecruitmentManagement = () => {
       } else {
         await apiService.createJobOffer(offerData)
       }
-
       setShowForm(false)
       setEditingOffer(null)
       fetchJobOffers()
@@ -98,7 +96,6 @@ const RecruitmentManagement = () => {
             </button>
             <h1>{editingOffer ? "Modifier l'offre" : "Nouvelle offre d'emploi"}</h1>
           </div>
-
           <JobOfferForm initialData={editingOffer} onSubmit={handleFormSubmit} onCancel={() => setShowForm(false)} />
         </div>
       </AdminLayout>
@@ -112,7 +109,8 @@ const RecruitmentManagement = () => {
           <div className="header-content">
             <h1>Gestion du Recrutement</h1>
           </div>
-          <button onClick={handleCreateOffer} className="create-btn">
+          {/* CHANGÉ: create-btn → btn-primary */}
+          <button onClick={handleCreateOffer} className="btn-primary">
             + Nouvelle offre
           </button>
         </div>
@@ -218,7 +216,8 @@ const RecruitmentManagement = () => {
               <div className="no-offers">
                 <h3>Aucune offre d'emploi</h3>
                 <p>Commencez par créer votre première offre d'emploi.</p>
-                <button onClick={handleCreateOffer} className="create-first-btn">
+                {/* CHANGÉ: create-first-btn → btn-primary */}
+                <button onClick={handleCreateOffer} className="btn-primary">
                   Créer une offre
                 </button>
               </div>
