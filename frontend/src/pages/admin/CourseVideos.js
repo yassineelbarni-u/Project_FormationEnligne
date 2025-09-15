@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
@@ -11,21 +10,21 @@ const CourseVideos = () => {
   // Hooks et fonctions pour la modale d'édition vidéo
   const [showEditModal, setShowEditModal] = useState(false)
   const [editVideo, setEditVideo] = useState(null)
-
+  
   const openEditModal = (video) => {
     setEditVideo({ ...video })
     setShowEditModal(true)
   }
-
+  
   const closeEditModal = () => {
     setShowEditModal(false)
     setEditVideo(null)
   }
-
+  
   const handleEditChange = (e) => {
     setEditVideo({ ...editVideo, [e.target.name]: e.target.value })
   }
-
+  
   const handleEditSubmit = async (e) => {
     e.preventDefault()
     if (!editVideo.title || !editVideo.drive_url) {
@@ -41,6 +40,7 @@ const CourseVideos = () => {
       alert("Erreur lors de la modification")
     }
   }
+
   const { courseId } = useParams()
   const navigate = useNavigate()
   const [course, setCourse] = useState(null)
@@ -56,7 +56,6 @@ const CourseVideos = () => {
     is_free: false,
     module_name: "",
   })
-
   const [moduleNames, setModuleNames] = useState([])
 
   useEffect(() => {
@@ -100,7 +99,6 @@ const CourseVideos = () => {
       /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:a\/[^/]+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
       /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:a\/[^/]+\/)?(?:u\/\d+\/)?(?:uc)\?(?:.+&)?id=([^&]+)/,
     ]
-
     for (const pattern of patterns) {
       const match = url.match(pattern)
       if (match) return match[1]
@@ -114,7 +112,6 @@ const CourseVideos = () => {
       alert("URL Google Drive invalide")
       return
     }
-
     try {
       const video = await apiService.addVideoToCourse(courseId, {
         ...newVideo,
@@ -126,7 +123,7 @@ const CourseVideos = () => {
         title: "",
         description: "",
         drive_url: "",
-        pdf_url: "",  // Réinitialisation du champ PDF
+        pdf_url: "",
         module_name: "",
         order_in_course: videos.length + 1,
         is_free: false,
@@ -140,7 +137,6 @@ const CourseVideos = () => {
 
   const deleteVideo = async (videoId) => {
     if (!window.confirm("Supprimer cette vidéo ?")) return
-
     try {
       await apiService.deleteVideo(videoId)
       setVideos(videos.filter((v) => v.id !== videoId))
@@ -150,11 +146,24 @@ const CourseVideos = () => {
     }
   }
 
+  const closeModal = () => {
+    setShowAddForm(false)
+    setNewVideo({
+      title: "",
+      description: "",
+      drive_url: "",
+      pdf_url: "",
+      module_name: "",
+      order_in_course: videos.length + 1,
+      is_free: false,
+    })
+  }
+
   if (isLoading) {
     return (
       <AdminLayout>
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
+        <div className="course-videos-loading-modern">
+          <div className="loading-spinner-modern"></div>
           <p>Chargement des vidéos...</p>
         </div>
       </AdminLayout>
@@ -163,159 +172,227 @@ const CourseVideos = () => {
 
   return (
     <AdminLayout>
-      <div className="course-videos-page">
-        {/* Header */}
-        <div className="page-header">
-          <div className="header-left">
-            <button className="back-btn" onClick={() => navigate("/admin/courses")}>
+      <div className="course-videos-page-modern">
+        {/* Header moderne */}
+        <div className="page-header-course-modern">
+          <div className="header-left-modern">
+            <button className="back-btn-modern" onClick={() => navigate("/admin/courses")}>
               ← Retour aux cours
             </button>
-            <div className="course-info">
-              <h1>📚 {course?.title}</h1>
-              <p>
-                {course?.subject} • {course?.level} • {videos.length} vidéos
-              </p>
+            <div className="course-info-modern">
+              <div className="course-icon-modern">📚</div>
+              <div className="course-details-modern">
+                <h1>{course?.title}</h1>
+                <p>{course?.subject} • {course?.level} • {videos.length} vidéos</p>
+              </div>
             </div>
           </div>
-          <button className="btn-primary" onClick={() => setShowAddForm(true)}>
+          <button className="btn-primary-course-modern" onClick={() => setShowAddForm(true)}>
             🎥 Ajouter Vidéo
           </button>
         </div>
 
-        {/* Formulaire d'ajout */}
-        {showAddForm && (
-          <div className="add-video-form">
-            <div className="form-header">
-              <h3>🎥 Ajouter une vidéo Google Drive</h3>
-              <button className="close-btn" onClick={() => setShowAddForm(false)}>
-                ✕
-              </button>
+        {/* Statistiques rapides */}
+        <div className="stats-course-modern">
+          <div className="stat-item-modern">
+            <div className="stat-icon-modern">🎬</div>
+            <div className="stat-content-modern">
+              <div className="stat-number-modern">{videos.length}</div>
+              <div className="stat-label-modern">Vidéos</div>
             </div>
-            <form onSubmit={handleAddVideo}>
-              <div className="form-group">
-                <label>Titre de la vidéo *</label>
-                <input
-                  type="text"
-                  value={newVideo.title}
-                  onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
-                  placeholder="Titre de la vidéo"
-                  required
-                />
-              </div>
+          </div>
+          <div className="stat-item-modern">
+            <div className="stat-icon-modern">📚</div>
+            <div className="stat-content-modern">
+              <div className="stat-number-modern">{moduleNames.length}</div>
+              <div className="stat-label-modern">Modules</div>
+            </div>
+          </div>
+          <div className="stat-item-modern">
+            <div className="stat-icon-modern">🆓</div>
+            <div className="stat-content-modern">
+              <div className="stat-number-modern">{videos.filter(v => v.is_free).length}</div>
+              <div className="stat-label-modern">Gratuites</div>
+            </div>
+          </div>
+        </div>
 
-              <div className="form-group">
-                <label>URL Google Drive de la vidéo *</label>
-                <input
-                  type="url"
-                  value={newVideo.drive_url}
-                  onChange={(e) => setNewVideo({ ...newVideo, drive_url: e.target.value })}
-                  placeholder="https://drive.google.com/file/d/..."
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>URL Google Drive du PDF (optionnel)</label>
-                <input
-                  type="url"
-                  value={newVideo.pdf_url || ""}
-                  onChange={(e) => setNewVideo({ ...newVideo, pdf_url: e.target.value })}
-                  placeholder="https://drive.google.com/file/d/..."
-                />
-                <small className="input-help">
-                  Ajoutez un lien vers un document PDF complémentaire pour cette vidéo.
-                </small>
-              </div>
-
-              <div className="form-group">
-                <label>Module/Playlist</label>
-                <div className="module-selector">
-                  <select
-                    value={newVideo.module_name}
-                    onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
-                  >
-                    <option value="">-- Sélectionnez ou créez un module --</option>
-                    {moduleNames.map((name, idx) => (
-                      <option key={idx} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                  </select>
-                  {!moduleNames.includes(newVideo.module_name) && newVideo.module_name && (
-                    <div className="new-module-badge">Nouveau</div>
-                  )}
+        {/* Modal d'ajout moderne */}
+        {showAddForm && (
+          <div className="modal-overlay-course-modern" onClick={closeModal}>
+            <div className="modal-container-course-modern" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header-course-modern">
+                <div className="modal-title-course-modern">
+                  <div className="modal-icon-course-modern">🎥</div>
+                  <div>
+                    <h2>Nouvelle Vidéo</h2>
+                    <p>Ajouter une vidéo Google Drive au cours</p>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  value={newVideo.module_name}
-                  onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
-                  placeholder="Nom du module/playlist (ex: Les intégrales)"
-                />
-                <small className="input-help">
-                  Regroupez vos vidéos en modules ou playlists avec un nom explicite.
-                </small>
+                <button className="modal-close-btn-course-modern" onClick={closeModal}>
+                  ✕
+                </button>
               </div>
 
-              <div className="form-group">
-                <label>Description</label>
-                <textarea
-                  value={newVideo.description}
-                  onChange={(e) => setNewVideo({ ...newVideo, description: e.target.value })}
-                  placeholder="Description de la vidéo..."
-                  rows="3"
-                />
-              </div>
+              <div className="modal-body-course-modern">
+                <form onSubmit={handleAddVideo} className="form-course-modern">
+                  <div className="form-grid-course-modern">
+                    <div className="form-field-course-modern">
+                      <label htmlFor="title">
+                        <span className="label-text-course-modern">Titre de la vidéo</span>
+                        <span className="label-required-course-modern">*</span>
+                      </label>
+                      <input
+                        id="title"
+                        type="text"
+                        value={newVideo.title}
+                        onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
+                        placeholder="Ex: Introduction aux fonctions"
+                        required
+                        className="form-input-course-modern"
+                      />
+                    </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Ordre dans le cours</label>
-                  <input
-                    type="number"
-                    value={newVideo.order_in_course}
-                    onChange={(e) => setNewVideo({ ...newVideo, order_in_course: Number.parseInt(e.target.value) })}
-                    min="0"
-                  />
-                </div>
-                <div className="form-group checkbox-group">
-                  <label>
+                    <div className="form-field-course-modern">
+                      <label htmlFor="order">
+                        <span className="label-text-course-modern">Ordre</span>
+                      </label>
+                      <input
+                        id="order"
+                        type="number"
+                        value={newVideo.order_in_course}
+                        onChange={(e) => setNewVideo({ ...newVideo, order_in_course: Number.parseInt(e.target.value) })}
+                        min="0"
+                        className="form-input-course-modern"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="drive_url">
+                      <span className="label-text-course-modern">URL Google Drive</span>
+                      <span className="label-required-course-modern">*</span>
+                    </label>
                     <input
-                      type="checkbox"
-                      checked={newVideo.is_free}
-                      onChange={(e) => setNewVideo({ ...newVideo, is_free: e.target.checked })}
+                      id="drive_url"
+                      type="url"
+                      value={newVideo.drive_url}
+                      onChange={(e) => setNewVideo({ ...newVideo, drive_url: e.target.value })}
+                      placeholder="https://drive.google.com/file/d/..."
+                      required
+                      className="form-input-course-modern"
                     />
-                    Vidéo gratuite
-                  </label>
-                </div>
-              </div>
+                  </div>
 
-              <div className="form-actions">
-                <button type="button" className="btn-cancel" onClick={() => setShowAddForm(false)}>
-                  Annuler
-                </button>
-                <button type="submit" className="btn-primary">
-                  Ajouter la vidéo
-                </button>
+                  <div className="form-field-course-modern">
+                    <label htmlFor="pdf_url">
+                      <span className="label-text-course-modern">URL PDF (optionnel)</span>
+                    </label>
+                    <input
+                      id="pdf_url"
+                      type="url"
+                      value={newVideo.pdf_url || ""}
+                      onChange={(e) => setNewVideo({ ...newVideo, pdf_url: e.target.value })}
+                      placeholder="https://drive.google.com/file/d/..."
+                      className="form-input-course-modern"
+                    />
+                    <div className="field-hint-course-modern">Document PDF complémentaire pour cette vidéo</div>
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="module_name">
+                      <span className="label-text-course-modern">Module/Playlist</span>
+                    </label>
+                    <select
+                      id="module_select"
+                      value={newVideo.module_name}
+                      onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
+                      className="form-select-course-modern"
+                    >
+                      <option value="">-- Sélectionnez un module --</option>
+                      {moduleNames.map((name, idx) => (
+                        <option key={idx} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      id="module_name"
+                      type="text"
+                      value={newVideo.module_name}
+                      onChange={(e) => setNewVideo({ ...newVideo, module_name: e.target.value })}
+                      placeholder="Ou créez un nouveau module..."
+                      className="form-input-course-modern"
+                    />
+                    <div className="field-hint-course-modern">Regroupez vos vidéos en modules thématiques</div>
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="description">
+                      <span className="label-text-course-modern">Description</span>
+                    </label>
+                    <textarea
+                      id="description"
+                      value={newVideo.description}
+                      onChange={(e) => setNewVideo({ ...newVideo, description: e.target.value })}
+                      placeholder="Description de la vidéo..."
+                      rows="3"
+                      className="form-textarea-course-modern"
+                    />
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <div className="checkbox-field-course-modern">
+                      <input
+                        id="is_free"
+                        type="checkbox"
+                        checked={newVideo.is_free}
+                        onChange={(e) => setNewVideo({ ...newVideo, is_free: e.target.checked })}
+                        className="form-checkbox-course-modern"
+                      />
+                      <label htmlFor="is_free" className="checkbox-label-course-modern">
+                        <span className="checkbox-text-course-modern">Vidéo gratuite</span>
+                        <span className="checkbox-description-course-modern">
+                          Cette vidéo sera accessible gratuitement
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="modal-actions-course-modern">
+                    <button type="button" className="btn-secondary-course-modern" onClick={closeModal}>
+                      Annuler
+                    </button>
+                    <button type="submit" className="btn-primary-course-modern">
+                      Ajouter la vidéo
+                    </button>
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         )}
 
-        {/* Liste des vidéos */}
-        <div className="videos-list">
+        {/* Liste des vidéos par modules */}
+        <div className="videos-section-course-modern">
           {videos.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">🎥</div>
-              <h3>Aucune vidéo dans ce cours</h3>
-              <p>Commencez par ajouter votre première vidéo Google Drive</p>
-              <button className="btn-primary" onClick={() => setShowAddForm(true)}>
-                🎥 Ajouter une vidéo
-              </button>
+            <div className="empty-state-course-modern">
+              <div className="empty-illustration-course-modern">
+                <div className="empty-icon-course-modern">🎥</div>
+                <div className="empty-graphics-course-modern"></div>
+              </div>
+              <div className="empty-content-course-modern">
+                <h3>Aucune vidéo dans ce cours</h3>
+                <p>Commencez par ajouter votre première vidéo Google Drive</p>
+                <button className="btn-primary-course-modern" onClick={() => setShowAddForm(true)}>
+                  🎥 Ajouter une vidéo
+                </button>
+              </div>
             </div>
           ) : (
-            <div className="modules-container">
+            <div className="modules-container-modern">
               {(() => {
                 const modules = {}
-
                 videos.forEach((video) => {
                   const moduleName = video.module_name || "Autres vidéos"
                   if (!modules[moduleName]) {
@@ -323,18 +400,21 @@ const CourseVideos = () => {
                   }
                   modules[moduleName].push(video)
                 })
-
                 return Object.entries(modules).map(([moduleName, moduleVideos]) => (
-                  <div key={moduleName} className="module">
-                    <div className="module-header">
-                      <h3 className="module-title">
-                        {moduleName} ({moduleVideos.length})
-                      </h3>
+                  <div key={moduleName} className="module-modern">
+                    <div className="module-header-modern">
+                      <div className="module-title-modern">
+                        <div className="module-icon-modern">📁</div>
+                        <div>
+                          <h3>{moduleName}</h3>
+                          <p>{moduleVideos.length} vidéo{moduleVideos.length > 1 ? 's' : ''}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="videos-grid">
+                    <div className="videos-grid-course-modern">
                       {moduleVideos.map((video, index) => (
-                        <div key={video.id} className="video-card">
-                          <div className="video-thumbnail">
+                        <div key={video.id} className="video-card-course-modern">
+                          <div className="video-thumbnail-course-modern">
                             <img
                               src={
                                 video.thumbnail_url ||
@@ -346,22 +426,46 @@ const CourseVideos = () => {
                                 e.target.src = `/placeholder.svg?height=200&width=350&query=video thumbnail`
                               }}
                             />
-                            <div className="video-order">#{video.order_in_course || index + 1}</div>
-                            {video.is_free && <div className="video-free">GRATUIT</div>}
+                            <div className="video-overlay-course-modern">
+                              <div className="video-badges-course-modern">
+                                <div className="video-order-course-modern">#{video.order_in_course || index + 1}</div>
+                                {video.is_free && <div className="video-free-course-modern">🆓 GRATUIT</div>}
+                              </div>
+                            </div>
                           </div>
-                          <div className="video-content">
-                            <h4 className="video-title">{video.title}</h4>
-                            {video.description && <p className="video-description">{video.description}</p>}
-                            <div className="video-actions">
-                              <a href={video.drive_url} target="_blank" rel="noopener noreferrer" className="btn-watch">
-                                ▶️
-                              </a>
-                              <button className="btn-edit" onClick={() => openEditModal(video)}>
-                                ✏️ Modifier
-                              </button>
-                              <button className="btn-delete" onClick={() => deleteVideo(video.id)}>
-                                🗑️
-                              </button>
+
+                          <div className="video-content-course-modern">
+                            <h4 className="video-title-course-modern">{video.title}</h4>
+                            {video.description && (
+                              <p className="video-description-course-modern">{video.description}</p>
+                            )}
+                            
+                            <div className="video-footer-course-modern">
+                              <div className="video-actions-course-modern">
+                                <a 
+                                  href={video.drive_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className="btn-action-course-modern watch"
+                                  title="Voir sur Google Drive"
+                                >
+                                  ▶️
+                                </a>
+                                <button 
+                                  className="btn-action-course-modern edit" 
+                                  onClick={() => openEditModal(video)}
+                                  title="Modifier la vidéo"
+                                >
+                                  ✏️
+                                </button>
+                                <button 
+                                  className="btn-action-course-modern delete" 
+                                  onClick={() => deleteVideo(video.id)}
+                                  title="Supprimer la vidéo"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -373,59 +477,161 @@ const CourseVideos = () => {
             </div>
           )}
         </div>
-      {/* Modale édition vidéo, styles uniques */}
-      {showEditModal && editVideo && (
-        <div className="video-edit-modal-overlay">
-          <div className="video-edit-modal">
-            <div className="video-edit-header">
-              <h2>✏️ Modifier la vidéo</h2>
-              <button className="video-edit-close" onClick={closeEditModal}>✕</button>
+
+        {/* Modal d'édition */}
+        {showEditModal && editVideo && (
+          <div className="modal-overlay-course-modern" onClick={closeEditModal}>
+            <div className="modal-container-course-modern" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header-course-modern">
+                <div className="modal-title-course-modern">
+                  <div className="modal-icon-course-modern">✏️</div>
+                  <div>
+                    <h2>Modifier la vidéo</h2>
+                    <p>Modifiez les informations de la vidéo</p>
+                  </div>
+                </div>
+                <button className="modal-close-btn-course-modern" onClick={closeEditModal}>
+                  ✕
+                </button>
+              </div>
+
+              <div className="modal-body-course-modern">
+                <form onSubmit={handleEditSubmit} className="form-course-modern">
+                  <div className="form-grid-course-modern">
+                    <div className="form-field-course-modern">
+                      <label htmlFor="edit_title">
+                        <span className="label-text-course-modern">Titre</span>
+                        <span className="label-required-course-modern">*</span>
+                      </label>
+                      <input
+                        id="edit_title"
+                        type="text"
+                        name="title"
+                        value={editVideo.title}
+                        onChange={handleEditChange}
+                        required
+                        className="form-input-course-modern"
+                      />
+                    </div>
+
+                    <div className="form-field-course-modern">
+                      <label htmlFor="edit_order">
+                        <span className="label-text-course-modern">Ordre</span>
+                      </label>
+                      <input
+                        id="edit_order"
+                        type="number"
+                        name="order_in_course"
+                        value={editVideo.order_in_course}
+                        onChange={handleEditChange}
+                        min="0"
+                        className="form-input-course-modern"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="edit_drive_url">
+                      <span className="label-text-course-modern">URL Google Drive</span>
+                      <span className="label-required-course-modern">*</span>
+                    </label>
+                    <input
+                      id="edit_drive_url"
+                      type="url"
+                      name="drive_url"
+                      value={editVideo.drive_url}
+                      onChange={handleEditChange}
+                      required
+                      className="form-input-course-modern"
+                    />
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="edit_pdf_url">
+                      <span className="label-text-course-modern">URL PDF (optionnel)</span>
+                    </label>
+                    <input
+                      id="edit_pdf_url"
+                      type="url"
+                      name="pdf_url"
+                      value={editVideo.pdf_url || ""}
+                      onChange={handleEditChange}
+                      className="form-input-course-modern"
+                    />
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="edit_module_name">
+                      <span className="label-text-course-modern">Module/Playlist</span>
+                    </label>
+                    <select
+                      id="edit_module_select"
+                      name="module_name"
+                      value={editVideo.module_name}
+                      onChange={handleEditChange}
+                      className="form-select-course-modern"
+                    >
+                      <option value="">-- Sélectionnez un module --</option>
+                      {moduleNames.map((name, idx) => (
+                        <option key={idx} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      id="edit_module_name"
+                      type="text"
+                      name="module_name"
+                      value={editVideo.module_name}
+                      onChange={handleEditChange}
+                      placeholder="Nom du module/playlist"
+                      className="form-input-course-modern"
+                    />
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <label htmlFor="edit_description">
+                      <span className="label-text-course-modern">Description</span>
+                    </label>
+                    <textarea
+                      id="edit_description"
+                      name="description"
+                      value={editVideo.description}
+                      onChange={handleEditChange}
+                      rows="3"
+                      className="form-textarea-course-modern"
+                    />
+                  </div>
+
+                  <div className="form-field-course-modern">
+                    <div className="checkbox-field-course-modern">
+                      <input
+                        id="edit_is_free"
+                        type="checkbox"
+                        name="is_free"
+                        checked={!!editVideo.is_free}
+                        onChange={(e) => setEditVideo({ ...editVideo, is_free: e.target.checked })}
+                        className="form-checkbox-course-modern"
+                      />
+                      <label htmlFor="edit_is_free" className="checkbox-label-course-modern">
+                        <span className="checkbox-text-course-modern">Vidéo gratuite</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="modal-actions-course-modern">
+                    <button type="button" className="btn-secondary-course-modern" onClick={closeEditModal}>
+                      Annuler
+                    </button>
+                    <button type="submit" className="btn-primary-course-modern">
+                      Enregistrer
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <form className="video-edit-form" onSubmit={handleEditSubmit}>
-              <div className="video-edit-group">
-                <label htmlFor="title">Titre *</label>
-                <input type="text" name="title" id="title" value={editVideo.title} onChange={handleEditChange} required />
-              </div>
-              <div className="video-edit-group">
-                <label htmlFor="drive_url">URL Google Drive *</label>
-                <input type="url" name="drive_url" id="drive_url" value={editVideo.drive_url} onChange={handleEditChange} required />
-              </div>
-              <div className="video-edit-group">
-                <label htmlFor="pdf_url">URL PDF (optionnel)</label>
-                <input type="url" name="pdf_url" id="pdf_url" value={editVideo.pdf_url || ""} onChange={handleEditChange} />
-              </div>
-              <div className="video-edit-group">
-                <label htmlFor="module_name">Module/Playlist</label>
-                <select name="module_name" id="module_name" value={editVideo.module_name} onChange={handleEditChange}>
-                  <option value="">Sélectionner un module</option>
-                  {moduleNames.map((name, idx) => (
-                    <option key={idx} value={name}>{name}</option>
-                  ))}
-                </select>
-                <input type="text" name="module_name" value={editVideo.module_name} onChange={handleEditChange} placeholder="Nom du module/playlist" />
-              </div>
-              <div className="video-edit-group">
-                <label htmlFor="description">Description</label>
-                <textarea name="description" id="description" value={editVideo.description} onChange={handleEditChange} rows={3} />
-              </div>
-              <div className="video-edit-group">
-                <label htmlFor="order_in_course">Ordre dans le cours</label>
-                <input type="number" name="order_in_course" id="order_in_course" value={editVideo.order_in_course} onChange={handleEditChange} min={0} />
-              </div>
-              <div className="video-edit-group">
-                <label>
-                  <input type="checkbox" name="is_free" checked={!!editVideo.is_free} onChange={e => setEditVideo({ ...editVideo, is_free: e.target.checked })} />
-                  Vidéo gratuite
-                </label>
-              </div>
-              <div className="video-edit-actions">
-                <button type="button" className="video-edit-cancel" onClick={closeEditModal}>Annuler</button>
-                <button type="submit" className="video-edit-save">Enregistrer</button>
-              </div>
-            </form>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </AdminLayout>
   )
