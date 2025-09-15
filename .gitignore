@@ -26,3 +26,9 @@ venv/
 
 "__pycache__/" 
 "*.pyc" 
+
+#pour frentend
+node_modules/
+dist/
+build/
+.env

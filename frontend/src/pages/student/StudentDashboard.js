@@ -6,6 +6,8 @@ import StudentLayout from "../../components/student/StudentLayout"
 import apiService from "../../utils/api"
 import "./StudentDashboard.css"
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const StudentDashboard = () => {
   const [courses, setCourses] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -156,7 +158,7 @@ const StudentDashboard = () => {
                   <div className="course-image">
                     <img
                       src={course.image_filename ? 
-                        `http://localhost:8001/api/admin/courses/${course.id}/image` :
+                        `${API_URL}/api/admin/courses/${course.id}/image` :
                         "/assets/math-course.png"}
                       alt={course.title}
                       onError={(e) => {

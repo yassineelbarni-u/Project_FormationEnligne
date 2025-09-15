@@ -1,6 +1,5 @@
 // Configuration API centralisée
-const BACKEND_URL = "http://localhost:8001"
-
+const BACKEND_URL = process.env.REACT_APP_API_URL
 class ApiService {
   constructor() {
     this.baseURL = BACKEND_URL

@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import apiService from "../../utils/api"
 import "./Annonce.css"
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const AnnonceSection = () => {
   const [announcements, setAnnouncements] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -85,7 +87,7 @@ const AnnonceSection = () => {
 
             <div className="annonce-image">
               <img
-                src={`http://localhost:8001${currentAnnouncement.image_url}` || "/placeholder.svg"}
+                src={`${API_URL}${currentAnnouncement.image_url}` || "/placeholder.svg"}
                 alt="Annonce de cours"
               />
 

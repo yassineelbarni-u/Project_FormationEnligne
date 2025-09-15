@@ -5,6 +5,8 @@ import AdminLayout from "../../components/admin/AdminLayout"
 import apiService from "../../utils/api"
 import "./AnnouncementManagement.css"
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const AnnouncementManagement = () => {
   const [announcements, setAnnouncements] = useState([])
   const [loading, setLoading] = useState(true)
@@ -208,7 +210,7 @@ const AnnouncementManagement = () => {
                   <div className="current-image">
                     <label>Image actuelle:</label>
                     <img
-                      src={`http://localhost:8001${editingAnnouncement.image_url}`}
+                      src={`${API_URL}${editingAnnouncement.image_url}`}
                       alt="Annonce actuelle"
                       className="preview-image"
                     />
@@ -252,7 +254,7 @@ const AnnouncementManagement = () => {
             announcements.map((announcement) => (
               <div key={announcement.id} className="announcement-card">
                 <div className="announcement-image">
-                  <img src={`http://localhost:8001${announcement.image_url}`} alt="Annonce" />
+                  <img src={`${API_URL}${announcement.image_url}`} alt="Annonce" />
                   <div className={`status-badge ${announcement.is_active ? "active" : "inactive"}`}>
                     {announcement.is_active ? "Actif" : "Inactif"}
                   </div>

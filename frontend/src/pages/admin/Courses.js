@@ -6,6 +6,8 @@ import AdminLayout from "../../components/admin/AdminLayout"
 import apiService from "../../utils/api"
 import "./Courses.css"
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Courses = () => {
   const [courses, setCourses] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
@@ -133,7 +135,7 @@ const Courses = () => {
                 <div className="course-image">
                   <img
                     src={course.image_filename ? 
-                      `http://localhost:8001${course.image_url}` : 
+                      `${API_URL}${course.image_url}` : 
                       "/assets/math-course.png"}
                     alt={course.title}
                     onError={(e) => {

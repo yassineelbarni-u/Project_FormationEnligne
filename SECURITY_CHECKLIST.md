@@ -3,9 +3,12 @@
 ## ✅ Tests de Sécurité à Effectuer
 
 ### 1. **Test des Tokens**
+
+const API_URL = process.env.REACT_APP_API_URL;
+
 ```bash
 # Tester avec un faux token
-curl -X POST http://localhost:8001/api/auth/google-login \
+curl -X POST {API_URL}/api/auth/google-login \
   -H "Content-Type: application/json" \
   -d '{"credential": "fake_token"}'
 # ✅ Doit retourner 401 Unauthorized
@@ -24,7 +27,7 @@ curl -X POST http://localhost:8001/api/auth/google-login \
 # Tester depuis un autre domaine
 curl -H "Origin: http://malicious-site.com" \
      -H "Access-Control-Request-Method: POST" \
-     http://localhost:8001/api/auth/google-login
+     {API_URL}/api/auth/google-login
 # ✅ Doit être bloqué
 ```
 

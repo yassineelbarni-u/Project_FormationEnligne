@@ -5,6 +5,8 @@ import AdminLayout from "../../components/admin/AdminLayout"
 import apiService from "../../utils/api"
 import "./CourseForm.css"
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const CourseForm = () => {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -78,32 +80,32 @@ const CourseForm = () => {
     }
   }
 
-  const uploadImage = async (courseId) => {
-    if (!selectedImage) return;
-    
-    try {
-      const formData = new FormData();
-      formData.append('file', selectedImage);
-      
-      const response = await fetch(`http://localhost:8001/api/admin/courses/${courseId}/upload-image`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: formData
-      });
-      
-      if (!response.ok) {
-        throw new Error('Erreur lors du téléchargement de l\'image');
-      }
-      
-      console.log('Image téléchargée avec succès');
-      return await response.json();
-    } catch (error) {
-      console.error('Erreur lors du téléchargement de l\'image:', error);
-      throw error;
+ const uploadImage = async (courseId) => {
+  if (!selectedImage) return;
+
+  try {
+    const formData = new FormData();
+    formData.append('file', selectedImage);
+
+    const response = await fetch(`${API_URL}/api/admin/courses/${courseId}/upload-image`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Erreur lors du téléchargement de l\'image');
     }
-  };
+
+    console.log('Image téléchargée avec succès');
+    return await response.json();
+  } catch (error) {
+    console.error('Erreur lors du téléchargement de l\'image:', error);
+    throw error;
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault()

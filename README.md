@@ -25,7 +25,7 @@ Plateforme de formation en ligne avec gestion des cours, vidéos, documents et e
    ```
 4. Accéder à l'app :
    - Frontend : http://localhost:3000
-   - Backend API : http://localhost:8001
+   - Backend API : {API_URL}
 
 ## Développement
 - Utiliser `docker-compose.dev.yml` pour le hot reload

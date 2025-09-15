@@ -6,6 +6,8 @@ import Footer from "../../components/common/Footer"
 import apiService from "../../utils/api"
 import "./AnnonceCourse.css"
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const AnnonceCourse = () => {
   const [announcements, setAnnouncements] = useState([])
   const [loading, setLoading] = useState(true)
@@ -57,16 +59,15 @@ const AnnonceCourse = () => {
               {announcements.map((announcement) => (
                 <div key={announcement.id} className="announcement-card">
                   <div className="announcement-image">
-                    <img
-                      src={`http://localhost:8001${announcement.image_url}` || "/placeholder.svg"}
-                      alt={announcement.title || "Annonce de cours"}
-                      onLoad={(e) => {
-                        // Ajuster la taille pour garantir que l'image s'affiche correctement
-                        if (e.target.naturalHeight > 800) {
-                          e.target.style.maxHeight = "800px";
-                        }
-                      }}
-                    />
+                  <img
+                    src={announcement.image_url ? `${API_URL}${announcement.image_url}` : "/placeholder.svg"}
+                    alt={announcement.title || "Annonce de cours"}
+                    onLoad={(e) => {
+                      if (e.target.naturalHeight > 800) {
+                        e.target.style.maxHeight = "800px";
+                      }
+                    }}
+                  />
                   </div>
                   
                   <div className="announcement-info">

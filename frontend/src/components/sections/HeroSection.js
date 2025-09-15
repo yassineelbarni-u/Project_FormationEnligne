@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from "../common/Button"
-import imageHero from '../assets/Logo_Elearning.jpeg';
+import imageHero from '../assets/LogoHeroSection.jpeg';
 import '../styles/HeroSection.css';
 
 
