@@ -25,7 +25,7 @@
     url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="7" y="25" font-family="Arial" font-size="20" fill="%235dade2" fill-opacity="0.1">π</text></svg>'),
     url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="6" y="25" font-family="Arial" font-size="18" fill="%233498db" fill-opacity="0.1">&lt;/&gt;</text></svg>'),
     url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><text x="8" y="25" font-family="Arial" font-size="20" fill="%235dade2" fill-opacity="0.1">∞</text></svg>');
-  background-size: 300px 300px, 240px 240px, 120px 120px, 80px 80px, 70px 70px, 90px 90px, 60px 60px;
+  background-size: 200px 200px, 160px 160px, 80px 80px, 60px 60px, 50px 50px, 70px 70px, 40px 40px;
   background-position: 0 0, 40px 40px, 80px 80px, 200px 150px, 350px 250px, 100px 300px, 400px 80px;
   opacity: 0.8;
   z-index: 0;
@@ -37,16 +37,8 @@
     transform: translateX(0) translateY(0) rotate(0deg);
     opacity: 0.8;
   }
-  25% { 
-    transform: translateX(15px) translateY(-10px) rotate(2deg);
-    opacity: 0.9;
-  }
   50% { 
-    transform: translateX(-10px) translateY(15px) rotate(-2deg);
-    opacity: 1;
-  }
-  75% { 
-    transform: translateX(10px) translateY(-15px) rotate(1deg);
+    transform: translateX(5px) translateY(5px) rotate(0deg);
     opacity: 0.9;
   }
 }
@@ -75,12 +67,8 @@
     transform: translateY(0) scale(1);
     opacity: 0.7;
   }
-  33% { 
-    transform: translateY(-20px) scale(1.1);
-    opacity: 0.9;
-  }
-  66% { 
-    transform: translateY(10px) scale(0.9);
+  50% { 
+    transform: translateY(-10px) scale(1);
     opacity: 0.8;
   }
 }
@@ -88,7 +76,7 @@
 .hero-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 40px;
   align-items: center;
   position: relative;
   z-index: 1;
@@ -296,8 +284,8 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 600px; /* Limiter la largeur maximale */
-  margin: 0 auto; /* Centrer */
+  max-width: 600px;
+  margin: 0 auto;
   opacity: 0;
   animation: slideInFromRight 1s ease forwards;
   animation-delay: 0.6s;
@@ -336,7 +324,7 @@
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 20px;
-  color: #0c4a6e; /* Couleur conservée */
+  color: #0c4a6e;
   animation: titleWave 4s ease-in-out infinite;
 }
 
@@ -355,7 +343,7 @@
   background-size: 300% 300%;
   background-image: linear-gradient(
     45deg,
-    #3b82f6 0%,    /* Couleurs originales conservées */
+    #3b82f6 0%,
     #06b6d4 20%,   
     #8b5cf6 40%,   
     #f59e0b 60%,   
@@ -419,7 +407,7 @@
 }
 
 .text-highlight {
-  color: #f97316; /* Couleur conservée */
+  color: #f97316;
   animation: highlightPulse 3s ease-in-out infinite;
 }
 
@@ -435,7 +423,7 @@
 }
 
 .text-primary {
-  color: #0284c7; /* Couleur conservée */
+  color: #0284c7;
   animation: primaryGlow 4s ease-in-out infinite;
 }
 
@@ -490,30 +478,22 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 550px; /* Limiter la largeur du conteneur */
-  height: 550px; /* Hauteur fixe */
+  max-width: 550px;
+  height: 550px;
   margin: 0 auto;
 }
 
+/* CERCLES STATIQUES - ANIMATIONS SUPPRIMÉES */
 .geometric-shapes {
   position: absolute;
-  width: 450px; /* Réduit de 520px à 450px */
-  height: 450px; /* Réduit de 520px à 450px */
+  width: 450px;
+  height: 450px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(52, 152, 219, 0.18) 0%, rgba(52, 152, 219, 0.12) 70%, transparent 100%);
   z-index: -1;
-  animation: shapePulse 7s infinite ease-in-out;
-}
-
-@keyframes shapePulse {
-  0%, 100% { 
-    transform: scale(1) rotate(0deg);
-    box-shadow: 0 0 30px rgba(52, 152, 219, 0.25);
-  }
-  50% { 
-    transform: scale(1.08) rotate(180deg);
-    box-shadow: 0 0 50px rgba(52, 152, 219, 0.35);
-  }
+  /* SUPPRIMÉ: animation: shapePulse 7s infinite ease-in-out; */
+  transform: scale(1);
+  box-shadow: 0 0 30px rgba(52, 152, 219, 0.25);
 }
 
 .geometric-shapes:before {
@@ -521,16 +501,12 @@
   position: absolute;
   top: -30px;
   left: -30px;
-  width: calc(100% + 60px); /* Utiliser width au lieu de right */
-  height: calc(100% + 60px); /* Utiliser height au lieu de bottom */
+  width: calc(100% + 60px);
+  height: calc(100% + 60px);
   border-radius: 50%;
   border: 4px dashed rgba(52, 152, 219, 0.4);
-  animation: borderRotate 25s linear infinite;
-}
-
-@keyframes borderRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  /* SUPPRIMÉ: animation: borderRotate 25s linear infinite; */
+  transform: rotate(0deg);
 }
 
 .geometric-shapes:after {
@@ -538,22 +514,17 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 500px; /* Réduit de 580px à 500px */
-  height: 500px; /* Réduit de 580px à 500px */
+  width: 500px;
+  height: 500px;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, transparent 67%, rgba(52, 152, 219, 0.15) 70%);
   border-radius: 50%;
-  animation: outerRing 10s ease-in-out infinite reverse;
-}
-
-@keyframes outerRing {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(1.15); }
+  /* SUPPRIMÉ: animation: outerRing 10s ease-in-out infinite reverse; */
 }
 
 .student-image {
   width: 100%;
-  max-width: 400px; /* Réduit de 500px à 400px */
+  max-width: 400px;
   height: auto;
   border-radius: 20px;
   object-fit: contain;
@@ -823,8 +794,8 @@
   }
   
   .geometric-shapes {
-    width: 300px; /* Ajusté de 350px à 300px */
-    height: 300px; /* Ajusté de 350px à 300px */
+    width: 300px;
+    height: 300px;
   }
   
   .geometric-shapes:after {
@@ -834,7 +805,7 @@
   
   .student-image {
     width: 100%;
-    max-width: 280px; /* Ajusté de 320px à 280px */
+    max-width: 280px;
     height: auto;
   }
 }
@@ -850,8 +821,8 @@
   }
   
   .geometric-shapes {
-    width: 250px; /* Ajusté de 300px à 250px */
-    height: 250px; /* Ajusté de 300px à 250px */
+    width: 250px;
+    height: 250px;
   }
   
   .geometric-shapes:after {
@@ -861,7 +832,7 @@
   
   .student-image {
     width: 100%;
-    max-width: 220px; /* Ajusté de 280px à 220px */
+    max-width: 220px;
     height: auto;
   }
   

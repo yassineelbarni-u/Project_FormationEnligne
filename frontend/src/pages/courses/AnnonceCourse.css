@@ -1,550 +1,328 @@
-/* Page principale */
-.annonce-course-page {
+/* Page principale - SCOPED pour éviter conflits */
+.annonce-course-page-simple {
   min-height: 100vh;
   background: #fafbfc;
   display: flex;
   flex-direction: column;
 }
 
-.main-content {
+.main-content-simple {
   flex: 1;
   padding: 80px 0;
   position: relative;
 }
 
-.main-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="15" fill="none" stroke="rgba(52,152,219,0.05)" stroke-width="1"/></svg>');
-  background-size: 60px 60px;
-  animation: float 25s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-30px) rotate(180deg); }
-}
-
-.container {
+.container-simple {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
   position: relative;
-  z-index: 1;
 }
 
-/* Header de la page */
-.page-header {
+/* Loading state simple */
+.loading-state-simple {
   text-align: center;
-  margin-bottom: 60px;
-  opacity: 0;
-  animation: fadeInUp 1s ease forwards;
-  animation-delay: 0.3s;
+  padding: 80px 20px;
+  color: #3498db;
 }
 
-.page-header h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: #2c3e50;
+.loading-spinner-simple {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #e8f4fd;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin-simple 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin-simple {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-state-simple p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* État vide simple */
+.empty-state-simple {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon-simple {
+  font-size: 4rem;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: relative;
+  opacity: 0.7;
 }
 
-.page-header h1::after {
-  content: '';
-  display: block;
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(90deg, #3498db, #5dade2);
-  margin: 16px auto 0;
-  border-radius: 2px;
-  transform: scaleX(0);
-  animation: scaleIn 0.8s ease forwards;
-  animation-delay: 1.2s;
+.empty-state-simple h3 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
-.page-header p {
-  font-size: 1.3rem;
+.empty-state-simple p {
+  font-size: 1.1rem;
   color: #5a6c7d;
-  font-weight: 500;
-  max-width: 650px;
-  margin: 0 auto;
-  line-height: 1.6;
+  margin: 0;
 }
 
-/* Grille des annonces */
-.announcements-grid {
+/* Grille des annonces - COMPACTE ET SIMPLE */
+.announcements-grid-simple {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-  gap: 50px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
   margin-top: 40px;
   justify-content: center;
 }
 
-/* Cartes d'annonces */
-.announcement-card {
+/* Cartes d'annonces - DESIGN SIMPLE */
+.announcement-card-simple {
   background: white;
-  border-radius: 24px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
   position: relative;
-  max-width: 800px;
+  max-width: 380px;
   margin: 0 auto;
-  height: auto;
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: fadeInUp 0.8s ease forwards;
 }
 
-/* Délais d'animation échelonnés pour les cartes */
-.announcement-card:nth-child(1) { animation-delay: 0.2s; }
-.announcement-card:nth-child(2) { animation-delay: 0.4s; }
-.announcement-card:nth-child(3) { animation-delay: 0.6s; }
-.announcement-card:nth-child(4) { animation-delay: 0.8s; }
-.announcement-card:nth-child(5) { animation-delay: 1.0s; }
-.announcement-card:nth-child(6) { animation-delay: 1.2s; }
-
-/* Barre décorative en haut de la carte */
-.announcement-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #3498db, #5dade2, #3498db);
-  background-size: 200% 100%;
-  z-index: 1;
-  animation: gradientShift 3s ease-in-out infinite;
+.announcement-card-simple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(52, 152, 219, 0.15);
+  border-color: #3498db;
 }
 
-/* Effet de brillance sur hover */
-.announcement-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+/* Section image - HAUTEUR FIXE */
+.announcement-image-simple {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.announcement-image-simple img {
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
-  transition: left 0.6s ease;
-  z-index: 2;
-}
-
-.announcement-card:hover::after {
-  left: 100%;
-}
-
-.announcement-card:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(52, 152, 219, 0.2);
-  border-color: rgba(52, 152, 219, 0.3);
-}
-
-/* Section image */
-.announcement-image {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  background: white;
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  margin: 0;
-  padding: 0;
-  z-index: 3;
-}
-
-.announcement-image img {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
-  transition: all 0.4s ease;
-  filter: brightness(0.95);
-}
-
-.announcement-card:hover .announcement-image img {
-  transform: scale(1.03);
-  filter: brightness(1);
-}
-
-/* Badge "Nouveau" */
-.announcement-image::before {
-  content: "NOUVEAU";
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, #3498db, #5dade2);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  z-index: 4;
-  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-  animation: bounce 2s ease-in-out infinite;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Informations d'annonce */
-.announcement-info {
-  padding: 32px;
-  background: white;
-  z-index: 3;
-  position: relative;
-}
-
-.announcement-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: #2c3e50;
-  line-height: 1.3;
-  position: relative;
-}
-
-.announcement-title::before {
-  content: '📚';
-  margin-right: 12px;
-  font-size: 1.3rem;
-}
-
-.announcement-description {
-  color: #5a6c7d;
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-.announcement-price {
-  font-size: 1.3rem;
-  color: #3498db;
-  margin-bottom: 0;
-  font-weight: 700;
-  padding: 12px 0;
-  border-top: 2px solid #f0f0f0;
-  position: relative;
-}
-
-.announcement-price strong {
-  color: #2c3e50;
-  margin-right: 8px;
-}
-
-.announcement-price::before {
-  content: '💰';
-  margin-right: 8px;
-  font-size: 1.2rem;
-}
-
-/* Footer d'annonce */
-.announcement-footer {
-  padding: 30px;
-  text-align: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 3;
-}
-
-/* Bouton WhatsApp */
-.whatsapp-button {
-  background: linear-gradient(135deg, #3498db, #5dade2);
-  color: white;
-  border: none;
-  padding: 18px 40px;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-  min-width: 220px;
-  justify-content: center;
-}
-
-.whatsapp-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.whatsapp-button:hover::before {
-  left: 100%;
-}
-
-.whatsapp-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
-  background: linear-gradient(135deg, #2980b9, #3498db);
-}
-
-.whatsapp-button .material-symbols-outlined {
-  font-size: 1.2rem;
   transition: transform 0.3s ease;
 }
 
-.whatsapp-button:hover .material-symbols-outlined {
-  transform: rotate(15deg) scale(1.1);
+.announcement-card-simple:hover .announcement-image-simple img {
+  transform: scale(1.05);
 }
 
-/* États de chargement et vide */
-.loading-state {
-  text-align: center;
-  padding: 80px 20px;
-  color: #3498db;
+.badge-nouveau-simple {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #3498db;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid #e8f4fd;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 25px;
+/* Contenu des cartes */
+.announcement-content-simple {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.loading-state p {
-  font-size: 1.3rem;
+.announcement-title-simple {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Description avec Read More/Less - SIMPLE */
+.description-container-simple {
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.announcement-description-simple {
+  color: #5a6c7d;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 12px 0;
+  transition: all 0.3s ease;
+}
+
+.read-more-btn-simple {
+  background: none;
+  border: none;
   color: #3498db;
   font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: all 0.2s ease;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 80px 20px;
+.read-more-btn-simple:hover {
+  color: #2980b9;
+  text-decoration: underline;
 }
 
-.empty-icon {
-  font-size: 5rem;
+/* Prix */
+.announcement-price-simple {
+  background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
   color: #3498db;
-  margin-bottom: 25px;
-  opacity: 0.7;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: auto;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.empty-state h3 {
-  font-size: 2rem;
-  color: #2c3e50;
-  margin-bottom: 15px;
-  font-weight: 700;
+/* Footer avec bouton */
+.announcement-footer-simple {
+  padding: 24px;
+  text-align: center;
+  background: #f8f9fa;
 }
 
-.empty-state p {
-  font-size: 1.2rem;
-  color: #5a6c7d;
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.5;
+.whatsapp-button-simple {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  max-width: 280px;
 }
 
-/* Animations */
-@keyframes fadeInUp {
+.whatsapp-button-simple:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+}
+
+/* Responsive Design - SIMPLE */
+@media (max-width: 1200px) {
+  .announcements-grid-simple {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+  }
+  
+  .announcement-card-simple {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content-simple {
+    padding: 60px 0;
+  }
+  
+  .announcements-grid-simple {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .announcement-card-simple {
+    max-width: 100%;
+  }
+  
+  .announcement-image-simple {
+    height: 180px;
+  }
+  
+  .announcement-content-simple {
+    padding: 20px;
+  }
+  
+  .announcement-title-simple {
+    font-size: 1.2rem;
+  }
+  
+  .announcement-description-simple {
+    font-size: 0.95rem;
+  }
+  
+  .announcement-footer-simple {
+    padding: 20px;
+  }
+  
+  .whatsapp-button-simple {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .announcements-grid-simple {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .announcement-image-simple {
+    height: 160px;
+  }
+  
+  .announcement-content-simple {
+    padding: 18px;
+  }
+  
+  .announcement-title-simple {
+    font-size: 1.1rem;
+  }
+  
+  .announcement-description-simple {
+    font-size: 0.9rem;
+  }
+  
+  .whatsapp-button-simple {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animations légères pour éviter conflits */
+.announcement-card-simple {
+  animation: fadeIn-simple 0.6s ease forwards;
+}
+
+@keyframes fadeIn-simple {
   from {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes scaleIn {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-8px); }
-  60% { transform: translateY(-4px); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Classe spéciale pour la carte principale */
-.annonce-main-card {
-  margin-top: 2.5rem;
-  position: relative;
-  z-index: 10;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .container {
-    max-width: 1200px;
-  }
-  
-  .announcements-grid {
-    gap: 40px;
-  }
-  
-  .page-header h1 {
-    font-size: 3rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    padding: 60px 0;
-  }
-  
-  .page-header h1 {
-    font-size: 2.5rem;
-  }
-  
-  .page-header p {
-    font-size: 1.1rem;
-  }
-  
-  .announcements-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .announcement-info {
-    padding: 24px;
-  }
-  
-  .announcement-title {
-    font-size: 1.4rem;
-  }
-  
-  .announcement-description {
-    font-size: 1rem;
-  }
-  
-  .announcement-price {
-    font-size: 1.2rem;
-  }
-  
-  .announcement-footer {
-    padding: 25px;
-  }
-  
-  .whatsapp-button {
-    padding: 16px 32px;
-    font-size: 1rem;
-    min-width: 200px;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-content {
-    padding: 40px 0;
-  }
-  
-  .container {
-    padding: 0 15px;
-  }
-  
-  .page-header h1 {
-    font-size: 2rem;
-  }
-  
-  .announcements-grid {
-    gap: 25px;
-  }
-  
-  .announcement-card {
-    border-radius: 20px;
-  }
-  
-  .announcement-info {
-    padding: 20px;
-  }
-  
-  .announcement-title {
-    font-size: 1.3rem;
-  }
-  
-  .announcement-footer {
-    padding: 20px;
-  }
-  
-  .whatsapp-button {
-    padding: 14px 28px;
-    font-size: 0.95rem;
-    min-width: 180px;
-  }
-}
-
-@media (max-width: 320px) {
-  .page-header h1 {
-    font-size: 1.8rem;
-  }
-  
-  .announcement-info {
-    padding: 16px;
-  }
-  
-  .whatsapp-button {
-    padding: 12px 24px;
-    font-size: 0.9rem;
-    min-width: 160px;
-  }
-}
-
-/* Performance optimisations */
-.announcement-card,
-.whatsapp-button {
-  will-change: transform, box-shadow;
-}
-
-/* Accessibilité */
-.announcement-card:focus-within {
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-}
-
-.whatsapp-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
 }

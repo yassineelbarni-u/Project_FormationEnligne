@@ -1,107 +1,143 @@
-/* Styles pour le formulaire de cours */
-.course-form-page {
+.course-form-page-modern {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #f8fafc;
 }
 
-/* Header du formulaire */
-.form-header {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  padding: 1.5rem 2rem;
-  background: #ffffff;
-  border-radius: 16px;
+/* Header moderne */
+.form-header-modern {
+  margin-bottom: 3rem;
+}
+
+.header-content-form-modern {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 2rem;
+  border-radius: 20px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.1);
 }
 
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.back-btn-modern {
   background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  border: 2px solid #cbd5e1;
   padding: 0.75rem 1.25rem;
   border-radius: 12px;
   color: #475569;
   font-weight: 500;
-  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.back-btn:hover {
+.back-btn-modern:hover {
   background: #e2e8f0;
   border-color: #94a3b8;
   color: #1e293b;
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.form-header h1 {
+.header-title-modern {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-icon-form-modern {
+  width: 64px;
+  height: 64px;
+  background: #3498db;  /* Couleur principale du site */
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  box-shadow: 0 8px 16px rgba(52, 152, 219, 0.3);
+}
+
+.header-text-form-modern h1 {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-weight: 800;
+  color: #3498db;  /* Couleur principale du site */
+  margin: 0 0 0.5rem 0;
+}
+
+.header-text-form-modern p {
+  color: #6b7280;
+  font-size: 1.1rem;
   margin: 0;
 }
 
 /* Container principal */
-.form-container {
+.form-container-modern {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: start;
 }
 
-/* Formulaire principal */
-.course-form {
-  background: #ffffff;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e2e8f0;
-  position: relative;
-  overflow: hidden;
+/* Section formulaire */
+.form-section-modern {
+  width: 100%;
 }
 
-.course-form::before {
+.form-card-modern {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  position: relative;
+}
+
+.form-card-modern::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  background: #3498db;
 }
 
-/* Messages d'erreur */
-.error-message {
-  background: #fee2e2;
-  color: #dc2626;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  border-left: 4px solid #dc2626;
-  font-weight: 500;
+.form-card-header-modern {
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.form-card-header-modern h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.form-card-header-modern p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Alerte d'erreur */
+.error-alert-modern {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  animation: slideIn 0.3s ease-out;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 2rem;
+  animation: slideInError 0.3s ease-out;
 }
 
-.error-message::before {
-  content: "⚠️";
-  font-size: 1.2rem;
-}
-
-@keyframes slideIn {
+@keyframes slideInError {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -112,69 +148,87 @@
   }
 }
 
-/* Groupes de formulaire */
-.form-group {
-  margin-bottom: 1.75rem;
+.error-icon-modern {
+  font-size: 1.25rem;
+  color: #dc2626;
 }
 
-.form-group label {
+.error-content-modern strong {
   display: block;
-  margin-bottom: 0.75rem;
+  color: #dc2626;
   font-weight: 600;
-  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.error-content-modern p {
+  color: #b91c1c;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Formulaire moderne */
+.course-form-modern {
+  padding: 2rem;
+}
+
+.form-grid-modern {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-field-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field-modern.span-full {
+  grid-column: 1 / -1;
+}
+
+.form-field-modern label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  color: #374151;
   font-size: 0.95rem;
-  letter-spacing: 0.025em;
 }
 
-.form-group label::after {
-  content: "";
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  background: #4f46e5;
-  border-radius: 50%;
-  margin-left: 0.5rem;
-  vertical-align: middle;
+.label-text-modern {
+  color: #374151;
 }
 
-/* Champs de saisie */
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 1rem 1.25rem;
-  border: 2px solid #e2e8f0;
+.label-required-modern {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.form-input-modern,
+.form-select-modern,
+.form-textarea-modern {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
   border-radius: 12px;
   font-size: 1rem;
+  transition: all 0.2s ease;
+  background: #f9fafb;
   font-family: inherit;
-  background: #f8fafc;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #1e293b;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.form-input-modern:focus,
+.form-select-modern:focus,
+.form-textarea-modern:focus {
   outline: none;
-  border-color: #4f46e5;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #3498db;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
   transform: translateY(-1px);
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #94a3b8;
-  font-style: italic;
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-  line-height: 1.6;
-}
-
-.form-group select {
+.form-select-modern {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
   background-position: right 0.75rem center;
@@ -184,253 +238,342 @@
   appearance: none;
 }
 
-/* Rangée de formulaire */
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-
-/* Texte d'aide */
-.form-help {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  color: #6b7280;
+.form-textarea-modern {
+  resize: vertical;
+  min-height: 100px;
   line-height: 1.5;
-  font-style: italic;
 }
 
-.form-help::before {
-  content: "💡 ";
-  margin-right: 0.25rem;
+/* Upload d'image moderne */
+.image-upload-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-input-file-modern {
+  padding: 0.75rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-input-file-modern:hover {
+  border-color: #3498db;
+  background: #f0f9ff;
+}
+
+.image-upload-help-modern {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.image-preview-modern {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.preview-image-modern {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e5e7eb;
+}
+
+.field-hint-modern {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
 }
 
 /* Actions du formulaire */
-.form-actions {
+.form-actions-modern {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
-  margin-top: 2.5rem;
-  padding-top: 2rem;
-  border-top: 2px solid #f1f5f9;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f5f9;
 }
 
-/* Boutons */
-.btn-cancel {
-  padding: 1rem 2rem;
-  background: #ffffff;
-  border: 2px solid #cbd5e1;
-  border-radius: 12px;
-  color: #64748b;
-  font-weight: 500;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.btn-cancel:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
-  color: #475569;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+.btn-secondary-modern {
+  background: #f3f4f6;
+  color: #374151;
   border: none;
+  padding: 0.875rem 1.5rem;
   border-radius: 12px;
-  color: #ffffff;
   font-weight: 600;
-  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.2s ease;
+  font-size: 1rem;
 }
 
-.btn-primary::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+.btn-secondary-modern:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
 }
 
-.btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #4338ca, #6d28d9);
-  transform: translateY(-3px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+.btn-primary-form-modern {
+  background: #3498db;  /* Couleur principale du site */
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
 }
 
-.btn-primary:hover:not(:disabled)::before {
-  left: 100%;
+.btn-primary-form-modern:hover:not(:disabled) {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(41, 128, 185, 0.4);
 }
 
-.btn-primary:disabled {
+.btn-primary-form-modern:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-  background: #94a3b8;
 }
 
-/* Panneau d'information */
-.form-info {
-  background: linear-gradient(135deg, #ffffff, #f8fafc);
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-  height: fit-content;
+.btn-spinner-modern {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Section d'information */
+.info-section-modern {
   position: sticky;
   top: 2rem;
+  height: fit-content;
 }
 
-.form-info h3 {
-  color: #0f172a;
-  margin-bottom: 1.5rem;
-  font-size: 1.25rem;
-  font-weight: 700;
+.info-card-modern {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  position: relative;
+}
+
+.info-card-modern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.info-header-modern {
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
-.form-info ol {
-  color: #64748b;
-  line-height: 1.8;
-  padding-left: 1.5rem;
-  counter-reset: step-counter;
-  list-style: none;
+.info-icon-modern {
+  width: 48px;
+  height: 48px;
+  background: #3498db;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
 }
 
-.form-info li {
-  margin-bottom: 1rem;
-  padding-left: 2rem;
-  position: relative;
-  counter-increment: step-counter;
-  font-weight: 500;
+.info-header-modern h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
-.form-info li::before {
-  content: counter(step-counter);
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #ffffff;
-  width: 1.5rem;
-  height: 1.5rem;
+.info-content-modern {
+  padding: 2rem;
+}
+
+.steps-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.step-modern {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.step-modern:hover {
+  background: #f0f9ff;
+  transform: translateX(4px);
+}
+
+.step-number-modern {
+  width: 32px;
+  height: 32px;
+  background: #3498db;
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
   font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
-.form-info li:hover {
-  color: #4f46e5;
-  transform: translateX(4px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.step-content-modern strong {
+  display: block;
+  color: #111827;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
 }
+
+.step-content-modern p {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .course-form-page {
+  .course-form-page-modern {
     padding: 1.5rem;
   }
 
-  .form-container {
+  .form-container-modern {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
-  .form-info {
+  .info-section-modern {
     position: static;
   }
 }
 
 @media (max-width: 768px) {
-  .course-form-page {
+  .course-form-page-modern {
     padding: 1rem;
   }
 
-  .form-header {
+  .header-content-form-modern {
+    padding: 1.5rem;
+  }
+
+  .header-title-modern {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  .form-header h1 {
+  .header-text-form-modern h1 {
     font-size: 2rem;
   }
 
-  .course-form {
-    padding: 1.5rem;
-  }
-
-  .form-row {
+  .form-grid-modern {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
 
-  .form-actions {
+  .form-card-modern {
+    border-radius: 16px;
+  }
+
+  .info-card-modern {
+    border-radius: 16px;
+  }
+
+  .form-card-header-modern {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .course-form-modern {
+    padding: 1.5rem;
+  }
+
+  .info-content-modern {
+    padding: 1.5rem;
+  }
+
+  .form-actions-modern {
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  .btn-cancel,
-  .btn-primary {
+  .btn-secondary-modern,
+  .btn-primary-form-modern {
     width: 100%;
     justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .course-form-page {
-    padding: 0.75rem;
+  .header-icon-form-modern {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
   }
 
-  .form-header {
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .form-header h1 {
+  .header-text-form-modern h1 {
     font-size: 1.75rem;
   }
 
-  .course-form {
-    padding: 1rem;
-    border-radius: 8px;
+  .form-card-header-modern h2 {
+    font-size: 1.5rem;
   }
 
-  .form-info {
-    padding: 1.5rem;
-    border-radius: 8px;
+  .step-modern {
+    padding: 0.75rem;
   }
 
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    padding: 0.875rem 1rem;
+  .step-number-modern {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
   }
 }
 
 /* Animations d'entrée */
-.course-form {
+.form-card-modern {
   animation: fadeInUp 0.6s ease-out;
 }
 
-.form-info {
+.info-card-modern {
   animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
@@ -445,25 +588,6 @@
   }
 }
 
-/* États de focus améliorés */
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  animation: focusPulse 0.3s ease-out;
-}
-
-@keyframes focusPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(79, 70, 229, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
-  }
-}
-
 /* Amélioration de l'accessibilité */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -473,30 +597,13 @@
   }
 }
 
-/* Mode paysage sur mobile */
-@media (max-width: 768px) and (orientation: landscape) {
-  .form-header {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .form-actions {
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  .btn-cancel,
-  .btn-primary {
-    width: auto;
-    min-width: 120px;
-  }
-}
-
-/* Amélioration de l'accessibilité sur mobile */
+/* Touch-friendly sur mobile */
 @media (max-width: 768px) {
-  .btn-cancel,
-  .btn-primary,
-  .back-btn {
+  .btn-secondary-modern,
+  .btn-primary-form-modern,
+  .back-btn-modern,
+  .form-input-modern,
+  .form-select-modern {
     min-height: 44px;
   }
 }

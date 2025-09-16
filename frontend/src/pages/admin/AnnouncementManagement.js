@@ -50,7 +50,6 @@ const AnnouncementManagement = () => {
         submitData.append("image", formData.image)
       }
       
-      // Ajouter les nouveaux champs au formulaire
       if (formData.title) {
         submitData.append("title", formData.title)
       }
@@ -136,166 +135,273 @@ const AnnouncementManagement = () => {
 
   return (
     <AdminLayout>
-      <div className="announcement-management">
-        <div className="page-header">
-          <h1>Gestion des Annonces</h1>
-          <button className="btn btn-primary" onClick={() => setShowForm(true)}>
-            <span className="material-symbols-outlined">add</span>
-            Nouvelle Annonce
+      <div className="announcement-management-modern">
+        {/* Header moderne */}
+        <div className="page-header-announcement-modern">
+          <div className="header-content-announcement-modern">
+            <div className="header-icon-announcement-modern">📢</div>
+            <div className="header-text-announcement-modern">
+              <h1>Gestion des Annonces</h1>
+              <p>Gérez vos annonces et promotions</p>
+            </div>
+          </div>
+          <button className="btn-primary-announcement-modern" onClick={() => setShowForm(true)}>
+            ➕ Nouvelle Annonce
           </button>
         </div>
 
-        {message.text && <div className={`alert alert-${message.type}`}>{message.text}</div>}
+        {/* Statistiques */}
+        <div className="stats-section-announcement-modern">
+          <div className="stat-card-announcement-modern total">
+            <div className="stat-icon-announcement-modern">📢</div>
+            <div className="stat-content-announcement-modern">
+              <div className="stat-number-announcement-modern">{announcements.length}</div>
+              <div className="stat-label-announcement-modern">Total</div>
+            </div>
+          </div>
+          <div className="stat-card-announcement-modern active">
+            <div className="stat-icon-announcement-modern">✅</div>
+            <div className="stat-content-announcement-modern">
+              <div className="stat-number-announcement-modern">{announcements.filter(a => a.is_active).length}</div>
+              <div className="stat-label-announcement-modern">Actives</div>
+            </div>
+          </div>
+          <div className="stat-card-announcement-modern inactive">
+            <div className="stat-icon-announcement-modern">⏸️</div>
+            <div className="stat-content-announcement-modern">
+              <div className="stat-number-announcement-modern">{announcements.filter(a => !a.is_active).length}</div>
+              <div className="stat-label-announcement-modern">Inactives</div>
+            </div>
+          </div>
+        </div>
 
+        {/* Message d'alerte */}
+        {message.text && (
+          <div className={`alert-modern ${message.type === "success" ? "alert-success-modern" : "alert-error-modern"}`}>
+            <div className="alert-icon-modern">
+              {message.type === "success" ? "✅" : "⚠️"}
+            </div>
+            <div className="alert-content-modern">{message.text}</div>
+            <button className="alert-close-modern" onClick={() => setMessage({ type: "", text: "" })}>
+              ✕
+            </button>
+          </div>
+        )}
+
+        {/* Modal moderne */}
         {showForm && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <div className="modal-header">
-                <h2>{editingAnnouncement ? "Modifier" : "Nouvelle"} Annonce</h2>
-                <button className="close-btn" onClick={resetForm}>
-                  <span className="material-symbols-outlined">close</span>
+          <div className="modal-overlay-announcement-modern" onClick={resetForm}>
+            <div className="modal-container-announcement-modern" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header-announcement-modern">
+                <div className="modal-title-announcement-modern">
+                  <div className="modal-icon-announcement-modern">
+                    {editingAnnouncement ? "✏️" : "📢"}
+                  </div>
+                  <div>
+                    <h2>{editingAnnouncement ? "Modifier l'Annonce" : "Nouvelle Annonce"}</h2>
+                    <p>{editingAnnouncement ? "Modifiez votre annonce" : "Créez une nouvelle annonce"}</p>
+                  </div>
+                </div>
+                <button className="modal-close-btn-announcement-modern" onClick={resetForm}>
+                  ✕
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="announcement-form">
-                <div className="form-group">
-                  <label htmlFor="title">Titre (optionnel)</label>
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    placeholder="Titre de l'annonce"
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="description">Description (optionnel)</label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    placeholder="Description du cours"
-                    rows="4"
-                  ></textarea>
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="price">Prix (optionnel)</label>
-                  <input
-                    type="text"
-                    id="price"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    placeholder="Ex: 500 DH / Gratuit"
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="image">Image de l'annonce</label>
-                  <input
-                    type="file"
-                    id="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    required={!editingAnnouncement}
-                  />
-                  <small>Formats acceptés: JPG, PNG, GIF (max 5MB)</small>
-                </div>
-
-                {editingAnnouncement && editingAnnouncement.image_url && (
-                  <div className="current-image">
-                    <label>Image actuelle:</label>
-                    <img
-                      src={`${API_URL}${editingAnnouncement.image_url}`}
-                      alt="Annonce actuelle"
-                      className="preview-image"
+              <div className="modal-body-announcement-modern">
+                <form onSubmit={handleSubmit} className="announcement-form-modern">
+                  <div className="form-field-announcement-modern">
+                    <label htmlFor="title">
+                      <span className="label-text-announcement-modern">Titre</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      placeholder="Titre de l'annonce (optionnel)"
+                      className="form-input-announcement-modern"
                     />
                   </div>
-                )}
-
-                {formData.image && (
-                  <div className="current-image">
-                    <label>Aperçu de la nouvelle image:</label>
-                    <img
-                      src={URL.createObjectURL(formData.image) || "/placeholder.svg"}
-                      alt="Aperçu"
-                      className="preview-image"
+                  
+                  <div className="form-field-announcement-modern">
+                    <label htmlFor="description">
+                      <span className="label-text-announcement-modern">Description</span>
+                    </label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      placeholder="Description du cours (optionnel)"
+                      rows="4"
+                      className="form-textarea-announcement-modern"
                     />
                   </div>
-                )}
+                  
+                  <div className="form-field-announcement-modern">
+                    <label htmlFor="price">
+                      <span className="label-text-announcement-modern">Prix</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="price"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleInputChange}
+                      placeholder="Ex: 500 DH / Gratuit (optionnel)"
+                      className="form-input-announcement-modern"
+                    />
+                  </div>
+                  
+                  <div className="form-field-announcement-modern">
+                    <label htmlFor="image">
+                      <span className="label-text-announcement-modern">Image de l'annonce</span>
+                      {!editingAnnouncement && <span className="label-required-announcement-modern">*</span>}
+                    </label>
+                    <div className="image-upload-announcement-modern">
+                      <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        required={!editingAnnouncement}
+                        className="form-input-file-announcement-modern"
+                      />
+                      <div className="image-upload-help-announcement-modern">
+                        Formats acceptés: JPG, PNG, GIF (max 5MB)
+                      </div>
+                    </div>
 
-                <div className="form-actions">
-                  <button type="button" className="btn btn-secondary" onClick={resetForm}>
-                    Annuler
-                  </button>
-                  <button type="submit" className="btn btn-primary">
-                    {editingAnnouncement ? "Modifier" : "Créer"}
-                  </button>
-                </div>
-              </form>
+                    {editingAnnouncement && editingAnnouncement.image_url && (
+                      <div className="current-image-announcement-modern">
+                        <label>Image actuelle:</label>
+                        <img
+                          src={`${API_URL}${editingAnnouncement.image_url}`}
+                          alt="Annonce actuelle"
+                          className="preview-image-announcement-modern"
+                        />
+                      </div>
+                    )}
+
+                    {formData.image && (
+                      <div className="current-image-announcement-modern">
+                        <label>Aperçu de la nouvelle image:</label>
+                        <img
+                          src={URL.createObjectURL(formData.image) || "/placeholder.svg"}
+                          alt="Aperçu"
+                          className="preview-image-announcement-modern"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="modal-actions-announcement-modern">
+                    <button type="button" className="btn-secondary-announcement-modern" onClick={resetForm}>
+                      Annuler
+                    </button>
+                    <button type="submit" className="btn-primary-announcement-modern">
+                      {editingAnnouncement ? "Modifier" : "Créer"}
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         )}
 
-        <div className="announcements-grid">
+        {/* Section des annonces */}
+        <div className="announcements-section-modern">
+          <div className="section-header-announcement-modern">
+            <h2>Mes Annonces ({announcements.length})</h2>
+            <p>Gérez vos annonces et promotions</p>
+          </div>
+
           {loading ? (
-            <div className="loading">Chargement...</div>
+            <div className="announcements-loading-modern">
+              <div className="loading-grid-announcement-modern">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="announcement-card-skeleton-modern">
+                    <div className="skeleton-image-announcement-modern"></div>
+                    <div className="skeleton-content-announcement-modern">
+                      <div className="skeleton-title-announcement-modern"></div>
+                      <div className="skeleton-text-announcement-modern"></div>
+                      <div className="skeleton-actions-announcement-modern"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : announcements.length === 0 ? (
-            <div className="empty-state">
-              <span className="material-symbols-outlined">campaign</span>
-              <h3>Aucune annonce</h3>
-              <p>Ajoutez votre première image d'annonce</p>
+            <div className="empty-state-announcement-modern">
+              <div className="empty-illustration-announcement-modern">
+                <div className="empty-icon-announcement-modern">📢</div>
+                <div className="empty-graphics-announcement-modern"></div>
+              </div>
+              <div className="empty-content-announcement-modern">
+                <h3>Aucune annonce</h3>
+                <p>Ajoutez votre première annonce pour promouvoir vos cours</p>
+                <button className="btn-primary-announcement-modern" onClick={() => setShowForm(true)}>
+                  Créer une annonce
+                </button>
+              </div>
             </div>
           ) : (
-            announcements.map((announcement) => (
-              <div key={announcement.id} className="announcement-card">
-                <div className="announcement-image">
-                  <img src={`${API_URL}${announcement.image_url}`} alt="Annonce" />
-                  <div className={`status-badge ${announcement.is_active ? "active" : "inactive"}`}>
-                    {announcement.is_active ? "Actif" : "Inactif"}
+            <div className="announcements-grid-modern">
+              {announcements.map((announcement) => (
+                <div key={announcement.id} className="announcement-card-modern">
+                  <div className="announcement-image-modern">
+                    <img src={`${API_URL}${announcement.image_url}`} alt="Annonce" />
+                    <div className="announcement-overlay-modern">
+                      <div className={`status-badge-modern ${announcement.is_active ? "active" : "inactive"}`}>
+                        {announcement.is_active ? "✅ Actif" : "⏸️ Inactif"}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="announcement-content-modern">
+                    <h3 className="announcement-title-modern">
+                      {announcement.title || announcement.image_filename}
+                    </h3>
+                    {announcement.description && (
+                      <p className="announcement-description-modern">{announcement.description}</p>
+                    )}
+                    {announcement.price && (
+                      <div className="announcement-price-modern">
+                        <strong>Prix:</strong> {announcement.price}
+                      </div>
+                    )}
+                    <div className="announcement-date-modern">
+                      Créé le {new Date(announcement.created_at).toLocaleDateString("fr-FR")}
+                    </div>
+
+                    <div className="announcement-actions-modern">
+                      <button 
+                        className="btn-action-announcement-modern edit" 
+                        onClick={() => handleEdit(announcement)}
+                        title="Modifier"
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        className={`btn-action-announcement-modern ${announcement.is_active ? "deactivate" : "activate"}`}
+                        onClick={() => handleToggleStatus(announcement.id)}
+                        title={announcement.is_active ? "Désactiver" : "Activer"}
+                      >
+                        {announcement.is_active ? "👁️‍🗨️" : "👁️"}
+                      </button>
+                      <button 
+                        className="btn-action-announcement-modern delete" 
+                        onClick={() => handleDelete(announcement.id)}
+                        title="Supprimer"
+                      >
+                        🗑️
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                <div className="announcement-content">
-                  <h3>{announcement.title || announcement.image_filename}</h3>
-                  {announcement.description && (
-                    <p className="announcement-description">{announcement.description}</p>
-                  )}
-                  {announcement.price && (
-                    <p className="announcement-price"><strong>Prix:</strong> {announcement.price}</p>
-                  )}
-                  <p className="announcement-date">
-                    Créé le {new Date(announcement.created_at).toLocaleDateString("fr-FR")}
-                  </p>
-
-                  <div className="announcement-actions">
-                    <button className="btn btn-sm btn-secondary" onClick={() => handleEdit(announcement)}>
-                      <span className="material-symbols-outlined">edit</span>
-                      Modifier
-                    </button>
-
-                    <button
-                      className={`btn btn-sm ${announcement.is_active ? "btn-warning" : "btn-success"}`}
-                      onClick={() => handleToggleStatus(announcement.id)}
-                    >
-                      <span className="material-symbols-outlined">
-                        {announcement.is_active ? "visibility_off" : "visibility"}
-                      </span>
-                      {announcement.is_active ? "Désactiver" : "Activer"}
-                    </button>
-
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(announcement.id)}>
-                      <span className="material-symbols-outlined">delete</span>
-                      Supprimer
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>

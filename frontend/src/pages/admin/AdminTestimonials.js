@@ -15,7 +15,7 @@ const AdminTestimonials = () => {
   const [filteredTestimonials, setFilteredTestimonials] = useState([])
   const [stats, setStats] = useState({})
   const [filters, setFilters] = useState({
-    status: "all", // all, active, inactive
+    status: "all",
     search: "",
     sortBy: "created_at",
     sortOrder: "desc"
@@ -67,14 +67,12 @@ const AdminTestimonials = () => {
   const applyFilters = () => {
     let filtered = testimonials
 
-    // Filtrer par statut
     if (filters.status !== "all") {
       filtered = filtered.filter(t => 
         filters.status === "active" ? t.is_active : !t.is_active
       )
     }
 
-    // Filtrer par recherche
     if (filters.search) {
       const searchLower = filters.search.toLowerCase()
       filtered = filtered.filter(t =>
@@ -154,8 +152,13 @@ const AdminTestimonials = () => {
   if (isLoading) {
     return (
       <AdminLayout>
-        <div className="admin-testimonials-loading">
-          <div className="loading-spinner"></div>
+        <div className="admin-testimonials-loading-modern">
+          <div className="loading-spinner-testimonials-modern"></div>
+          <div className="loading-dots-testimonials-modern">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
           <p>Chargement des témoignages...</p>
         </div>
       </AdminLayout>
@@ -164,47 +167,68 @@ const AdminTestimonials = () => {
 
   return (
     <AdminLayout>
-      <div className="admin-testimonials-page">
-        {/* Header avec statistiques */}
-        <div className="page-header">
-          <div className="header-content">
-            <h1>Gestion des Témoignages</h1>
-            <div className="stats-cards">
-              <div className="stat-card">
-                <div className="stat-number">{stats.total_testimonials || 0}</div>
-                <div className="stat-label">Total</div>
-              </div>
-              <div className="stat-card active">
-                <div className="stat-number">{stats.active_testimonials || 0}</div>
-                <div className="stat-label">Actifs</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">{stats.average_rating || 0}</div>
-                <div className="stat-label">Note moyenne</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">{stats.recent_testimonials || 0}</div>
-                <div className="stat-label">Ce mois</div>
-              </div>
+      <div className="admin-testimonials-page-modern">
+        {/* Header moderne avec statistiques */}
+        <div className="page-header-testimonials-modern">
+          <div className="header-content-testimonials-modern">
+            <div className="header-icon-testimonials-modern">💬</div>
+            <div className="header-text-testimonials-modern">
+              <h1>Gestion des Témoignages</h1>
+              <p>Gérez les avis et témoignages de vos étudiants</p>
             </div>
           </div>
         </div>
 
-        {/* Filtres */}
-        <div className="testimonials-filters">
-          <div className="filter-row">
-            <div className="search-box">
+        {/* Statistiques modernes */}
+        <div className="stats-section-testimonials-modern">
+          <div className="stat-card-testimonials-modern total">
+            <div className="stat-icon-testimonials-modern">📊</div>
+            <div className="stat-content-testimonials-modern">
+              <div className="stat-number-testimonials-modern">{stats.total_testimonials || 0}</div>
+              <div className="stat-label-testimonials-modern">Total</div>
+            </div>
+          </div>
+          <div className="stat-card-testimonials-modern active">
+            <div className="stat-icon-testimonials-modern">✅</div>
+            <div className="stat-content-testimonials-modern">
+              <div className="stat-number-testimonials-modern">{stats.active_testimonials || 0}</div>
+              <div className="stat-label-testimonials-modern">Actifs</div>
+            </div>
+          </div>
+          <div className="stat-card-testimonials-modern rating">
+            <div className="stat-icon-testimonials-modern">⭐</div>
+            <div className="stat-content-testimonials-modern">
+              <div className="stat-number-testimonials-modern">{stats.average_rating || 0}</div>
+              <div className="stat-label-testimonials-modern">Note moyenne</div>
+            </div>
+          </div>
+          <div className="stat-card-testimonials-modern recent">
+            <div className="stat-icon-testimonials-modern">📅</div>
+            <div className="stat-content-testimonials-modern">
+              <div className="stat-number-testimonials-modern">{stats.recent_testimonials || 0}</div>
+              <div className="stat-label-testimonials-modern">Ce mois</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Filtres modernes */}
+        <div className="testimonials-filters-modern">
+          <div className="filters-container-modern">
+            <div className="search-field-testimonials-modern">
+              <span className="search-icon-testimonials-modern">🔍</span>
               <input
                 type="text"
                 placeholder="Rechercher par nom, école ou commentaire..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange("search", e.target.value)}
+                className="search-input-testimonials-modern"
               />
             </div>
             
             <select
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
+              className="filter-select-testimonials-modern"
             >
               <option value="all">Tous les témoignages</option>
               <option value="active">Actifs seulement</option>
@@ -218,6 +242,7 @@ const AdminTestimonials = () => {
                 handleFilterChange("sortBy", sortBy)
                 handleFilterChange("sortOrder", sortOrder)
               }}
+              className="filter-select-testimonials-modern"
             >
               <option value="created_at-desc">Plus récents</option>
               <option value="created_at-asc">Plus anciens</option>
@@ -227,109 +252,134 @@ const AdminTestimonials = () => {
           </div>
         </div>
 
-        {/* Liste des témoignages */}
-        <div className="testimonials-list">
+        {/* Section des témoignages */}
+        <div className="testimonials-section-modern">
+          <div className="section-header-testimonials-modern">
+            <h2>Témoignages ({filteredTestimonials.length})</h2>
+            <p>Gérez et modérez les avis de vos étudiants</p>
+          </div>
+
           {filteredTestimonials.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">💬</div>
-              <h3>Aucun témoignage trouvé</h3>
-              <p>
-                {filters.search || filters.status !== "all" 
-                  ? "Aucun témoignage ne correspond à vos filtres"
-                  : "Les témoignages soumis par les utilisateurs apparaîtront ici"
-                }
-              </p>
+            <div className="empty-state-testimonials-modern">
+              <div className="empty-illustration-testimonials-modern">
+                <div className="empty-icon-testimonials-modern">💬</div>
+                <div className="empty-graphics-testimonials-modern"></div>
+              </div>
+              <div className="empty-content-testimonials-modern">
+                <h3>
+                  {filters.search || filters.status !== "all" 
+                    ? "Aucun témoignage trouvé" 
+                    : "Aucun témoignage disponible"}
+                </h3>
+                <p>
+                  {filters.search || filters.status !== "all" 
+                    ? "Aucun témoignage ne correspond à vos critères de recherche"
+                    : "Les témoignages soumis par les utilisateurs apparaîtront ici"}
+                </p>
+              </div>
             </div>
           ) : (
-            <div className="testimonials-grid">
-              {filteredTestimonials.map((testimonial) => (
+            <div className="testimonials-grid-modern">
+              {filteredTestimonials.map((testimonial, index) => (
                 <div 
                   key={testimonial.id} 
-                  className={`testimonial-card ${!testimonial.is_active ? "inactive" : ""}`}
+                  className={`testimonial-card-modern ${!testimonial.is_active ? "inactive" : ""}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {editingTestimonial === testimonial.id ? (
-                    <form className="edit-form" onSubmit={handleEditSubmit}>
-                      <div className="form-row">
-                        <input
-                          type="text"
-                          placeholder="Nom"
-                          value={editForm.nom}
-                          onChange={(e) => setEditForm({...editForm, nom: e.target.value})}
-                          required
-                        />
-                        <input
-                          type="text"
-                          placeholder="École"
-                          value={editForm.ecole}
-                          onChange={(e) => setEditForm({...editForm, ecole: e.target.value})}
-                          required
-                        />
+                    <div className="edit-form-modern">
+                      <div className="edit-header-modern">
+                        <h4>✏️ Modifier le témoignage</h4>
                       </div>
-                      <textarea
-                        placeholder="Commentaire"
-                        value={editForm.comment}
-                        onChange={(e) => setEditForm({...editForm, comment: e.target.value})}
-                        required
-                      />
-                      <div className="form-actions">
-                        <button type="submit" className="btn-save">💾 Sauvegarder</button>
-                        <button 
-                          type="button" 
-                          className="btn-cancel"
-                          onClick={() => setEditingTestimonial(null)}
-                        >
-                          Annuler
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <div className="testimonial-content">
-                      <div className="testimonial-header">
-                        <div className="author-info">
-                          <h3>{testimonial.nom}</h3>
-                          <p className="school">{testimonial.ecole}</p>
+                      <form onSubmit={handleEditSubmit}>
+                        <div className="form-grid-testimonials-modern">
+                          <input
+                            type="text"
+                            placeholder="Nom"
+                            value={editForm.nom}
+                            onChange={(e) => setEditForm({...editForm, nom: e.target.value})}
+                            required
+                            className="form-input-testimonials-modern"
+                          />
+                          <input
+                            type="text"
+                            placeholder="École"
+                            value={editForm.ecole}
+                            onChange={(e) => setEditForm({...editForm, ecole: e.target.value})}
+                            required
+                            className="form-input-testimonials-modern"
+                          />
                         </div>
-                        <div className="testimonial-badges">
-                          <span className={`status-badge ${testimonial.is_active ? "active" : "inactive"}`}>
-                            {testimonial.is_active ? "Actif" : "Inactif"}
-                          </span>
-                          <div className="rating">
+                        <textarea
+                          placeholder="Commentaire"
+                          value={editForm.comment}
+                          onChange={(e) => setEditForm({...editForm, comment: e.target.value})}
+                          required
+                          className="form-textarea-testimonials-modern"
+                        />
+                        <div className="form-actions-testimonials-modern">
+                          <button type="submit" className="btn-save-testimonials-modern">
+                            💾 Sauvegarder
+                          </button>
+                          <button 
+                            type="button" 
+                            className="btn-cancel-testimonials-modern"
+                            onClick={() => setEditingTestimonial(null)}
+                          >
+                            Annuler
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  ) : (
+                    <div className="testimonial-content-modern">
+                      <div className="testimonial-header-modern">
+                        <div className="author-info-modern">
+                          <h3 className="author-name-modern">{testimonial.nom}</h3>
+                          <p className="author-school-modern">🎓 {testimonial.ecole}</p>
+                        </div>
+                        <div className="testimonial-badges-modern">
+                          <div className="rating-modern">
                             {Array.from({ length: testimonial.rating }).map((_, i) => (
-                              <span key={i} className="star">⭐</span>
+                              <span key={i} className="star-modern">⭐</span>
                             ))}
                           </div>
+                          <span className={`status-badge-testimonials-modern ${testimonial.is_active ? "active" : "inactive"}`}>
+                            {testimonial.is_active ? "✅ Actif" : "❌ Inactif"}
+                          </span>
                         </div>
                       </div>
                       
-                      <div className="comment">
-                        "{testimonial.comment}"
+                      <div className="comment-modern">
+                        <span className="quote-icon-modern">💭</span>
+                        {testimonial.comment}
                       </div>
                       
-                      <div className="testimonial-meta">
-                        <span>Ajouté le {formatDate(testimonial.created_at)}</span>
+                      <div className="testimonial-meta-modern">
+                        <span className="date-modern">📅 {formatDate(testimonial.created_at)}</span>
                       </div>
 
-                      <div className="testimonial-actions">
+                      <div className="testimonial-actions-modern">
                         <button
-                          className="btn-edit"
+                          className="btn-action-testimonials-modern edit"
                           onClick={() => handleEdit(testimonial)}
                           title="Modifier"
                         >
-                          ✏️ Modifier
+                          ✏️
                         </button>
                         <button
-                          className={`btn-toggle ${testimonial.is_active ? "deactivate" : "activate"}`}
+                          className={`btn-action-testimonials-modern ${testimonial.is_active ? "deactivate" : "activate"}`}
                           onClick={() => handleToggleStatus(testimonial.id)}
                           title={testimonial.is_active ? "Désactiver" : "Activer"}
                         >
-                          {testimonial.is_active ? "❌ Désactiver" : "✅ Activer"}
+                          {testimonial.is_active ? "👁️‍🗨️" : "👁️"}
                         </button>
                         <button
-                          className="btn-delete"
+                          className="btn-action-testimonials-modern delete"
                           onClick={() => handleDelete(testimonial.id, testimonial.nom)}
                           title="Supprimer"
                         >
-                          🗑️ Supprimer
+                          🗑️
                         </button>
                       </div>
                     </div>
