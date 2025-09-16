@@ -9,6 +9,8 @@ const AdminManagement = () => {
   const [admins, setAdmins] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [showCreateForm, setShowCreateForm] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editingAdmin, setEditingAdmin] = useState(null)
   const [currentUser, setCurrentUser] = useState(null)
   const [newAdmin, setNewAdmin] = useState({
     name: "",
@@ -52,17 +54,40 @@ const AdminManagement = () => {
     e.preventDefault()
     setIsCreating(true)
     setError("")
+
     try {
-      const createdAdmin = await apiService.createAdmin(newAdmin)
-      setAdmins([...admins, createdAdmin])
-      setNewAdmin({
-        name: "",
-        email: "",
-        password: "",
-        is_super_admin: false,
-      })
-      setShowCreateForm(false)
-      alert("Administrateur créé avec succès !")
+      if (isEditing && editingAdmin) {
+        // Modification d'un admin existant
+        const updateData = {}
+        if (newAdmin.name !== editingAdmin.name) updateData.name = newAdmin.name
+        if (newAdmin.email !== editingAdmin.email) updateData.email = newAdmin.email
+        if (newAdmin.password) updateData.password = newAdmin.password
+        if (newAdmin.is_super_admin !== editingAdmin.is_super_admin) {
+          updateData.is_super_admin = newAdmin.is_super_admin
+        }
+
+        // Décider quelle méthode utiliser
+        if (editingAdmin.id === currentUser?.id) {
+          // Modification du profil personnel
+          const updatedAdmin = await apiService.updateMyProfile(updateData)
+          // Mettre à jour les données utilisateur en local
+          const updatedUser = { ...currentUser, ...updatedAdmin }
+          localStorage.setItem('user', JSON.stringify(updatedUser))
+          setCurrentUser(updatedUser)
+        } else {
+          // Modification d'un autre admin
+          await apiService.updateAdmin(editingAdmin.id, updateData)
+        }
+        alert("Administrateur modifié avec succès !")
+      } else {
+        // Création d'un nouvel admin
+        const createdAdmin = await apiService.createAdmin(newAdmin)
+        setAdmins([...admins, createdAdmin])
+        alert("Administrateur créé avec succès !")
+      }
+
+      closeModal()
+      fetchAdmins()
     } catch (error) {
       setError(error.message)
     } finally {
@@ -93,9 +118,47 @@ const AdminManagement = () => {
     }
   }
 
+  // Fonction pour ouvrir le modal d'édition d'un admin
+  const openEditModal = (admin) => {
+    setIsEditing(true)
+    setEditingAdmin(admin)
+    setNewAdmin({
+      id: admin.id,
+      name: admin.name,
+      email: admin.email,
+      password: "", // Laisser vide pour éviter de modifier par défaut
+      is_super_admin: admin.is_super_admin,
+    })
+    setShowCreateForm(true)
+    setError("")
+  }
+
+  // Fonction pour ouvrir le modal de création
+  const openCreateModal = () => {
+    setIsEditing(false)
+    setEditingAdmin(null)
+    setNewAdmin({
+      name: "",
+      email: "",
+      password: "",
+      is_super_admin: false,
+    })
+    setShowCreateForm(true)
+    setError("")
+  }
+
+  // Fonction pour modifier mon profil personnel
+  const handleEditMyProfile = () => {
+    if (currentUser) {
+      openEditModal(currentUser)
+    }
+  }
+
   const closeModal = () => {
     setShowCreateForm(false)
     setError("")
+    setIsEditing(false)
+    setEditingAdmin(null)
     setNewAdmin({
       name: "",
       email: "",
@@ -122,14 +185,18 @@ const AdminManagement = () => {
         <div className="page-header">
           <div className="header-content">
             <h1>Gestion des Administrateurs</h1>
-            <p>Gérez les administrateurs et leurs permissions</p>
           </div>
-          <button className="btn-primary" onClick={() => setShowCreateForm(true)}>
-            ➕ Nouvel Admin
-          </button>
+          <div className="header-actions">
+            <button className="btn-secondary" onClick={handleEditMyProfile}>
+              👤 Mon Profil
+            </button>
+            <button className="btn-primary" onClick={openCreateModal}>
+              ➕ Nouvel Admin
+            </button>
+          </div>
         </div>
 
-        {/* Modal de création */}
+        {/* Modal de création/modification */}
         {showCreateForm && (
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal-container" onClick={(e) => e.stopPropagation()}>
@@ -137,15 +204,28 @@ const AdminManagement = () => {
                 <div className="modal-title">
                   <div className="modal-icon">👨‍💼</div>
                   <div>
-                    <h2>Nouvel Administrateur</h2>
-                    <p>Créer un nouveau compte administrateur</p>
+                    <h2>
+                      {isEditing
+                        ? editingAdmin?.id === currentUser?.id
+                          ? "Modifier Mon Profil"
+                          : "Modifier Administrateur"
+                        : "Nouvel Administrateur"
+                      }
+                    </h2>
+                    <p>
+                      {isEditing
+                        ? editingAdmin?.id === currentUser?.id
+                          ? "Modifiez vos informations personnelles"
+                          : "Modifier les informations de l'administrateur"
+                        : "Créer un nouveau compte administrateur"
+                      }
+                    </p>
                   </div>
                 </div>
                 <button className="modal-close-btn" onClick={closeModal}>
                   ✕
                 </button>
               </div>
-
               <div className="modal-body">
                 {error && (
                   <div className="error-alert">
@@ -156,7 +236,6 @@ const AdminManagement = () => {
                     </div>
                   </div>
                 )}
-
                 <form onSubmit={handleCreateAdmin} className="admin-form">
                   <div className="form-grid">
                     <div className="form-field">
@@ -174,7 +253,6 @@ const AdminManagement = () => {
                         className="form-input"
                       />
                     </div>
-
                     <div className="form-field">
                       <label htmlFor="email">
                         <span className="label-text">Adresse email</span>
@@ -191,25 +269,30 @@ const AdminManagement = () => {
                       />
                     </div>
                   </div>
-
                   <div className="form-field">
                     <label htmlFor="password">
-                      <span className="label-text">Mot de passe</span>
-                      <span className="label-required">*</span>
+                      <span className="label-text">
+                        {isEditing ? "Nouveau mot de passe (optionnel)" : "Mot de passe"}
+                      </span>
+                      {!isEditing && <span className="label-required">*</span>}
                     </label>
                     <input
                       id="password"
                       type="password"
                       value={newAdmin.password}
                       onChange={(e) => setNewAdmin({ ...newAdmin, password: e.target.value })}
-                      placeholder="Minimum 8 caractères"
-                      required
+                      placeholder={isEditing ? "Laisser vide pour conserver l'ancien" : "Minimum 8 caractères"}
+                      required={!isEditing}
                       className="form-input"
                       minLength="8"
                     />
-                    <div className="field-hint">Le mot de passe doit contenir au moins 8 caractères</div>
+                    <div className="field-hint">
+                      {isEditing 
+                        ? "Laissez vide si vous ne souhaitez pas changer le mot de passe"
+                        : "Le mot de passe doit contenir au moins 8 caractères"
+                      }
+                    </div>
                   </div>
-
                   <div className="form-field">
                     <div className="checkbox-field">
                       <input
@@ -227,7 +310,6 @@ const AdminManagement = () => {
                       </label>
                     </div>
                   </div>
-
                   <div className="modal-actions">
                     <button type="button" className="btn-secondary" onClick={closeModal}>
                       Annuler
@@ -236,10 +318,10 @@ const AdminManagement = () => {
                       {isCreating ? (
                         <>
                           <span className="btn-spinner"></span>
-                          Création...
+                          {isEditing ? "Modification..." : "Création..."}
                         </>
                       ) : (
-                        "Créer l'Admin"
+                        isEditing ? "Modifier" : "Créer l'Admin"
                       )}
                     </button>
                   </div>
@@ -260,7 +342,7 @@ const AdminManagement = () => {
               <div className="empty-content">
                 <h3>Aucun administrateur</h3>
                 <p>Commencez par créer le premier administrateur de la plateforme</p>
-                <button className="btn-primary" onClick={() => setShowCreateForm(true)}>
+                <button className="btn-primary" onClick={openCreateModal}>
                   Créer un admin
                 </button>
               </div>
@@ -294,6 +376,13 @@ const AdminManagement = () => {
                       </div>
                     </div>
                     <div className="admin-actions">
+                      <button
+                        className="btn-edit"
+                        onClick={() => openEditModal(admin)}
+                        title="Modifier"
+                      >
+                        ✏️
+                      </button>
                       {admin.id !== currentUser?.id && (
                         <>
                           <button
@@ -302,13 +391,6 @@ const AdminManagement = () => {
                             title={admin.is_active ? "Désactiver" : "Activer"}
                           >
                             {admin.is_active ? "🔒" : "🔓"}
-                          </button>
-                          <button
-                            className="btn-edit"
-                            onClick={() => navigate(`/admin/manage-admins/${admin.id}/edit`)}
-                            title="Modifier"
-                          >
-                            ✏️
                           </button>
                           <button
                             className="btn-delete"

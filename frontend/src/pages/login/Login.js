@@ -50,7 +50,7 @@ const Login = () => {
       navigate("/admin/dashboard")
     } catch (error) {
       if (error.message.includes("Failed to fetch")) {
-        setError("Impossible de se connecter au serveur. Veuillez réessayer plus tard.")
+        setError("Impossible de se connecter")
       } else if (error.message.includes("401")) {
         setError("Email ou mot de passe incorrect")
       } else {

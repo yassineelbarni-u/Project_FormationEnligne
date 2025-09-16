@@ -1,9 +1,7 @@
 """ Routes pour la gestion des administrateurs - Réservé au Super Admin """
-
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-
 from app.database import get_db
 from app.models import Admin
 from app.schemas import AdminCreate, AdminUpdate, AdminResponse
@@ -88,23 +86,32 @@ async def update_admin(
 ):
     """Mettre à jour un administrateur"""
     admin = db.query(Admin).filter(Admin.id == admin_id).first()
-    
     if not admin:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Administrateur non trouvé"
         )
     
-    # Empêcher la modification de son propre statut super_admin
+    # Empêcher la modification de son propre statut super_admin SEULEMENT s'il y a un seul super admin
     if admin_id == current_admin.id and "is_super_admin" in admin_data.dict(exclude_unset=True):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Vous ne pouvez pas modifier votre propre statut de super administrateur"
-        )
+        super_admin_count = db.query(Admin).filter(Admin.is_super_admin == True).count()
+        if super_admin_count <= 1 and not admin_data.is_super_admin:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Impossible de retirer le statut super admin du dernier super administrateur"
+            )
+    
+    # Vérifier si l'email existe déjà pour un autre administrateur
+    if "email" in admin_data.dict(exclude_unset=True):
+        existing_admin = db.query(Admin).filter(Admin.email == admin_data.email, Admin.id != admin_id).first()
+        if existing_admin:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Un administrateur avec cet email existe déjà"
+            )
     
     # Mettre à jour les champs
     update_data = admin_data.dict(exclude_unset=True)
-    
     for field, value in update_data.items():
         if field == "password" and value:
             setattr(admin, "hashed_password", get_password_hash(value))
@@ -113,8 +120,45 @@ async def update_admin(
     
     db.commit()
     db.refresh(admin)
-    
     return admin
+
+@router.put("/profile/me", response_model=AdminResponse)
+async def update_my_profile(
+    admin_data: AdminUpdate,
+    current_admin: Admin = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
+    """Permettre à un admin de modifier son propre profil"""
+    
+    # Vérifier si l'email existe déjà pour un autre administrateur
+    if "email" in admin_data.dict(exclude_unset=True):
+        existing_admin = db.query(Admin).filter(Admin.email == admin_data.email, Admin.id != current_admin.id).first()
+        if existing_admin:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Un administrateur avec cet email existe déjà"
+            )
+    
+    # Empêcher la modification du statut super_admin s'il est le seul
+    if "is_super_admin" in admin_data.dict(exclude_unset=True) and current_admin.is_super_admin:
+        super_admin_count = db.query(Admin).filter(Admin.is_super_admin == True).count()
+        if super_admin_count <= 1 and not admin_data.is_super_admin:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Impossible de retirer votre statut de super admin car vous êtes le seul"
+            )
+    
+    # Mettre à jour les champs
+    update_data = admin_data.dict(exclude_unset=True)
+    for field, value in update_data.items():
+        if field == "password" and value:
+            setattr(current_admin, "hashed_password", get_password_hash(value))
+        else:
+            setattr(current_admin, field, value)
+    
+    db.commit()
+    db.refresh(current_admin)
+    return current_admin
 
 @router.delete("/{admin_id}")
 async def delete_admin(

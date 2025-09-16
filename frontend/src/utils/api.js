@@ -1,5 +1,6 @@
 // Configuration API centralisée
 const BACKEND_URL = process.env.REACT_APP_API_URL
+
 class ApiService {
   constructor() {
     this.baseURL = BACKEND_URL
@@ -210,13 +211,20 @@ class ApiService {
       body: JSON.stringify(adminData),
     })
   }
+
+  // Méthode pour modifier son propre profil
+  async updateMyProfile(adminData) {
+    return this.request("/api/admin/management/profile/me", {
+      method: "PUT",
+      body: JSON.stringify(adminData),
+    })
+  }
   
   async deleteAdmin(adminId) {
     return this.request(`/api/admin/management/${adminId}`, {
       method: "DELETE",
     })
   }
- 
 
   // Connexion étudiant classique
   async studentLogin(credentials) {
@@ -231,16 +239,16 @@ class ApiService {
   }
 
   // Connexion étudiant via Google
-    async studentGoogleLogin(credential) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log("🔍 Connexion Google OAuth en cours...")
-      }
-      return this.request("/api/auth/google-login", {
-        method: "POST",
-        body: JSON.stringify({ credential }),
-        auth: false,
-      })
+  async studentGoogleLogin(credential) {
+    if (process.env.NODE_ENV === 'development') {
+      console.log("🔍 Connexion Google OAuth en cours...")
     }
+    return this.request("/api/auth/google-login", {
+      method: "POST",
+      body: JSON.stringify({ credential }),
+      auth: false,
+    })
+  }
 
   // ========== TÉMOIGNAGES ==========
   // Méthodes publiques (sans authentification)
@@ -325,7 +333,6 @@ class ApiService {
       isStudent: true,
     })
   }
-
 
   // Récupérer toutes les annonces (admin)
   async getAnnouncements() {
@@ -546,7 +553,6 @@ class ApiService {
       method: "DELETE",
     })
   }
-
 }
 
 const apiService = new ApiService()
@@ -584,6 +590,15 @@ export const createAccess = apiService.createAccess.bind(apiService)
 export const getAccess = apiService.getAccess.bind(apiService)
 export const updateAccess = apiService.updateAccess.bind(apiService)
 export const deleteAccess = apiService.deleteAccess.bind(apiService)
+
+// Méthodes pour la gestion des administrateurs
+export const getAdmins = apiService.getAdmins.bind(apiService)
+export const createAdmin = apiService.createAdmin.bind(apiService)
+export const getAdmin = apiService.getAdmin.bind(apiService)
+export const updateAdmin = apiService.updateAdmin.bind(apiService)
+export const updateMyProfile = apiService.updateMyProfile.bind(apiService)
+export const deleteAdmin = apiService.deleteAdmin.bind(apiService)
+export const toggleAdminStatus = apiService.toggleAdminStatus.bind(apiService)
 
 // Méthodes pour les annonces
 export const getAnnouncements = apiService.getAnnouncements.bind(apiService)
@@ -638,4 +653,3 @@ export const updateTestimonial = apiService.updateTestimonial.bind(apiService)
 export const deleteTestimonial = apiService.deleteTestimonial.bind(apiService)
 export const toggleTestimonialStatus = apiService.toggleTestimonialStatus.bind(apiService)
 export const getTestimonialStats = apiService.getTestimonialStats.bind(apiService)
-
