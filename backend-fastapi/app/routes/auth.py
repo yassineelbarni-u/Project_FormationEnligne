@@ -126,7 +126,7 @@ async def google_login(request: GoogleLoginRequest, db: Session = Depends(get_db
                 detail="Email non autorisé. Contactez votre formateur pour obtenir l'accès."
             )
         
-        # Mettre à jour le nom si Google en a un meilleur
+        # Mettre à jour le nom si Google en fournit un plus complet
         if google_name and (not student.name or len(google_name) > len(student.name or "")):
             student.name = google_name
             db.commit()
