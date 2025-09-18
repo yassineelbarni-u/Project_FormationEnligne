@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import Header from "../../components/common/Header"
 import Footer from "../../components/common/Footer"
@@ -50,10 +49,8 @@ const AnnonceCourse = () => {
   return (
     <div className="annonce-course-page-simple">
       <Header />
-
       <main className="main-content-simple">
         <div className="container-simple">
-
           {loading ? (
             <div className="loading-state-simple">
               <div className="loading-spinner-simple"></div>
@@ -113,7 +110,7 @@ const AnnonceCourse = () => {
                       
                       {announcement.price && (
                         <div className="announcement-price-simple">
-                          💰 <strong>Prix: {announcement.price}</strong>
+                           <strong>Prix: {announcement.price}</strong>
                         </div>
                       )}
                     </div>
@@ -133,7 +130,6 @@ const AnnonceCourse = () => {
           )}
         </div>
       </main>
-
       <Footer />
     </div>
   )

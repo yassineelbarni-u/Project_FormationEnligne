@@ -1,4 +1,4 @@
-/* Page principale - SCOPED pour éviter conflits */
+/* Page principale */
 .annonce-course-page-simple {
   min-height: 100vh;
   background: #fafbfc;
@@ -72,16 +72,17 @@
   margin: 0;
 }
 
-/* Grille des annonces - COMPACTE ET SIMPLE */
+/* Grille des annonces - ADAPTATIVE AU CONTENU */
 .announcements-grid-simple {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
   margin-top: 40px;
   justify-content: center;
+  align-items: start; /* ✅ CORRECTION: Permet aux cartes de garder leur hauteur naturelle */
 }
 
-/* Cartes d'annonces - DESIGN SIMPLE */
+/* Cartes d'annonces - HAUTEUR ADAPTATIVE */
 .announcement-card-simple {
   background: white;
   border-radius: 16px;
@@ -94,6 +95,8 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  height: auto; /* ✅ CORRECTION: Hauteur automatique basée sur le contenu */
+  min-height: auto; /* ✅ CORRECTION: Pas de hauteur minimum forcée */
 }
 
 .announcement-card-simple:hover {
@@ -108,6 +111,7 @@
   height: 200px;
   overflow: hidden;
   background: #f8f9fa;
+  flex-shrink: 0; /* ✅ CORRECTION: Empêche l'image de rétrécir */
 }
 
 .announcement-image-simple img {
@@ -136,12 +140,13 @@
   letter-spacing: 0.5px;
 }
 
-/* Contenu des cartes */
+/* Contenu des cartes - FLEXIBLE */
 .announcement-content-simple {
   padding: 24px;
-  flex-grow: 1;
+  flex: 1; /* ✅ CORRECTION: Prend l'espace disponible mais s'adapte au contenu */
   display: flex;
   flex-direction: column;
+  min-height: auto; /* ✅ CORRECTION: Pas de hauteur minimum */
 }
 
 .announcement-title-simple {
@@ -155,10 +160,10 @@
   gap: 8px;
 }
 
-/* Description avec Read More/Less - SIMPLE */
+/* Description avec Read More/Less - ADAPTATIVE */
 .description-container-simple {
   margin-bottom: 20px;
-  flex-grow: 1;
+  flex: 0 1 auto; /* ✅ CORRECTION: S'adapte au contenu sans forcer l'expansion */
 }
 
 .announcement-description-simple {
@@ -185,7 +190,7 @@
   text-decoration: underline;
 }
 
-/* Prix */
+/* Prix - POSITION FLEXIBLE */
 .announcement-price-simple {
   background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
   color: #3498db;
@@ -193,18 +198,21 @@
   border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
-  margin-top: auto;
+  margin-top: auto; /* ✅ CORRECTION: Se place en bas du contenu disponible */
   border: 1px solid rgba(52, 152, 219, 0.2);
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0; /* ✅ CORRECTION: Ne rétrécit pas */
 }
 
-/* Footer avec bouton */
+/* Footer avec bouton - FLEXIBLE */
 .announcement-footer-simple {
   padding: 24px;
   text-align: center;
   background: #f8f9fa;
+  margin-top: auto; /* ✅ CORRECTION: Se place automatiquement en bas */
+  flex-shrink: 0; /* ✅ CORRECTION: Garde sa taille */
 }
 
 .whatsapp-button-simple {
@@ -237,7 +245,6 @@
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 25px;
   }
-  
   .announcement-card-simple {
     max-width: 350px;
   }
@@ -247,36 +254,28 @@
   .main-content-simple {
     padding: 60px 0;
   }
-  
   .announcements-grid-simple {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
   }
-  
   .announcement-card-simple {
     max-width: 100%;
   }
-  
   .announcement-image-simple {
     height: 180px;
   }
-  
   .announcement-content-simple {
     padding: 20px;
   }
-  
   .announcement-title-simple {
     font-size: 1.2rem;
   }
-  
   .announcement-description-simple {
     font-size: 0.95rem;
   }
-  
   .announcement-footer-simple {
     padding: 20px;
   }
-  
   .whatsapp-button-simple {
     padding: 12px 24px;
     font-size: 0.95rem;
@@ -288,23 +287,18 @@
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
   .announcement-image-simple {
     height: 160px;
   }
-  
   .announcement-content-simple {
     padding: 18px;
   }
-  
   .announcement-title-simple {
     font-size: 1.1rem;
   }
-  
   .announcement-description-simple {
     font-size: 0.9rem;
   }
-  
   .whatsapp-button-simple {
     padding: 12px 20px;
     font-size: 0.9rem;
