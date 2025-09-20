@@ -14,8 +14,8 @@ services:
     container_name: react_app
     ports:
       - "80:80" 
-    volumes:
-      - webroot:/var/www/html  
+    volumes: 
+      - webroot:/usr/share/nginx/html
     depends_on:
       - backend
 
