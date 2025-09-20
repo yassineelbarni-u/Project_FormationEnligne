@@ -13,9 +13,9 @@ services:
     build: ./frontend
     container_name: react_app
     ports:
-      - "3000:80"
+      - "80:80" 
     volumes:
-      - webroot:/usr/share/nginx/html
+      - webroot:/var/www/html  
     depends_on:
       - backend
 
@@ -24,15 +24,15 @@ services:
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: database_ilyas_nahi
-      MYSQL_USER: user
-      MYSQL_PASSWORD: rootpassword
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var//libmysql
+      - db_data:/var/lib/mysql
 
   certbot:
     image: certbot/certbot
@@ -43,7 +43,8 @@ services:
       - certbot-var:/var/lib/letsencrypt
     depends_on:
       - frontend
-    command: certonly --webroot --webroot-path=/var/www/html --email ton@email.com --agree-tos --no-eff-email -d ton-domaine.com
+    command: certonly --webroot --webroot-path=/var/www/html --email yassine.elbarni12@email.com --agree-tos --no-eff-email -d e-learning-by-ilyas.com -d www.e-learning-by-ilyas.com
+
 
 volumes:
   db_data:

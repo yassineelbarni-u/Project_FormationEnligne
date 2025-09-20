@@ -2,7 +2,7 @@ import "./VideoSection.css"
 
 const VideoSection = () => {
   // Remplacez cette URL par votre lien YouTube
-  const youtubeVideoId = "fLgHc9fOL_E"
+const youtubeVideoId = "7PhXXwvOl8c";
   return (
     <section className="video-section">
       <div className="container">

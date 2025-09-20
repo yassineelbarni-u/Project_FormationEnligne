@@ -16,7 +16,7 @@ const ReseauxSection = () => (
 
       {/* Contenu à droite */}
       <div className="reseaux-content">
-        <h2>Rejoignez les réseaux Learning by Ilyas</h2>
+        <h2>Rejoignez les réseaux E-learning by Ilyas</h2>
         <div className="reseaux-links">
           <a
             href="https://web.facebook.com/groups/740357394887230/?_rdc=1&_rdr#"

@@ -29,7 +29,7 @@ const StudentLogin = () => {
     setError("")
 
     try {
-      // En production : ne pas logger les tokens
+      // En production, ne pas afficher les tokens ou données utilisateur
       if (process.env.NODE_ENV === 'development') {
         console.log("🔍 Connexion Google en cours...")
       }
@@ -37,7 +37,7 @@ const StudentLogin = () => {
       // ✅ Envoi vers l'API corrigée
       const data = await apiService.studentGoogleLogin(credentialResponse.credential)
       
-      // En production : ne pas logger les données utilisateur
+      // En production, ne pas afficher les tokens ou données utilisateur
       if (process.env.NODE_ENV === 'development') {
         console.log("✅ Connexion réussie pour:", data.user?.name)
       }
@@ -51,6 +51,7 @@ const StudentLogin = () => {
       if (process.env.NODE_ENV === 'development') {
         console.error("❌ Erreur connexion Google:", error.message)
       }
+      // En production, ne pas afficher les erreurs dans la console
       
       if (error.message.includes("Failed to fetch")) {
         setError("❌ Impossible de se connecter au serveur. Vérifiez que le backend est démarré.")
@@ -70,6 +71,7 @@ const StudentLogin = () => {
     if (process.env.NODE_ENV === 'development') {
       console.error("❌ Erreur Google OAuth")
     }
+    // En production, ne pas afficher les erreurs dans la console
     setError("❌ Échec de la connexion Google. Veuillez réessayer.")
   }
 

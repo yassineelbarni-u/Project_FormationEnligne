@@ -7,8 +7,6 @@ const feedbackImages = [
   "/images/fedback/feedback3.jpg",
   "/images/fedback/feedback4.jpg",
   "/images/fedback/feedback5.jpg",
-  "/images/fedback/feedback6.png",
-  "/images/fedback/feedback7.png"
 ]
 
 const FeedbackGallery = () => {

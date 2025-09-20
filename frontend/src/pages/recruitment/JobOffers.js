@@ -22,7 +22,7 @@ const JobOffers = () => {
   const fetchJobOffers = async () => {
     try {
       setLoading(true)
-      const data = await apiService.getJobOffers(true) // Seulement les offres actives
+      const data = await apiService.getJobOffers(true) 
       setJobOffers(data)
     } catch (error) {
       console.error("Erreur lors du chargement des offres:", error)

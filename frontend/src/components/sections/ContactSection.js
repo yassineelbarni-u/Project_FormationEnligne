@@ -40,7 +40,7 @@ const ContactSection = () => {
                 <div className="contact-icon">📞</div>
                 <div>
                   <h4>Téléphone</h4>
-                  <p>+212 6 57883241</p>
+                  <p>+212 631-262790</p>
                 </div>
               </div>
 
@@ -48,7 +48,7 @@ const ContactSection = () => {
                 <div className="contact-icon">📧</div>
                 <div>
                   <h4>Email</h4>
-                  <p>contact.ilyasnahi@gmail.com</p>
+                  <p>naahi.ilyas@gmail.com</p>
                 </div>
               </div>
 

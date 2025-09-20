@@ -112,7 +112,7 @@ const Header = () => {
           <div className="nav-brand">
             <Link to="/" style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
               <img src="/images/logo/logo.png" alt="Logo" style={{height: '40px', width: '40px', objectFit: 'contain'}} />
-              <h2 style={{margin: 0}}>El-earning by Ilyas</h2>
+              <h2 style={{margin: 0}}>E-learning by Ilyas</h2>
             </Link>
           </div>
 
