@@ -1,13 +1,13 @@
-"""
-Configuration base de données MySQL - XAMPP
-"""
-
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# connexion à la base de données
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://user:rootpassword@db:3306/database_ilyas_nahi"
+# Lire la variable d'environnement DATABASE_URL
+SQLALCHEMY_DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "mysql+pymysql://user:rootpassword@mysql_db:3306/database_ilyas_nahi"  # fallback
+)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
