@@ -1,17 +1,19 @@
 version: "3.8"
 
 services:
+  # Backend FastAPI
   backend:
     build: ./backend-fastapi
-    # pas d'exposition publique; Nginx proxy vers ce service
+    # pas d'exposition publique, Nginx fera le proxy
     expose:
       - "8001"
     environment:
-      # utiliser le nom du service DB
+      # nom du service MySQL dans Compose
       - DATABASE_URL=mysql+pymysql://USER:PASS@mysql_db:3306/DBNAME
     depends_on:
       - mysql_db
 
+  # Base de données MySQL
   mysql_db:
     image: mysql:8.0
     restart: always
@@ -19,21 +21,23 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - db_data:/var/lib/mysql
-    # pas nécessaire d'exposer 3306 publiquement en prod
+    # pas besoin d'exposer 3306 en prod
 
-nginx:
-  build:
-    context: ./frontend
-    dockerfile: Dockerfile
-  ports:
-    - "80:80"
-    - "443:443"
-  volumes:
-    - webroot:/var/www/html:ro
-    - certbot-etc:/etc/letsencrypt:ro
-  depends_on:
-    - backend
+  # Nginx pour servir React et proxy FastAPI
+  nginx:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - webroot:/var/www/html:ro
+      - certbot-etc:/etc/letsencrypt:ro
+    depends_on:
+      - backend
 
+  # Certbot pour SSL Let's Encrypt
   certbot:
     image: certbot/certbot:latest
     volumes:
@@ -42,13 +46,13 @@ nginx:
       - certbot-var:/var/lib/letsencrypt
     depends_on:
       - nginx
-    # commande non-interactive webroot (pas d’EOF)
     command: >
       certonly --webroot --webroot-path=/var/www/html
       --email admin@e-learning-by-ilyas.com
       --agree-tos --no-eff-email
       -d e-learning-by-ilyas.com -d www.e-learning-by-ilyas.com
 
+# Volumes persistants
 volumes:
   db_data:
   webroot:
