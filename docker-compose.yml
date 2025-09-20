@@ -26,18 +26,19 @@ services:
       - db_data:/var/lib/mysql
 
   # Nginx pour servir React et proxy FastAPI
-nginx:
-  build:
-    context: ./frontend
-    dockerfile: Dockerfile
-  container_name: nginx_app
-  ports:
-    - "80:80"   # seulement HTTP pour l'instant
-  volumes:
-    - webroot:/var/www/html
-  depends_on:
-    - backend
-
+  nginx:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nginx_app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - webroot:/var/www/html:ro
+      - certbot-etc:/etc/letsencrypt:ro
+    depends_on:
+      - backend
 
   # Certbot pour SSL Let's Encrypt
   certbot:
