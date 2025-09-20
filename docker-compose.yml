@@ -52,7 +52,7 @@ services:
       - nginx
     command: >
       certonly --webroot --webroot-path=/var/www/html
-      --email admin@e-learning-by-ilyas.com
+      --email yassine.elbarni@gmail.com
       --agree-tos --no-eff-email
       -d e-learning-by-ilyas.com -d www.e-learning-by-ilyas.com
 
