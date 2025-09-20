@@ -4,31 +4,33 @@ services:
   # Backend FastAPI
   backend:
     build: ./backend-fastapi
-    # pas d'exposition publique, Nginx fera le proxy
+    container_name: backend_app
     expose:
       - "8001"
     environment:
-      # nom du service MySQL dans Compose
       - DATABASE_URL=mysql+pymysql://user:rootpassword@mysql_db:3306/database_ilyas_nahi
-
     depends_on:
       - mysql_db
+    volumes:
+      - ./backend-fastapi:/app
+    command: ["/wait-for-it.sh", "mysql_db", "3306", "--", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
 
   # Base de données MySQL
   mysql_db:
     image: mysql:8.0
+    container_name: mysql_db
     restart: always
     env_file: .env
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - db_data:/var/lib/mysql
-    # pas besoin d'exposer 3306 en prod
 
   # Nginx pour servir React et proxy FastAPI
   nginx:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: nginx_app
     ports:
       - "80:80"
       - "443:443"
@@ -41,6 +43,7 @@ services:
   # Certbot pour SSL Let's Encrypt
   certbot:
     image: certbot/certbot:latest
+    container_name: certbot
     volumes:
       - webroot:/var/www/html
       - certbot-etc:/etc/letsencrypt
