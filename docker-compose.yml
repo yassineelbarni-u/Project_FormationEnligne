@@ -1,67 +1,55 @@
-version: '3.8'
+version: "3.8"
 
 services:
   backend:
     build: ./backend-fastapi
-    container_name: fastapi_app
-    ports:
-      - "8001:8001"
+    # pas d'exposition publique; Nginx proxy vers ce service
+    expose:
+      - "8001"
     environment:
-      - DATABASE_URL=mysql+pymysql://user:rootpassword@db:3306/database_ilyas_nahi
+      # utiliser le nom du service DB
+      - DATABASE_URL=mysql+pymysql://USER:PASS@mysql_db:3306/DBNAME
     depends_on:
-      - db
+      - mysql_db
 
-  frontend:
-    build: ./frontend
-    container_name: react_app
+  mysql_db:
+    image: mysql:8.0
+    restart: always
+    env_file: .env
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
+    # pas nécessaire d'exposer 3306 publiquement en prod
+
+  nginx:
+    image: nginx:latest
     ports:
-      - "3000:3000" 
-    volumes: 
-      - webroot:/usr/share/nginx/html
+      - "80:80"
+      - "443:443"
+    volumes:
+      # conf nginx en lecture seule
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # webroot partagé avec certbot (pour /.well-known)
+      - webroot:/var/www/html:ro
+      # certificats en lecture seule
+      - certbot-etc:/etc/letsencrypt:ro
     depends_on:
       - backend
 
-  db:
-    image: mysql:8.0
-    container_name: mysql_db
-    restart: always
-    env_file:
-      - .env  
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-
   certbot:
-    image: certbot/certbot
-    container_name: certbot
+    image: certbot/certbot:latest
     volumes:
       - webroot:/var/www/html
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
     depends_on:
       - nginx
-    command: certonly --webroot --webroot-path=/var/www/html --email yassine.elbarni12@email.com --agree-tos --no-eff-email -d e-learning-by-ilyas.com -d www.e-learning-by-ilyas.com
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
-      - certbot-etc:/etc/letsencrypt
-      - /var/www/certbot:/var/www/html
-    depends_on:
-      - frontend
-      - backend
+    # commande non-interactive webroot (pas d’EOF)
+    command: >
+      certonly --webroot --webroot-path=/var/www/html
+      --email admin@e-learning-by-ilyas.com
+      --agree-tos --no-eff-email
+      -d e-learning-by-ilyas.com -d www.e-learning-by-ilyas.com
 
 volumes:
   db_data:
