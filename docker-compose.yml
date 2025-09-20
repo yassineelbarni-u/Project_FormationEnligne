@@ -36,7 +36,7 @@ services:
       - "443:443"
     volumes:
       - webroot:/var/www/html
-      - certbot-etc:/etc/letsencrypt:ro
+      - certbot-etc:/etc/letsencrypt
     depends_on:
       - backend
 
