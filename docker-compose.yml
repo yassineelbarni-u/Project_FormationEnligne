@@ -32,10 +32,10 @@ services:
       dockerfile: Dockerfile
     container_name: nginx_app
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     volumes:
-      - webroot:/var/www/html:ro
+      - webroot:/var/www/html
       - certbot-etc:/etc/letsencrypt:ro
     depends_on:
       - backend
