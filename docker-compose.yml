@@ -9,7 +9,8 @@ services:
       - "8001"
     environment:
       # nom du service MySQL dans Compose
-      - DATABASE_URL=mysql+pymysql://USER:PASS@mysql_db:3306/DBNAME
+      - DATABASE_URL=mysql+pymysql://user:rootpassword@mysql_db:3306/database_ilyas_nahi
+
     depends_on:
       - mysql_db
 
