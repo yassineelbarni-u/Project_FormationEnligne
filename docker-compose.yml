@@ -33,6 +33,7 @@ services:
     container_name: nginx_app
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - webroot:/var/www/html:ro
       - certbot-etc:/etc/letsencrypt:ro
