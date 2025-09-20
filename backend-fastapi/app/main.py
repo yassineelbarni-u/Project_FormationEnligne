@@ -78,9 +78,10 @@ app.mount("/cv", StaticFiles(directory="backend/uploads/cv"), name="cv")
 async def root():
     return {"message": "API Système de Gestion des Cours avec Recrutement"}
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
     return {"status": "healthy"}
+
 
 if __name__ == "__main__":
     print("🚀 Démarrage du serveur avec système de recrutement...")
