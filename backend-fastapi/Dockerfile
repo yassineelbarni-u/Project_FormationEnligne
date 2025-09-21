@@ -18,8 +18,8 @@ COPY . .
 COPY ./wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-# Exécuter le script avec le chemin absolu
-RUN cd /app && python -m app.create_super_admin
+# Attendre que MySQL soit prêt avant d'exécuter le script
+RUN /wait-for-it.sh mysql_db:3306 -- python -m app.create_super_admin
 
 # Ajouter le répertoire de travail au PYTHONPATH
 ENV PYTHONPATH="/app"
