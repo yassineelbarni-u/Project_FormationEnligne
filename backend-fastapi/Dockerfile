@@ -18,8 +18,8 @@ COPY . .
 COPY ./wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-# Ajouter l'exécution du script pour créer un super admin
-RUN python app/create_super_admin.py
+# Exécuter le script avec le chemin absolu
+RUN cd /app && python -m app.create_super_admin
 
 # Ajouter le répertoire de travail au PYTHONPATH
 ENV PYTHONPATH="/app"
