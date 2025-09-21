@@ -18,6 +18,9 @@ COPY . .
 COPY ./wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
+# Ajouter l'exécution du script pour créer un super admin
+RUN python app/create_super_admin.py
+
 # Exposer le port FastAPI
 EXPOSE 8001
 
