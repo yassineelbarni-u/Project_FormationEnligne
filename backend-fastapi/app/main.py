@@ -77,6 +77,7 @@ os.makedirs(cv_upload_dir, exist_ok=True)
 # Servir les fichiers statiques depuis le backend
 app.mount("/images", StaticFiles(directory="backend/uploads/images"), name="images")
 app.mount("/cv", StaticFiles(directory="backend/uploads/cv"), name="cv")
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.get("/")
 async def root():
