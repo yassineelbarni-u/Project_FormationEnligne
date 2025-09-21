@@ -21,6 +21,9 @@ RUN chmod +x /wait-for-it.sh
 # Ajouter l'exécution du script pour créer un super admin
 RUN python app/create_super_admin.py
 
+# Ajouter le répertoire de travail au PYTHONPATH
+ENV PYTHONPATH="/app"
+
 # Exposer le port FastAPI
 EXPOSE 8001
 
