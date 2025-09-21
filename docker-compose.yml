@@ -39,7 +39,8 @@ services:
     volumes:
       - webroot:/var/www/html
       - certbot-etc:/etc/letsencrypt
-      - ./images:/usr/share/nginx/html/images
+      - ./uploads:/usr/share/nginx/html/uploads
+
     depends_on:
       - backend
 
