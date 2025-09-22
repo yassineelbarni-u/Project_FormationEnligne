@@ -351,7 +351,7 @@ const AnnouncementManagement = () => {
               {announcements.map((announcement) => (
                 <div key={announcement.id} className="announcement-card-modern">
                   <div className="announcement-image-modern">
-                    <img src={`${API_URL}${announcement.image_url}`} alt="Annonce" />
+                    <img src={`${API_URL}/uploads${announcement.image_url}`} alt="Annonce" />
                     <div className="announcement-overlay-modern">
                       <div className={`status-badge-modern ${announcement.is_active ? "active" : "inactive"}`}>
                         {announcement.is_active ? "✅ Actif" : "⏸️ Inactif"}
