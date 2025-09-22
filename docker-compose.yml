@@ -13,8 +13,7 @@ services:
       - mysql_db
     volumes:
       - ./backend-fastapi:/app
-      - ./uploads:/app/uploads
-      - ./images:/app/images
+      - ./backend-fastapi/backend/uploads:/app/uploads 
     command: ["/wait-for-it.sh", "mysql_db", "3306", "--", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
 
   # Base de données MySQL
@@ -39,7 +38,7 @@ services:
     volumes:
       - webroot:/var/www/html
       - certbot-etc:/etc/letsencrypt
-      - ./uploads:/usr/share/nginx/html/uploads
+      - ./backend-fastapi/backend/uploads:/usr/share/nginx/html/uploads 
 
     depends_on:
       - backend
