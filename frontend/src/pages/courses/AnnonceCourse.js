@@ -73,7 +73,7 @@ const AnnonceCourse = () => {
                     
                     <div className="announcement-image-simple">
                       <img
-                        src={announcement.image_url ? `${API_URL}${announcement.image_url}` : "/placeholder.svg"}
+                        src={announcement.image_url ? `${API_URL}/uploads${announcement.image_url}` : "/placeholder.svg"}
                         alt={announcement.title || "Formation disponible"}
                         onLoad={(e) => {
                           if (e.target.naturalHeight > 800) {

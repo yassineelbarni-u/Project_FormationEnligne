@@ -87,8 +87,8 @@ const AnnonceSection = () => {
 
             <div className="annonce-image">
               <img
-                src={`${API_URL}${currentAnnouncement.image_url}` || "/placeholder.svg"}
-                alt="Annonce de cours"
+               src={currentAnnouncement.image_url ? `${API_URL}/uploads${currentAnnouncement.image_url}` : "/placeholder.svg"}
+               alt="Annonce de cours"
               />
 
               {announcements.length > 1 && (
