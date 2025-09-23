@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { Helmet } from "react-helmet";
 import "./styles/variables.css" 
 import "./styles/globals.css"
 import "./styles/buttons.css"    
@@ -64,10 +65,22 @@ const ProtectedStudentRoute = ({ children }) => {
   return studentToken ? children : <Navigate to="/student/login" />
 }
 
+// Fallback au cas où le HTML public n’est pas modifié
+if (typeof document !== "undefined") {
+  document.title = "E‑Learning by Ilyas";
+}
+
 function App() {
   return (
     <GoogleOAuthProvider clientId="293729859360-8ngho0jc2i0c2bnomus1b6pfrectl157.apps.googleusercontent.com">
       <Router>
+        {/* Métadonnées globales */}
+        <Helmet>
+          <title>E‑Learning by Ilyas</title>
+          <meta name="description" content="Préparation concours, cours en ligne, espace étudiant et recrutement." />
+          <link rel="icon" href="/favicon.ico" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Helmet>
         <div className="App">
           <Routes>
             {/* Routes publiques */}

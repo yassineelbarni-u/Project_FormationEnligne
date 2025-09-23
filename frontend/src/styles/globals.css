@@ -853,6 +853,8 @@ body {
 }
 
 
+
+
 /* Empêcher tout débordement horizontal sur la Home */
 .home {
   overflow-x: clip;
