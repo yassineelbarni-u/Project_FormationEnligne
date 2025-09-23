@@ -39,9 +39,11 @@ const ScreenshotsSection = () => {
                   className="screenshot-image"
                   loading="lazy"
                 />
-                <div className="screenshot-overlay">
+
+                {/*<div className="screenshot-overlay">
                   <div className="zoom-icon">🔍</div>
-                </div>
+                </div> */}
+
               </div>
             </div>
           ))}

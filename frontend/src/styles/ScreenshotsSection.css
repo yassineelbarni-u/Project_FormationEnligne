@@ -70,18 +70,10 @@
   padding: 1rem;
 }
 
-.screenshot-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(30, 58, 138, 0.1);
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+.screenshot-overlay { 
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .zoom-icon {
@@ -102,13 +94,13 @@
 }
 
 .screenshot-card:hover .screenshot-overlay {
-  opacity: 1;
-  background: rgba(30, 58, 138, 0.2);
-  backdrop-filter: blur(2px);
+  opacity: 0 !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
 }
 
-.screenshot-card:hover .zoom-icon {
-  transform: scale(1);
+.screenshot-card:hover .zoom-icon { 
+  transform: none !important;
 }
 
 /* Responsive design */
