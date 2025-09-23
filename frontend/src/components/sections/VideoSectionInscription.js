@@ -8,7 +8,7 @@ const VideoSection = () => {
       <div className="container">
         <div className="video-content">
           <div className="video-header">
-            <h2 className="section-title">Comment accéder aux cours sur le site web</h2>
+            <h2 className="section-title">Découvrez notre objectif</h2>
             {/* <p className="video-description">
               Regardez cette vidéo pour comprendre notre mission et comment nous pouvons vous aider à atteindre vos
               objectifs.
