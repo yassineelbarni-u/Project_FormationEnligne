@@ -851,3 +851,54 @@ body {
     padding: 15px 10px;
   }
 }
+
+
+/* Empêcher tout débordement horizontal sur la Home */
+.home {
+  overflow-x: clip;
+}
+
+/* Sécuriser tous les wrappers de sections */
+section, .container, .hero-section, .screenshots-section {
+  max-width: 100%;
+}
+
+/* Images/iframes 100% */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Swiper/slider: empêcher les largeurs > viewport */
+.swiper, .swiper-wrapper {
+  max-width: 100%;
+  overflow: hidden;
+}
+.swiper-slide {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Boutons de navigation du carrousel: rester à l'intérieur */
+.swiper-button-prev { left: 8px; right: auto; }
+.swiper-button-next { right: 8px; left: auto; }
+.swiper-button-next, .swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Grilles/cartoons qui pourraient dépasser sur mobile */
+@media (max-width: 768px){
+  .screenshot-card { transform: none; max-width: 100%; margin: 0; }
+  .screenshots-grid { overflow: hidden; }
+  .service-card { margin: 0; }
+}
+
+/* Bouton WhatsApp fixe: éviter de créer une largeur supplémentaire */
+.whatsapp-float {
+  right: clamp(10px, 2vw, 20px);
+  bottom: clamp(10px, 2vw, 20px);
+}
+
