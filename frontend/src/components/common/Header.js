@@ -32,7 +32,7 @@ const Header = () => {
   }, [location.state, navigate, location.pathname])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [schoolIndex, setSchoolIndex] = useState(0)
-  const schools = ["ENSA", "FST", "FS", "EST", "ENCG", "ENSAM", "BTS", "DTS"]
+  const schools = ["ENSA", "FST", "FS", "EST", "ENS", "ENSAM", "BTS", "DTS" , "PREPARATION AUX CONCOURS"]
   const navMenuRef = useRef(null)
 
   const getSchoolColor = (school) => {
@@ -41,11 +41,12 @@ const Header = () => {
       FST: "#10b981",
       FS: "#8b5cf6",
       EST: "#e11d48",
-      ENCG: "#ea580c",
+      ENS: "#ea580c",
       ENSAM: "#0ea5e9",
       BTS : "#2563eb",
       DTS : "#4f46e5",
-  
+      PREPARATION_AUX_CONCOURS : "#f59e0b",
+
     }
     return colors[school] || "#2563eb"
   }
