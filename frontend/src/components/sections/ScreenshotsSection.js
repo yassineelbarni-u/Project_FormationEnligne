@@ -16,7 +16,7 @@ const ScreenshotsSection = () => {
       alt: 'Capture d\'écran de l\'accueil'
     },
     {
-      image: '/images/screenshots/screen_2.jpg',
+      image: '/images/screenshots/screen_2.jpeg',
       alt: 'Capture d\'écran du contenu'
     }
   ];
