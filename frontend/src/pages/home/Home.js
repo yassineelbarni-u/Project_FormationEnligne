@@ -15,6 +15,7 @@ import ScreenshotsSection from "../../components/sections/ScreenshotsSection"
 import PymntCompteCIH from "../../components/sections/PymntCompteCIH"
 import PymentSection from "../../components/sections/PymentSection"
 import TestimonialsStudentSection from "../../components/sections/TestimonialsStudentSection"
+import VideoSectionInscription from "../../components/sections/VideoSectionInscription"
 
 
 const Home = () => {
@@ -33,6 +34,7 @@ const Home = () => {
       <ReseauxSection />
       <VideoSection />
       <FAQSection />
+      <VideoSectionInscription />
       <ContactSection />  
      <PymentSection />
      <PymntCompteCIH />
