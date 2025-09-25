@@ -5,6 +5,7 @@ import "./styles/variables.css"
 import "./styles/globals.css"
 import "./styles/buttons.css"    
 import "./App.css"
+import logo from './images/logo/logo.png'; // Chemin correct pour le logo
 
 // Ensuite importer les composants
 import Home from "./pages/home/Home"
@@ -82,7 +83,9 @@ function App() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <div className="App">
-          <Routes>
+          <header className="App-header">
+        <img src={logo} className="App-logo" alt="Mon Logo" />
+        <Routes>
             {/* Routes publiques */}
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<AnnonceCoursePage />} />
@@ -286,6 +289,7 @@ function App() {
           {/* Redirection par défaut */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+      </header>
       </div>
     </Router>
     </GoogleOAuthProvider>
