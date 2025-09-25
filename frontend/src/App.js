@@ -83,7 +83,6 @@ function App() {
         </Helmet>
         <div className="App">
           <header className="App-header">
-        <img src="/images/logo/logo.png" className="App-logo" alt="Mon Logo" />
         <Routes>
             {/* Routes publiques */}
             <Route path="/" element={<Home />} />
@@ -289,6 +288,10 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </header>
+      {/* Ajout du logo dans une section dédiée */}
+      <div className="site-logo">
+        <img src="/images/logo/logo.png" alt="Logo du site" />
+      </div>
       </div>
     </Router>
     </GoogleOAuthProvider>
