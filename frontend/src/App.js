@@ -82,8 +82,7 @@ function App() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <div className="App">
-          <header className="App-header">
-        <Routes>
+          <Routes>
             {/* Routes publiques */}
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<AnnonceCoursePage />} />
@@ -287,11 +286,6 @@ function App() {
           {/* Redirection par défaut */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </header>
-      {/* Ajout du logo dans une section dédiée */}
-      <div className="site-logo">
-        <img src="/images/logo/logo.png" alt="Logo du site" />
-      </div>
       </div>
     </Router>
     </GoogleOAuthProvider>
