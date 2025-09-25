@@ -5,7 +5,6 @@ import "./styles/variables.css"
 import "./styles/globals.css"
 import "./styles/buttons.css"    
 import "./App.css"
-import logo from './images/logo/logo.png'; // Chemin correct pour le logo
 
 // Ensuite importer les composants
 import Home from "./pages/home/Home"
@@ -84,7 +83,7 @@ function App() {
         </Helmet>
         <div className="App">
           <header className="App-header">
-        <img src={logo} className="App-logo" alt="Mon Logo" />
+        <img src="/images/logo/logo.png" className="App-logo" alt="Mon Logo" />
         <Routes>
             {/* Routes publiques */}
             <Route path="/" element={<Home />} />
