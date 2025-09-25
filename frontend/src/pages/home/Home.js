@@ -21,6 +21,20 @@ import VideoSectionInscription from "../../components/sections/VideoSectionInscr
 const Home = () => {
   return (
     <div className="home">
+      {/* Ajout du balisage JSON-LD pour le logo */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "E-learning by Ilyas",
+          "url": "https://e-learning-by-ilyas.com",
+          "logo": "https://e-learning-by-ilyas.com/assets/logo-112.png",
+          "sameAs": [
+            "https://www.facebook.com/...",
+            "https://www.youtube.com/@..."
+          ]
+        })}
+      </script>
       <Header />
       <HeroSection />
       <HeroSchoolsInfo />
@@ -29,12 +43,11 @@ const Home = () => {
       <WhyChooseUsSection />
       <FeedbackGallery />
       <TestimonialsStudentSection />
-  
       {/* <ServicesSection /> */}
       <ReseauxSection />
-      <VideoSection />
-      <FAQSection />
       <VideoSectionInscription />
+      <FAQSection />
+      <VideoSection />
       <ContactSection />  
      <PymentSection />
      <PymntCompteCIH />
