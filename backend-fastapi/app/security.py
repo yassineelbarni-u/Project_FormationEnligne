@@ -31,10 +31,15 @@ def _normalize_password(password: str) -> str:
     Bcrypt limite à 72 octets, donc on tronque si nécessaire.
     """
     if isinstance(password, str):
-        password = password.encode("utf-8")
-    if len(password) > 72:
-        password = password[:72]
-    return password
+        password_bytes = password.encode("utf-8")
+    else:
+        password_bytes = password
+    
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
+    
+    # Retourner une string, pas des bytes
+    return password_bytes.decode("utf-8")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Vérifier un mot de passe en tenant compte de la limite bcrypt"""
