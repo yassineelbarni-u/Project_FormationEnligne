@@ -3,13 +3,14 @@ Sécurité et authentification
 """
 
 import os
+import hashlib
 from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
 from jose import JWTError, jwt
+import bcrypt
 
 from app.database import get_db
 from app.models import Admin, Student
@@ -19,37 +20,39 @@ SECRET_KEY = os.getenv("SECRET_KEY", "fallback-key-for-development-only")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# ⚡ Utilise bcrypt par défaut (limité à 72 chars)
-# Tu peux changer en ["argon2"] pour plus de sécurité
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 security = HTTPBearer()
 
-def _normalize_password(password: str) -> str:
-    """
-    Normaliser un mot de passe avant hachage ou vérification.
-    Bcrypt limite à 72 octets, donc on tronque si nécessaire.
-    """
-    if isinstance(password, str):
-        password_bytes = password.encode("utf-8")
-    else:
-        password_bytes = password
-    
-    if len(password_bytes) > 72:
-        password_bytes = password_bytes[:72]
-    
-    # Retourner une string, pas des bytes
-    return password_bytes.decode("utf-8")
-
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Vérifier un mot de passe en tenant compte de la limite bcrypt"""
-    plain_password = _normalize_password(plain_password)
-    return pwd_context.verify(plain_password, hashed_password)
+    """Vérifier un mot de passe avec bcrypt directement"""
+    try:
+        # Tronquer le mot de passe à 72 bytes si nécessaire
+        if len(plain_password.encode('utf-8')) > 72:
+            plain_password = plain_password.encode('utf-8')[:72].decode('utf-8')
+        
+        return bcrypt.checkpw(
+            plain_password.encode('utf-8'),
+            hashed_password.encode('utf-8')
+        )
+    except Exception as e:
+        print(f"Erreur de vérification du mot de passe: {e}")
+        return False
 
 def get_password_hash(password: str) -> str:
-    """Hacher un mot de passe en tenant compte de la limite bcrypt"""
-    password = _normalize_password(password)
-    return pwd_context.hash(password)
+    """Hacher un mot de passe avec bcrypt directement"""
+    try:
+        # Tronquer le mot de passe à 72 bytes si nécessaire
+        if len(password.encode('utf-8')) > 72:
+            password = password.encode('utf-8')[:72].decode('utf-8')
+        
+        salt = bcrypt.gensalt()
+        hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+        return hashed.decode('utf-8')
+    except Exception as e:
+        print(f"Erreur de hachage du mot de passe: {e}")
+        # Fallback avec SHA256 + salt si bcrypt échoue
+        salt = os.urandom(32)
+        pwdhash = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+        return salt.hex() + pwdhash.hex()
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Créer un token JWT"""
