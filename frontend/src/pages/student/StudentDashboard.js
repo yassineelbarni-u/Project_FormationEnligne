@@ -123,7 +123,7 @@ const StudentDashboard = () => {
               </div>
               <div className="stat-card">
                 <div className="stat-number">{getTotalVideos()}</div>
-                <div className="stat-label">Vidéos totales</div>
+                <div className="stat-label">Vidéos</div>
               </div>
              
             </div>
