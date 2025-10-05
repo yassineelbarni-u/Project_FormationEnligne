@@ -445,3 +445,92 @@
   background: #4338ca;
   transform: translateY(-1px);
 }
+
+
+
+/* Adaptation responsive pour écrans jusqu'à 768px (tablettes et mobiles) */
+@media (max-width: 768px) {
+
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .welcome-section {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .welcome-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .welcome-text h1 {
+    font-size: 1.75rem;
+  }
+
+  .welcome-text p {
+    font-size: 1rem;
+  }
+
+  .welcome-stats {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .stat-card {
+    min-width: 100px;
+    padding: 1rem;
+  }
+
+  .courses-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .course-card {
+    max-height: none;
+  }
+
+  .course-image {
+    height: 150px;
+  }
+
+  .course-title {
+    font-size: 1rem;
+  }
+
+  .btn-start-learning {
+    width: 100%;
+    min-width: auto;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+/* Adaptation pour très petits écrans (mobiles étroits) */
+@media (max-width: 400px) {
+  .welcome-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .welcome-text p {
+    font-size: 0.875rem;
+  }
+
+  .stat-card {
+    min-width: 90px;
+    padding: 0.75rem;
+  }
+
+  .course-image {
+    height: 120px;
+  }
+
+  .btn-start-learning {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+}
