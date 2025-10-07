@@ -97,32 +97,26 @@ async def create_access(
     
     db.add(db_access)
     
-    # Ajouter l'étudiant au cours s'il n'y est pas déjà
     if student not in course.students:
         course.students.append(student)
     
     db.commit()
     db.refresh(db_access)
     
-    # Enrichir les données pour l'affichage
     if student:
         db_access.student_name = student.name
         db_access.student_email = student.email
-        # S'assurer que student_id est défini
         db_access.student_id = student.id
     else:
         db_access.student_name = "Étudiant supprimé"
         db_access.student_email = "email inconnu"
-        # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
         db_access.student_id = 0
         
     if course:
         db_access.course_title = course.title
-        # S'assurer que course_id est défini
         db_access.course_id = course.id
     else:
         db_access.course_title = "Cours supprimé"
-        # Utiliser une valeur par défaut pour course_id si le cours est supprimé
         db_access.course_id = 0
     
     return db_access
@@ -149,25 +143,20 @@ async def get_access(
     if not access:
         raise HTTPException(status_code=404, detail="Accès non trouvé")
     
-    # Enrichir les données pour l'affichage
     if access.student:
         access.student_name = access.student.name
         access.student_email = access.student.email
-        # S'assurer que student_id est défini
         access.student_id = access.student.id
     else:
         access.student_name = "Étudiant supprimé"
         access.student_email = "email inconnu"
-        # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
         access.student_id = 0
         
     if access.course:
         access.course_title = access.course.title
-        # S'assurer que course_id est défini
         access.course_id = access.course.id
     else:
         access.course_title = "Cours supprimé"
-        # Utiliser une valeur par défaut pour course_id si le cours est supprimé
         access.course_id = 0
     
     return access
@@ -175,7 +164,7 @@ async def get_access(
 @router.put("/{access_id}", response_model=CourseAccessResponse)
 async def update_access(
     access_id: int,
-    access_data: dict,  # Utiliser dict pour une mise à jour partielle
+    access_data: dict,
     current_admin: Admin = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
@@ -208,25 +197,20 @@ async def update_access(
     db.commit()
     db.refresh(access)
     
-    # Enrichir les données pour l'affichage
     if access.student:
         access.student_name = access.student.name
         access.student_email = access.student.email
-        # S'assurer que student_id est défini
         access.student_id = access.student.id
     else:
         access.student_name = "Étudiant supprimé"
         access.student_email = "email inconnu"
-        # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
         access.student_id = 0
         
     if access.course:
         access.course_title = access.course.title
-        # S'assurer que course_id est défini
         access.course_id = access.course.id
     else:
         access.course_title = "Cours supprimé"
-        # Utiliser une valeur par défaut pour course_id si le cours est supprimé
         access.course_id = 0
     
     return access
