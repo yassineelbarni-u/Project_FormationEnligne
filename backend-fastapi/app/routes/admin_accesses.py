@@ -44,14 +44,11 @@ async def get_all_accesses(
             # Utiliser une valeur par défaut pour student_id si l'étudiant est supprimé
             access.student_id = 0
             
-        # Vérifier si le cours existe encore
         if access.course:
             access.course_title = access.course.title
-            # S'assurer que course_id est défini
             access.course_id = access.course.id
         else:
             access.course_title = "Cours supprimé"
-            # Utiliser une valeur par défaut pour course_id si le cours est supprimé
             access.course_id = 0
     
     return accesses

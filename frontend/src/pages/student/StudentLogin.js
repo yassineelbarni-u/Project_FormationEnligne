@@ -23,7 +23,7 @@ const StudentLogin = () => {
     setError("")
   }
 
-  // ✅ CORRIGÉ : Gestion du succès Google
+  // Gestion du succès Google
   const handleGoogleSuccess = async (credentialResponse) => {
     setIsLoading(true)
     setError("")
@@ -34,12 +34,10 @@ const StudentLogin = () => {
         console.log("🔍 Connexion Google en cours...")
       }
       
-      // ✅ Envoi vers l'API corrigée
       const data = await apiService.studentGoogleLogin(credentialResponse.credential)
       
-      // En production, ne pas afficher les tokens ou données utilisateur
       if (process.env.NODE_ENV === 'development') {
-        console.log("✅ Connexion réussie pour:", data.user?.name)
+        console.log("Connexion réussie pour:", data.user?.name)
       }
       
       localStorage.setItem("student_token", data.access_token)
@@ -49,18 +47,18 @@ const StudentLogin = () => {
       
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        console.error("❌ Erreur connexion Google:", error.message)
+        console.error("Erreur connexion Google:", error.message)
       }
-      // En production, ne pas afficher les erreurs dans la console
-      
+
+      // En production
       if (error.message.includes("Failed to fetch")) {
-        setError("❌ Impossible de se connecter au serveur. Vérifiez que le backend est démarré.")
+        setError("Impossible de se connecter au serveur. Vérifiez que le backend est démarré.")
       } else if (error.message.includes("Email non autorisé")) {
-        setError("❌ Votre email n'est pas autorisé. Contactez votre formateur.")
+        setError("Votre email n'est pas autorisé. Contactez votre formateur.")
       } else if (error.message.includes("Aucun cours accessible")) {
-        setError("❌ Vous n'avez accès à aucun cours. Contactez votre formateur.")
+        setError("Vous n'avez accès à aucun cours. Contactez votre formateur.")
       } else {
-        setError(error.message || "❌ Erreur lors de la connexion Google")
+        setError(error.message || " Erreur lors de la connexion Google")
       }
     } finally {
       setIsLoading(false)
@@ -69,10 +67,11 @@ const StudentLogin = () => {
 
   const handleGoogleError = () => {
     if (process.env.NODE_ENV === 'development') {
-      console.error("❌ Erreur Google OAuth")
+      console.error("Erreur Google OAuth")
     }
-    // En production, ne pas afficher les erreurs dans la console
-    setError("❌ Échec de la connexion Google. Veuillez réessayer.")
+
+    // En production
+    setError("Échec de la connexion Google. Veuillez réessayer.")
   }
 
   const handleSubmit = async (e) => {
@@ -89,9 +88,9 @@ const StudentLogin = () => {
       navigate("/student/dashboard")
     } catch (error) {
       if (error.message.includes("Failed to fetch")) {
-        setError("❌ Impossible de se connecter au serveur")
+        setError("Impossible de se connecter au serveur")
       } else {
-        setError(error.message || "❌ Email ou code d'accès incorrect")
+        setError(error.message || "Email ou code d'accès incorrect")
       }
     } finally {
       setIsLoading(false)
@@ -152,7 +151,7 @@ const StudentLogin = () => {
             <span>ou</span>
           </div>
 
-          {/*Bouton Google Sign-In avec gestion d'erreur */}
+          {/*Bouton Google Sign In avec gestion d'erreur */}
           <div className={styles.googleSection}>
             {isLoading ? (
               <div className={styles.loadingGoogle}>

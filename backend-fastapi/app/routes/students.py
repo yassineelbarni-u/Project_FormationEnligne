@@ -15,38 +15,31 @@ from app.security import verify_password, create_access_token, get_current_stude
 
 router = APIRouter()
 
-# ==================== AUTHENTIFICATION ÉTUDIANT ====================
-
+# AUTHENTIFICATION ETUDIANT
 @router.post("/login")
 async def login_student(student_data: StudentLogin, db: Session = Depends(get_db)):
     """
     Connexion étudiant avec email et code d'accès
     """
-    # Chercher l'étudiant par email
+    # Chercher l'etudiant par email
     student = db.query(Student).filter(Student.email == student_data.email).first()
-    
+
     if not student:
+        # En production, l'étudiant doit déjà exister (inscription préalable)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Email non trouvé"
         )
-    
-    # Vérifier le code d'accès
-    access_valid = False
 
-    # Code d'accès de cours
+    # Vérifier le code d'accès (l'étudiant doit déjà avoir un CourseAccess actif lié à ce code)
     course_access = db.query(CourseAccess).join(Course).filter(
         CourseAccess.student_id == student.id,
         Course.access_code == student_data.access_code,
         CourseAccess.is_active == True,
         CourseAccess.expires_at > datetime.utcnow()
     ).first()
-    
-    if course_access:
-        access_valid = True
-    
-    
-    if not access_valid:
+
+    if not course_access:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Code d'accès invalide"
