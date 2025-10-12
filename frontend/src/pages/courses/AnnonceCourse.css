@@ -79,7 +79,7 @@
   gap: 30px;
   margin-top: 40px;
   justify-content: center;
-  align-items: start; /* ✅ CORRECTION: Permet aux cartes de garder leur hauteur naturelle */
+  align-items: start;
 }
 
 /* Cartes d'annonces - HAUTEUR ADAPTATIVE */
@@ -95,8 +95,8 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: auto; /* ✅ CORRECTION: Hauteur automatique basée sur le contenu */
-  min-height: auto; /* ✅ CORRECTION: Pas de hauteur minimum forcée */
+  height: auto;
+  min-height: auto;
 }
 
 .announcement-card-simple:hover {
@@ -105,25 +105,32 @@
   border-color: #3498db;
 }
 
-/* Section image - HAUTEUR FIXE */
+/* Section image - HAUTEUR ADAPTATIVE POUR IMAGES COMPLÈTES */
 .announcement-image-simple {
   position: relative;
-  height: 200px;
+  width: 100%;
+  max-height: 500px;
+  min-height: 200px;
   overflow: hidden;
   background: #f8f9fa;
-  flex-shrink: 0; /* ✅ CORRECTION: Empêche l'image de rétrécir */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .announcement-image-simple img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
   display: block;
   transition: transform 0.3s ease;
+  background: white;
 }
 
 .announcement-card-simple:hover .announcement-image-simple img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .badge-nouveau-simple {
@@ -138,15 +145,16 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  z-index: 10;
 }
 
 /* Contenu des cartes - FLEXIBLE */
 .announcement-content-simple {
   padding: 24px;
-  flex: 1; /* ✅ CORRECTION: Prend l'espace disponible mais s'adapte au contenu */
+  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: auto; /* ✅ CORRECTION: Pas de hauteur minimum */
+  min-height: auto;
 }
 
 .announcement-title-simple {
@@ -163,7 +171,7 @@
 /* Description avec Read More/Less - ADAPTATIVE */
 .description-container-simple {
   margin-bottom: 20px;
-  flex: 0 1 auto; /* ✅ CORRECTION: S'adapte au contenu sans forcer l'expansion */
+  flex: 0 1 auto;
 }
 
 .announcement-description-simple {
@@ -198,12 +206,12 @@
   border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
-  margin-top: auto; /* ✅ CORRECTION: Se place en bas du contenu disponible */
+  margin-top: auto;
   border: 1px solid rgba(52, 152, 219, 0.2);
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-shrink: 0; /* ✅ CORRECTION: Ne rétrécit pas */
+  flex-shrink: 0;
 }
 
 /* Footer avec bouton - FLEXIBLE */
@@ -211,8 +219,8 @@
   padding: 24px;
   text-align: center;
   background: #f8f9fa;
-  margin-top: auto; /* ✅ CORRECTION: Se place automatiquement en bas */
-  flex-shrink: 0; /* ✅ CORRECTION: Garde sa taille */
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .whatsapp-button-simple {
@@ -239,7 +247,7 @@
   box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
 }
 
-/* Responsive Design - SIMPLE */
+/* Responsive Design */
 @media (max-width: 1200px) {
   .announcements-grid-simple {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -262,7 +270,11 @@
     max-width: 100%;
   }
   .announcement-image-simple {
-    height: 180px;
+    max-height: 400px;
+    min-height: 180px;
+  }
+  .announcement-image-simple img {
+    max-height: 400px;
   }
   .announcement-content-simple {
     padding: 20px;
@@ -288,7 +300,11 @@
     gap: 20px;
   }
   .announcement-image-simple {
-    height: 160px;
+    max-height: 350px;
+    min-height: 160px;
+  }
+  .announcement-image-simple img {
+    max-height: 350px;
   }
   .announcement-content-simple {
     padding: 18px;
@@ -305,7 +321,24 @@
   }
 }
 
-/* Animations légères pour éviter conflits */
+/* Mode paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .announcement-image-simple {
+    max-height: 300px;
+  }
+  .announcement-image-simple img {
+    max-height: 300px;
+  }
+}
+
+/* Amélioration de l'accessibilité sur mobile */
+@media (max-width: 768px) {
+  .whatsapp-button-simple {
+    min-height: 44px;
+  }
+}
+
+/* Animations légères */
 .announcement-card-simple {
   animation: fadeIn-simple 0.6s ease forwards;
 }
