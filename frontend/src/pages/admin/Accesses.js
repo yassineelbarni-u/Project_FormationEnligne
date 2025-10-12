@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import AdminLayout from "../../components/admin/AdminLayout"
 import apiService from "../../utils/api"
@@ -9,6 +9,9 @@ import "./Accesses.css"
 const Accesses = () => {
   const [accesses, setAccesses] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+
+  // Etat du filtre étudiant (champ texte)
+  const [studentQuery, setStudentQuery] = useState("")
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -51,6 +54,17 @@ const Accesses = () => {
     navigate(`/admin/accesses/${accessId}/edit`)
   }
 
+  // Liste filtrée côté client par nom/email d'étudiant
+  const filteredAccesses = useMemo(() => {
+    const q = studentQuery.trim().toLowerCase()
+    if (!q) return accesses
+    return accesses.filter((a) => {
+      const name = (a.student_name || "").toLowerCase()
+      const email = (a.student_email || "").toLowerCase()
+      return name.includes(q) || email.includes(q)
+    })
+  }, [accesses, studentQuery])
+
   return (
     <AdminLayout>
       <div className="accesses-container">
@@ -60,6 +74,41 @@ const Accesses = () => {
           <button className="btn-primary" onClick={() => navigate("/admin/accesses/new")}>
             🔑 Ajouter un Accès
           </button>
+        </div>
+
+        {/* Barre de filtrage */}
+        <div className="page-header" style={{ marginTop: "-1rem", marginBottom: "1.25rem", gap: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%", flexWrap: "wrap" }}>
+            <label htmlFor="studentFilter" style={{ fontWeight: 600, color: "#374151" }}>
+              👤 Étudiant:
+            </label>
+            <input
+              id="studentFilter"
+              type="text"
+              placeholder="Rechercher par nom ou email…"
+              value={studentQuery}
+              onChange={(e) => setStudentQuery(e.target.value)}
+              style={{
+                flex: "1 1 320px",
+                minWidth: 220,
+                maxWidth: 520,
+                padding: "0.625rem 0.875rem",
+                borderRadius: 8,
+                border: "1px solid #d1d5db",
+                outline: "none",
+                fontSize: "0.95rem",
+              }}
+            />
+            {studentQuery && (
+              <button
+                className="btn-secondary"
+                onClick={() => setStudentQuery("")}
+                title="Effacer le filtre"
+              >
+                ✖ Effacer
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Contenu principal */}
@@ -72,8 +121,10 @@ const Accesses = () => {
           <div className="accesses-list">
             {/* Statistiques */}
             <div className="stats-header">
-              <div className="access-count">{accesses.length}</div>
-              <div className="access-count-label">accès accordé{accesses.length > 1 ? "s" : ""}</div>
+              <div className="access-count">{filteredAccesses.length}</div>
+              <div className="access-count-label">
+                accès affiché{filteredAccesses.length > 1 ? "s" : ""}{studentQuery ? " (filtrés)" : ""}
+              </div>
             </div>
 
             {/* Tableau */}
@@ -90,8 +141,8 @@ const Accesses = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {accesses.length > 0 ? (
-                    accesses.map((access) => (
+                  {filteredAccesses.length > 0 ? (
+                    filteredAccesses.map((access) => (
                       <tr key={access.id}>
                         <td>
                           <div className="student-info">
@@ -142,12 +193,19 @@ const Accesses = () => {
                     <tr>
                       <td colSpan="6" className="no-data">
                         <div className="empty-state">
-                          <div className="empty-icon">🔑</div>
-                          <h3>Aucun accès accordé</h3>
-                          <p>Commencez par accorder l'accès à un étudiant</p>
-                          <button className="btn-secondary" onClick={() => navigate("/admin/accesses/new")}>
-                            Ajouter un accès
-                          </button>
+                          <div className="empty-icon">🔎</div>
+                          <h3>Aucun accès correspondant</h3>
+                          <p>{studentQuery ? "Modifiez ou effacez le filtre pour voir tous les accès." : "Commencez par accorder l'accès à un étudiant."}</p>
+                          {!studentQuery && (
+                            <button className="btn-secondary" onClick={() => navigate("/admin/accesses/new")}>
+                              Ajouter un accès
+                            </button>
+                          )}
+                          {studentQuery && (
+                            <button className="btn-secondary" onClick={() => setStudentQuery("")}>
+                              Effacer le filtre
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
