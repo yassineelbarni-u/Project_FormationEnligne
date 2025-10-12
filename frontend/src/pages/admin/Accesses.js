@@ -10,8 +10,11 @@ const Accesses = () => {
   const [accesses, setAccesses] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  // Etat du filtre étudiant (champ texte)
+  // Filtre étudiant: valeur sélectionnée + texte de recherche pour l’auto-complétion
   const [studentQuery, setStudentQuery] = useState("")
+  const [studentSelected, setStudentSelected] = useState("") // email (clé unique de préférence)
+
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -35,11 +38,10 @@ const Accesses = () => {
     if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet accès ?")) {
       return
     }
-
     try {
       await apiService.deleteAccess(accessId)
       alert("Accès supprimé avec succès")
-      fetchAccesses() // Recharger la liste
+      fetchAccesses()
     } catch (error) {
       console.error("Erreur lors de la suppression:", error)
       if (error.message.includes("404")) {
@@ -54,8 +56,52 @@ const Accesses = () => {
     navigate(`/admin/accesses/${accessId}/edit`)
   }
 
-  // Liste filtrée côté client par nom/email d'étudiant
+  // Dictionnaire des étudiants uniques pour l’auto-complétion (nom + email)
+  const students = useMemo(() => {
+    const map = new Map()
+    for (const a of accesses) {
+      const key = (a.student_email || "").toLowerCase()
+      if (!key) continue
+      if (!map.has(key)) {
+        map.set(key, {
+          email: a.student_email || "",
+          name: a.student_name || "",
+          label:
+            (a.student_name || "").trim()
+              ? `${a.student_name} — ${a.student_email}`
+              : a.student_email,
+        })
+      }
+    }
+    return Array.from(map.values()).sort((x, y) =>
+      x.name.localeCompare(y.name || "")
+    )
+  }, [accesses])
+
+  // Suggestions filtrées selon la saisie
+  const suggestions = useMemo(() => {
+    const q = studentQuery.trim().toLowerCase()
+    if (!q) return students.slice(0, 10)
+    return students
+      .filter(
+        (s) =>
+          s.name.toLowerCase().includes(q) ||
+          s.email.toLowerCase().includes(q)
+      )
+      .slice(0, 10)
+  }, [students, studentQuery])
+
+  // Dataset filtré pour le tableau
   const filteredAccesses = useMemo(() => {
+    // Si un étudiant est sélectionné, on filtre strictement sur son email
+    if (studentSelected) {
+      return accesses.filter(
+        (a) =>
+          (a.student_email || "").toLowerCase() ===
+          studentSelected.toLowerCase()
+      )
+    }
+    // Sinon, on applique la recherche libre (nom/email)
     const q = studentQuery.trim().toLowerCase()
     if (!q) return accesses
     return accesses.filter((a) => {
@@ -63,12 +109,26 @@ const Accesses = () => {
       const email = (a.student_email || "").toLowerCase()
       return name.includes(q) || email.includes(q)
     })
-  }, [accesses, studentQuery])
+  }, [accesses, studentSelected, studentQuery])
+
+  // Sélection d’un étudiant dans la liste
+  const pickStudent = (email, name) => {
+    setStudentSelected(email)
+    setStudentQuery(name ? `${name} — ${email}` : email)
+    setShowSuggestions(false)
+  }
+
+  // Effacer le filtre
+  const clearFilter = () => {
+    setStudentSelected("")
+    setStudentQuery("")
+    setShowSuggestions(false)
+  }
 
   return (
     <AdminLayout>
       <div className="accesses-container">
-        {/* Header */}
+        {/* En-tête principal */}
         <div className="page-header">
           <h1>Gestion des Accès</h1>
           <button className="btn-primary" onClick={() => navigate("/admin/accesses/new")}>
@@ -76,42 +136,7 @@ const Accesses = () => {
           </button>
         </div>
 
-        {/* Barre de filtrage */}
-        <div className="page-header" style={{ marginTop: "-1rem", marginBottom: "1.25rem", gap: "1rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%", flexWrap: "wrap" }}>
-            <label htmlFor="studentFilter" style={{ fontWeight: 600, color: "#374151" }}>
-              👤 Étudiant:
-            </label>
-            <input
-              id="studentFilter"
-              type="text"
-              placeholder="Rechercher par nom ou email…"
-              value={studentQuery}
-              onChange={(e) => setStudentQuery(e.target.value)}
-              style={{
-                flex: "1 1 320px",
-                minWidth: 220,
-                maxWidth: 520,
-                padding: "0.625rem 0.875rem",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
-                outline: "none",
-                fontSize: "0.95rem",
-              }}
-            />
-            {studentQuery && (
-              <button
-                className="btn-secondary"
-                onClick={() => setStudentQuery("")}
-                title="Effacer le filtre"
-              >
-                ✖ Effacer
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Contenu principal */}
+        {/* Carte liste + stats + tableau */}
         {isLoading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -123,7 +148,7 @@ const Accesses = () => {
             <div className="stats-header">
               <div className="access-count">{filteredAccesses.length}</div>
               <div className="access-count-label">
-                accès affiché{filteredAccesses.length > 1 ? "s" : ""}{studentQuery ? " (filtrés)" : ""}
+                accès affiché{filteredAccesses.length > 1 ? "s" : ""}{studentSelected || studentQuery ? " (filtrés)" : ""}
               </div>
             </div>
 
@@ -132,7 +157,66 @@ const Accesses = () => {
               <table className="accesses-table">
                 <thead>
                   <tr>
-                    <th>👤 ÉTUDIANT</th>
+                    <th className="student-col">
+                      <div className="student-filter">
+                        <span className="student-filter-label">👤 Étudiant</span>
+                        <div className="student-filter-inputwrap">
+                          <input
+                            id="studentFilter"
+                            className="student-filter-input"
+                            type="text"
+                            placeholder="Rechercher / sélectionner…"
+                            value={studentQuery}
+                            onChange={(e) => {
+                              setStudentQuery(e.target.value)
+                              setStudentSelected("")
+                              setShowSuggestions(true)
+                            }}
+                            onFocus={() => setShowSuggestions(true)}
+                            autoComplete="off"
+                          />
+                          {studentSelected || studentQuery ? (
+                            <button
+                              type="button"
+                              className="student-filter-clear"
+                              onClick={clearFilter}
+                              aria-label="Effacer le filtre"
+                              title="Effacer le filtre"
+                            >
+                              ✖
+                            </button>
+                          ) : null}
+                          {showSuggestions && suggestions.length > 0 && (
+                            <ul
+                              className="student-suggestions"
+                              onMouseDown={(e) => e.preventDefault()}
+                            >
+                              {suggestions.map((s) => (
+                                <li
+                                  key={s.email}
+                                  className="student-suggestion-item"
+                                  onClick={() => pickStudent(s.email, s.name)}
+                                  title={s.email}
+                                >
+                                  <span className="suggestion-avatar">
+                                    {(s.name || s.email).charAt(0).toUpperCase()}
+                                  </span>
+                                  <span className="suggestion-text">
+                                    <span className="suggestion-name">{s.name || "—"}</span>
+                                    <span className="suggestion-email">{s.email}</span>
+                                  </span>
+                                </li>
+                              ))}
+                              {students.length > suggestions.length && (
+                                <li className="student-suggestion-more" aria-hidden>
+                                  Affichage de {suggestions.length}/{students.length}
+                                </li>
+                              )}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                    </th>
                     <th>📚 COURS</th>
                     <th>🔐 TYPE</th>
                     <th>⏰ EXPIRATION</th>
@@ -140,13 +224,16 @@ const Accesses = () => {
                     <th>⚙️ ACTIONS</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {filteredAccesses.length > 0 ? (
                     filteredAccesses.map((access) => (
                       <tr key={access.id}>
                         <td>
                           <div className="student-info">
-                            <div className="student-avatar">{access.student_name?.charAt(0)?.toUpperCase() || "?"}</div>
+                            <div className="student-avatar">
+                              {access.student_name?.charAt(0)?.toUpperCase() || "?"}
+                            </div>
                             <div className="student-details">
                               <span className="student-name">{access.student_name}</span>
                               <span className="student-email">{access.student_email}</span>
@@ -161,7 +248,9 @@ const Accesses = () => {
                         </td>
                         <td>
                           <span className="date-text">
-                            {access.expires_at ? new Date(access.expires_at).toLocaleDateString("fr-FR") : "Illimité"}
+                            {access.expires_at
+                              ? new Date(access.expires_at).toLocaleDateString("fr-FR")
+                              : "Illimité"}
                           </span>
                         </td>
                         <td>
@@ -195,14 +284,18 @@ const Accesses = () => {
                         <div className="empty-state">
                           <div className="empty-icon">🔎</div>
                           <h3>Aucun accès correspondant</h3>
-                          <p>{studentQuery ? "Modifiez ou effacez le filtre pour voir tous les accès." : "Commencez par accorder l'accès à un étudiant."}</p>
-                          {!studentQuery && (
+                          <p>
+                            {studentSelected || studentQuery
+                              ? "Modifiez ou effacez le filtre pour voir tous les accès."
+                              : "Commencez par accorder l'accès à un étudiant."}
+                          </p>
+                          {!studentSelected && !studentQuery && (
                             <button className="btn-secondary" onClick={() => navigate("/admin/accesses/new")}>
                               Ajouter un accès
                             </button>
                           )}
-                          {studentQuery && (
-                            <button className="btn-secondary" onClick={() => setStudentQuery("")}>
+                          {(studentSelected || studentQuery) && (
+                            <button className="btn-secondary" onClick={clearFilter}>
                               Effacer le filtre
                             </button>
                           )}
