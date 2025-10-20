@@ -145,7 +145,6 @@ const CourseView = () => {
     }
   }, [])
 
-  // Fonction pour organiser les vidéos par module
   const organizeVideosIntoModules = (videos) => {
     const modules = {}
     videos.forEach((video) => {
@@ -197,12 +196,12 @@ const CourseView = () => {
   }
 
   // Lors du premier chargement, définir tous les modules comme étant développés
-  useEffect(() => {
-    if (videos.length > 0) {
-      const modules = Object.keys(organizeVideosIntoModules(videos))
-      setExpandedModules(modules)
-    }
-  }, [videos])
+  // useEffect(() => {
+  //   if (videos.length > 0) {
+  //     const modules = Object.keys(organizeVideosIntoModules(videos))
+  //     setExpandedModules(modules)
+  //   }
+  // }, [videos])
 
   useEffect(() => {
     const fetchData = async () => {

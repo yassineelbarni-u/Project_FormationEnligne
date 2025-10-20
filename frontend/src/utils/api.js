@@ -250,7 +250,6 @@ class ApiService {
     })
   }
 
-  // ========== TÉMOIGNAGES ==========
   // Méthodes publiques (sans authentification)
   async getActiveTestimonials() {
     return await this.request("/api/testimonials/active", {
@@ -266,6 +265,7 @@ class ApiService {
     })
   }
 
+
   async submitTestimonial(testimonialData) {
     return await this.request("/api/testimonials/submit", {
       method: "POST",
@@ -274,7 +274,7 @@ class ApiService {
     })
   }
 
-  // Méthodes admin (avec authentification)
+
   async getAllTestimonials(params = {}) {
     const queryParams = new URLSearchParams(params).toString()
     return await this.request(`/api/admin/testimonials/?${queryParams}`, {
@@ -313,14 +313,12 @@ class ApiService {
     })
   }
 
-  // Récupérer un cours spécifique pour l'étudiant
   async getStudentCourse(courseId) {
     return this.request(`/api/student/course/${courseId}`, {
       isStudent: true,
     })
   }
 
-  // Récupérer les vidéos d'un cours pour l'étudiant
   async getStudentCourseVideos(courseId) {
     return this.request(`/api/student/course/${courseId}/videos`, {
       isStudent: true,

@@ -331,7 +331,7 @@
   }
 }
 
-/* Amélioration de l'accessibilité sur mobile */
+
 @media (max-width: 768px) {
   .whatsapp-button-simple {
     min-height: 44px;
